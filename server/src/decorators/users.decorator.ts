@@ -4,7 +4,7 @@ interface ICurrentUser {
   required?: boolean;
 }
 
-export const CurrentUser: (options: ICurrentUser) => ParameterDecorator =
+export const CurrentUser: (options?: ICurrentUser) => ParameterDecorator =
   createParamDecorator((options: ICurrentUser = {}, req) => {
     const user = req.args[2].user;
 
