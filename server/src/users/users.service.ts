@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { ILike, Repository } from 'typeorm';
 import { CreateUserDto } from './dto/create-user.dto';
 import { Users } from './users.entity';
 
@@ -25,5 +25,16 @@ export class UsersService {
   async createUser(userDto: CreateUserDto) {
     const user = await this.usersRepository.create(userDto);
     return this.usersRepository.save(user);
+  }
+
+  async findUsersByName(name: string) {
+    if (!name) return [];
+
+    return await this.usersRepository.find({
+      where: [
+        { firstName: ILike(`%${name}%`) },
+        { lastName: ILike(`%${name}%`) },
+      ],
+    });
   }
 }
