@@ -7,7 +7,7 @@ import { UsersService } from './users.service';
 export class UsersResolver {
   constructor(private usersService: UsersService) {}
 
-  @Query()
+  @Query(returns => Users)
   getMe(@CurrentUser() user: Users) {
     return user;
   }
