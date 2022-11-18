@@ -2,6 +2,15 @@
 # THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
 # ------------------------------------------------------
 
+type Users {
+  id: String!
+  firstName: String!
+  lastName: String!
+  email: String!
+  password: String!
+}
+
 type Query {
   getHello: String!
+  getMe: Users!
 }
