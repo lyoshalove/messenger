@@ -1,9 +1,16 @@
 import { Field, ObjectType } from '@nestjs/graphql';
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { ChatsEntity } from 'src/chats/chats.enity';
+import {
+  Column,
+  CreateDateColumn,
+  Entity,
+  ManyToMany,
+  PrimaryGeneratedColumn,
+} from 'typeorm';
 
 @ObjectType()
 @Entity('users')
-export class Users {
+export class UsersEntity {
   @Field()
   @PrimaryGeneratedColumn('uuid')
   id: string;
@@ -23,4 +30,15 @@ export class Users {
   @Field()
   @Column()
   password: string;
+
+  @Field()
+  @Column('boolean', { default: false, nullable: true })
+  online: boolean;
+
+  @ManyToMany(() => ChatsEntity, (chat) => chat.users)
+  chats: ChatsEntity[];
+
+  @Field()
+  @CreateDateColumn()
+  createdAt: string;
 }
