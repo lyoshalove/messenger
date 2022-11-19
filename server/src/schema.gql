@@ -2,15 +2,33 @@
 # THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
 # ------------------------------------------------------
 
-type Users {
+type MessageEntity {
+  id: String!
+  message: String!
+  read: Boolean!
+  chat: [ChatsEntity!]!
+  userFrom: [UsersEntity!]!
+  createdAt: String!
+}
+
+type ChatsEntity {
+  id: String!
+  users: [UsersEntity!]!
+  messages: [MessageEntity!]!
+  createdAt: String!
+}
+
+type UsersEntity {
   id: String!
   firstName: String!
   lastName: String!
   email: String!
   password: String!
+  online: Boolean!
+  createdAt: String!
 }
 
 type Query {
   getHello: String!
-  getMe: Users!
+  getMe: UsersEntity!
 }
