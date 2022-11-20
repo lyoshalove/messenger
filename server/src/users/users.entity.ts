@@ -1,10 +1,13 @@
 import { Field, ObjectType } from '@nestjs/graphql';
 import { ChatsEntity } from 'src/chats/chats.enity';
+import { FilesEntity } from 'src/files/files.entity';
 import {
   Column,
   CreateDateColumn,
   Entity,
+  JoinColumn,
   ManyToMany,
+  OneToOne,
   PrimaryGeneratedColumn,
 } from 'typeorm';
 
@@ -30,6 +33,10 @@ export class UsersEntity {
   @Field()
   @Column()
   password: string;
+
+  @OneToOne(() => FilesEntity, { nullable: true })
+  @JoinColumn()
+  avatar: FilesEntity;
 
   @Field()
   @Column('boolean', { default: false, nullable: true })

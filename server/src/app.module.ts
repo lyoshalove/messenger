@@ -12,6 +12,8 @@ import { ChatsModule } from './chats/chats.module';
 import { ChatsEntity } from './chats/chats.enity';
 import { MessageModule } from './message/message.module';
 import { MessageEntity } from './message/message.entity';
+import { FilesModule } from './files/files.module';
+import { FilesEntity } from './files/files.entity';
 
 @Module({
   imports: [
@@ -30,7 +32,7 @@ import { MessageEntity } from './message/message.entity';
       username: process.env.POSTGRES_NAME,
       password: process.env.POSTGRES_PASSWORD,
       database: process.env.POSTGRES_DB,
-      entities: [UsersEntity, ChatsEntity, MessageEntity],
+      entities: [UsersEntity, ChatsEntity, MessageEntity, FilesEntity],
       synchronize: true,
       autoLoadEntities: true,
     }),
@@ -38,6 +40,7 @@ import { MessageEntity } from './message/message.entity';
     AuthModule,
     ChatsModule,
     MessageModule,
+    FilesModule,
   ],
   controllers: [],
   providers: [AppService],

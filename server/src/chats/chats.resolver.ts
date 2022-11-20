@@ -8,7 +8,7 @@ import { ChatsService } from './chats.service';
 export class ChatsResolver {
   constructor(private chatService: ChatsService) {}
 
-  @Query()
+  // @Query()
   getChat(
     @Args('id') id: string,
     @Args('limit') limit: number,
