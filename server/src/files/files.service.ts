@@ -12,12 +12,12 @@ export class FilesService {
     private filesRepository: Repository<FilesEntity>,
   ) {}
 
-  async uploadAvatar({ filename, createReadStream }: FileUpload) {
+  async uploadAvatar({ fileName, createReadStream }: FileUpload) {
     const fileStream = createReadStream();
     const buffer = await this.streamToBuffer(fileStream);
 
     const newFile = await this.filesRepository.create({
-      filename,
+      fileName,
       data: buffer,
     });
     await this.filesRepository.save(newFile);
@@ -25,13 +25,13 @@ export class FilesService {
   }
 
   async deleteFile(id: string) {
-    const file = await this.filesRepository.findOneOrFail({ id });
+    const file = await this.filesRepository.findOneBy({ id });
 
     await this.filesRepository.remove(file);
   }
 
   async getFileById(id: string) {
-    const file = await this.filesRepository.findOneOrFail({ id });
+    const file = await this.filesRepository.findOneBy({ id });
 
     if (!file) {
       throw new NotFoundException();
