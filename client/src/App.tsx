@@ -1,9 +1,12 @@
 import "./assets/styles/global.sass";
+import { MainTemplate } from "./templates/MainTemplate";
 
 function App() {
   return (
     <div className="App">
-      <h1>HEllo world</h1>
+      <MainTemplate>
+        bebra
+      </MainTemplate>
     </div>
   );
 }
