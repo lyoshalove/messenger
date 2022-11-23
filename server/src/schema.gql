@@ -31,4 +31,22 @@ type UsersEntity {
 type Query {
   getHello: String!
   getMe: UsersEntity!
+  getAllUsers: [UsersEntity!]!
+}
+
+type Mutation {
+  updateUser(input: UpdateInput!): String!
+  updatePassword(input: updatePasswordInput!): Boolean!
+}
+
+input UpdateInput {
+  email: String!
+  firstName: String!
+  lastName: String!
+}
+
+input updatePasswordInput {
+  password: String!
+  newPassword: String!
+  repeatNewPassword: String!
 }
