@@ -1,6 +1,7 @@
 import React from "react";
 import { sidebarMenu } from "../../constants/sidebarMenu";
 import { ThemeChanger } from "../ThemeChanger/ThemeChanger";
+import { Link } from "react-router-dom";
 import "./styles.sass";
 
 export const Sidebar: React.FC = () => {
@@ -9,9 +10,9 @@ export const Sidebar: React.FC = () => {
       <ul className="sidebar__menu">
         {sidebarMenu.map((menuItem) => (
           <li key={menuItem.id} className="sidebar__menu-item">
-            <a href="#" className="sidebar__menu-link">
+            <Link to="/" className="sidebar__menu-link">
               <img src={menuItem.icon} alt={menuItem.name} />
-            </a>
+            </Link>
           </li>
         ))}
       </ul>
