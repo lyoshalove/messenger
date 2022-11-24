@@ -5,7 +5,9 @@ function App() {
   return (
     <div className="App">
       <MainTemplate>
-        bebra
+        <main className="main">
+          asd
+        </main>
       </MainTemplate>
     </div>
   );
