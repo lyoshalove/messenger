@@ -5,9 +5,9 @@ import { pages } from "../constants/pages";
 export const Router: React.FC = () => {
   return (
     <Routes>
-      {pages.map(page => (
-        <Route path={page.path} element={<page.element />} />
+      {pages.map((page) => (
+        <Route key={page.id} path={page.path} element={<page.element />} />
       ))}
     </Routes>
   );
-}
+};
