@@ -1,10 +1,11 @@
-import React, { useState } from "react";
-import './styles.sass';
-import sun from '../../assets/images/icons/sun.svg';
+import React, { useContext, useState } from "react";
+import "./styles.sass";
+import sun from "../../assets/images/icons/sun.svg";
 import moon from "../../assets/images/icons/moon.svg";
+import { ThemeContext } from "../../contexts/ThemeContext";
 
 export const ThemeChanger: React.FC = () => {
-  const [theme, setTheme] = useState<'light' | 'dark'>('dark');
+  const { theme, toggleTheme } = useContext(ThemeContext);
 
   return (
     <div className="theme__changer">
@@ -12,6 +13,7 @@ export const ThemeChanger: React.FC = () => {
         className="theme__changer-icon"
         src={theme === "light" ? moon : sun}
         alt={`${theme} theme`}
+        onClick={toggleTheme}
       />
     </div>
   );

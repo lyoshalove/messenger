@@ -7,6 +7,7 @@ import {
   gql,
   InMemoryCache,
 } from "@apollo/client";
+import { ThemeProvider } from "./contexts/ThemeContext";
 
 const client = new ApolloClient({
   uri: "http://localhost:3000/graphql",
@@ -16,7 +17,9 @@ const client = new ApolloClient({
 ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
   <ApolloProvider client={client}>
     <BrowserRouter>
-      <App />
+      <ThemeProvider>
+        <App />
+      </ThemeProvider>
     </BrowserRouter>
   </ApolloProvider>
 );
