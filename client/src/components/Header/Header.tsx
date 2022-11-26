@@ -1,13 +1,21 @@
 import React from "react";
-import './styles.sass';
-import logo from '../../assets/images/icons/logo.svg';
-import { Link } from 'react-router-dom';
+import "./styles.sass";
+import logo from "../../assets/images/icons/logo.svg";
+import logoLight from "../../assets/images/icons/logo-light.svg";
+import { Link } from "react-router-dom";
+import { useThemeContext } from "../../hooks/useThemeContext";
 
 export const Header: React.FC = () => {
+  const [theme] = useThemeContext();
+
   return (
-    <header className="header">
+    <header className={theme === "light" ? "header" : "header dark"}>
       <div className="header__inner">
-        <img src={logo} alt="" className="header__logo" />
+        <img
+          src={theme === "light" ? logo : logoLight}
+          alt=""
+          className="header__logo"
+        />
         <div className="header__user">
           <Link to="/">
             <img
@@ -24,4 +32,4 @@ export const Header: React.FC = () => {
       </div>
     </header>
   );
-}
+};

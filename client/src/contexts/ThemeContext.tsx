@@ -32,7 +32,7 @@ export const ThemeProvider: React.FC<IProps> = ({ children }) => {
   return (
     <ThemeContext.Provider
       value={{
-        theme,
+        theme: localStorage.getItem("theme") || "light",
         toggleTheme,
       }}
     >
