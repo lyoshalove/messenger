@@ -112,6 +112,19 @@ export class ChatsService {
     return this.addUsersAndMessagesToChat(chat);
   }
 
+  async getMyChats(user: UsersEntity) {
+    const chats = await this.chatsRepository
+      .createQueryBuilder('chat')
+      .innerJoinAndSelect('chat.user', 'users', 'users.id IN (:...id)', {
+        id: [user.id],
+      })
+      .innerJoinAndSelect('chat.messages', 'message')
+      .orderBy('message.createdAt', 'DESC')
+      .getMany();
+
+    return chats.map((chat) => this.addUsersAndMessagesToChat(chat));
+  }
+
   async addUsersAndMessagesToChat(chat: ChatsEntity) {
     const users = await this.usersRepository
       .createQueryBuilder('user')

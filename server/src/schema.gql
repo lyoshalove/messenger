@@ -32,11 +32,14 @@ type Query {
   getHello: String!
   getMe: UsersEntity!
   getAllUsers: [UsersEntity!]!
+  getChat(id: String!, limit: Float!, offset: Float!): ChatsEntity!
+  getMyChats: [ChatsEntity!]!
 }
 
 type Mutation {
   updateUser(input: UpdateInput!): String!
   updatePassword(input: updatePasswordInput!): Boolean!
+  createChat(userTo: String!): ChatsEntity!
 }
 
 input UpdateInput {
