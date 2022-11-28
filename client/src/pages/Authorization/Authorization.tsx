@@ -1,5 +1,6 @@
 import React from "react";
+import { Auth } from "../../components/Auth/Auth";
 
 export const Authorization: React.FC = () => {
-  return <h2>Authorization</h2>;
+  return <Auth />;
 };
