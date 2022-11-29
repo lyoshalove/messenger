@@ -1,5 +1,6 @@
 import React from "react";
+import { Login as LogIn } from "../../components/Login/Login";
 
 export const Login: React.FC = () => {
-  return <h2>Login</h2>;
+  return <LogIn />;
 };
