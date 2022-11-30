@@ -21,6 +21,11 @@ export class UsersResolver {
     return this.usersService.getAllUsers();
   }
 
+  @Query((returns) => UsersEntity)
+  getUserById(@Args('id') id: string) {
+    return this.usersService.findUserById(id);
+  }
+
   @Mutation((returns) => String)
   @UseGuards(new AuthGuard())
   async updateUser(

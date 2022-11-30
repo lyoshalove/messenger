@@ -32,6 +32,7 @@ type Query {
   getHello: String!
   getMe: UsersEntity!
   getAllUsers: [UsersEntity!]!
+  getUserById(id: String!): UsersEntity!
 }
 
 type Mutation {

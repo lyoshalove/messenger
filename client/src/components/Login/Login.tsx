@@ -1,11 +1,19 @@
-import React, { FormEvent, useState } from "react";
-import { Link } from "react-router-dom";
+import React, { FormEvent, useEffect, useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import { login } from "../../api";
 import "./styles.sass";
 
 export const Login: React.FC = () => {
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    if(token) {
+      navigate('/');
+    }
+  }, []);
 
   const submitHandler = async (e: FormEvent) => {
     e.preventDefault();
