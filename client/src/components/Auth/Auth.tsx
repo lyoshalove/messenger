@@ -32,6 +32,7 @@ export const Auth: React.FC = () => {
                 className="auth__form-input"
                 type="text"
                 placeholder="Имя"
+                required
                 value={name}
                 onChange={(e) => setName(e.target.value)}
               />
@@ -42,6 +43,7 @@ export const Auth: React.FC = () => {
                 className="auth__form-input"
                 type="text"
                 placeholder="Фамилия"
+                required
                 value={surname}
                 onChange={(e) => setSurname(e.target.value)}
               />
@@ -52,6 +54,7 @@ export const Auth: React.FC = () => {
                 className="auth__form-input"
                 type="email"
                 placeholder="Email"
+                required
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
               />
@@ -62,6 +65,8 @@ export const Auth: React.FC = () => {
                 className="auth__form-input"
                 type="password"
                 placeholder="Пароль"
+                minLength={8}
+                required
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
               />

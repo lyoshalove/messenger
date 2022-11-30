@@ -30,6 +30,7 @@ export const Login: React.FC = () => {
                 className="login__form-input"
                 type="email"
                 placeholder="Email"
+                required
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
               />
@@ -40,6 +41,8 @@ export const Login: React.FC = () => {
                 className="login__form-input"
                 type="password"
                 placeholder="Пароль"
+                minLength={8}
+                required
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
               />
