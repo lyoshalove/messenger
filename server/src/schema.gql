@@ -38,6 +38,8 @@ type Query {
 type Mutation {
   updateUser(input: UpdateInput!): String!
   updatePassword(input: updatePasswordInput!): Boolean!
+  registration(input: SignUpDto!): String!
+  login(input: SignInDto!): String!
 }
 
 input UpdateInput {
@@ -50,4 +52,16 @@ input updatePasswordInput {
   password: String!
   newPassword: String!
   repeatNewPassword: String!
+}
+
+input SignUpDto {
+  firstName: String!
+  lastName: String!
+  email: String!
+  password: String!
+}
+
+input SignInDto {
+  email: String!
+  password: String!
 }
