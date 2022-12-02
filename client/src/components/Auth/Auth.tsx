@@ -1,6 +1,7 @@
+import { useMutation } from "@apollo/client";
 import React, { FormEvent, useState } from "react";
-import { Link } from "react-router-dom";
-import { registration } from "../../api";
+import { Link, useNavigate } from "react-router-dom";
+import { REGISTER } from "../../query/authAndLogin";
 import "./styles.sass";
 
 export const Auth: React.FC = () => {
@@ -8,12 +9,25 @@ export const Auth: React.FC = () => {
   const [surname, setSurname] = useState<string>("");
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
+  const navigate = useNavigate();
+  const [registration, { loading, error, data }] = useMutation(REGISTER, {
+    onCompleted: () => {
+      console.log(data);
+      localStorage.setItem("token", data.token);
+      navigate("/");
+    },
+  });
 
-  const submitHandler = async (e: FormEvent) => {
+  const submitHandler = (e: FormEvent) => {
     e.preventDefault();
-    await registration(name, surname, email, password).then(({ data }) =>
-      localStorage.setItem("token", data.token)
-    );
+    registration({
+      variables: {
+        name,
+        surname,
+        email,
+        password,
+      },
+    });
   };
 
   return (
