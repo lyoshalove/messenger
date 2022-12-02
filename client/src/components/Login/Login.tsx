@@ -1,17 +1,36 @@
-import React, { FormEvent, useState } from "react";
-import { Link } from "react-router-dom";
-import { login } from "../../api";
+import { useMutation } from "@apollo/client";
+import React, { FormEvent, useEffect, useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { LOGIN } from "../../query/authAndLogin";
 import "./styles.sass";
 
 export const Login: React.FC = () => {
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
-
-  const submitHandler = async (e: FormEvent) => {
-    e.preventDefault();
-    await login(email, password).then(({ data }) =>
+  const navigate = useNavigate();
+  const [login, { loading, error, data }] = useMutation(LOGIN, {
+    onCompleted: () => {
+      console.log(data);
       localStorage.setItem("token", data.token)
-    );
+      navigate("/");
+    },
+  });
+
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    if (token) {
+      navigate("/");
+    }
+  }, []);
+
+  const submitHandler = (e: FormEvent) => {
+    e.preventDefault();
+    login({
+      variables: {
+        email,
+        password,
+      },
+    });
   };
 
   return (
