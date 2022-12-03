@@ -11,7 +11,7 @@ export const Login: React.FC = () => {
   const [login, { loading, error, data }] = useMutation(LOGIN, {
     onCompleted: () => {
       console.log(data);
-      localStorage.setItem("token", data.token)
+      localStorage.setItem("token", data.token);
       navigate("/");
     },
   });
