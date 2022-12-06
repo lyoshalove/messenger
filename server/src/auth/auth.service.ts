@@ -10,6 +10,7 @@ import { SignInDto } from './dto/signin.dto';
 import * as bcrypt from 'bcrypt';
 import { UsersEntity } from 'src/users/users.entity';
 import { SignUpDto } from './dto/signup.dto';
+import { AuthModel } from './auth.model';
 
 @Injectable()
 export class AuthService {
@@ -20,7 +21,7 @@ export class AuthService {
 
   async login(userDto: SignInDto) {
     const user = await this.validateUser(userDto);
-    return this.generateToken(user);
+    return await this.generateToken(user);
   }
 
   async registration(userDto: SignUpDto) {
@@ -42,7 +43,7 @@ export class AuthService {
     return this.generateToken(user);
   }
 
-  async generateToken(userDto: UsersEntity) {
+  async generateToken(userDto: UsersEntity): Promise<AuthModel> {
     return await {
       token: this.jwtService.sign({
         id: userDto.id,

@@ -23,7 +23,7 @@ export const Login: React.FC = () => {
     }
   }, []);
 
-  const submitHandler = (e: FormEvent) => {
+  const submitHandler = async (e: FormEvent) => {
     e.preventDefault();
     login({
       variables: {

@@ -28,6 +28,10 @@ type UsersEntity {
   createdAt: String!
 }
 
+type AuthModel {
+  token: String!
+}
+
 type Query {
   getHello: String!
   getMe: UsersEntity!
@@ -38,8 +42,8 @@ type Query {
 type Mutation {
   updateUser(input: UpdateInput!): String!
   updatePassword(input: updatePasswordInput!): Boolean!
-  registration(input: SignUpDto!): String!
-  login(input: SignInDto!): String!
+  registration(input: SignUpDto!): AuthModel!
+  login(input: SignInDto!): AuthModel!
 }
 
 input UpdateInput {
