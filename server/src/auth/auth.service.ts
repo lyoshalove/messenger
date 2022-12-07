@@ -64,7 +64,6 @@ export class AuthService {
     );
 
     if (user && passwordEquals) {
-      console.log('user ', user);
       return user;
     }
 
