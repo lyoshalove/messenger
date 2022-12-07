@@ -44,13 +44,15 @@ export class AuthService {
   }
 
   async generateToken(userDto: UsersEntity): Promise<AuthModel> {
-    return await {
-      token: this.jwtService.sign({
-        id: userDto.id,
-        firstName: userDto.firstName,
-        lastName: userDto.lastName,
-        email: userDto.email,
-      }),
+    const token = await this.jwtService.sign({
+      id: userDto.id,
+      firstName: userDto.firstName,
+      lastName: userDto.lastName,
+      email: userDto.email,
+    });
+
+    return {
+      token,
     };
   }
 
@@ -62,6 +64,7 @@ export class AuthService {
     );
 
     if (user && passwordEquals) {
+      console.log('user ', user);
       return user;
     }
 
