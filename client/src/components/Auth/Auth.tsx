@@ -10,23 +10,21 @@ export const Auth: React.FC = () => {
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const navigate = useNavigate();
-  const [registration, { loading, error, data }] = useMutation(REGISTER, {
-    onCompleted: () => {
-      console.log(data);
-      localStorage.setItem("token", data.token);
-      navigate("/");
-    },
-  });
+  const [registration, { loading, error }] = useMutation(REGISTER);
 
-  const submitHandler = (e: FormEvent) => {
+  const submitHandler = async (e: FormEvent) => {
     e.preventDefault();
-    registration({
+    await registration({
       variables: {
-        name,
-        surname,
+        firstName: name,
+        lastName: surname,
         email,
         password,
       },
+    }).then(({ data }) => {
+      console.log(data);
+      localStorage.setItem("token", data.registration.token);
+      navigate("/");
     });
   };
 

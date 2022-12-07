@@ -8,13 +8,7 @@ export const Login: React.FC = () => {
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const navigate = useNavigate();
-  const [login, { loading, error, data }] = useMutation(LOGIN, {
-    onCompleted: () => {
-      console.log(data);
-      localStorage.setItem("token", data.token);
-      navigate("/");
-    },
-  });
+  const [login, { loading, error }] = useMutation(LOGIN);
 
   useEffect(() => {
     const token = localStorage.getItem("token");
@@ -25,12 +19,16 @@ export const Login: React.FC = () => {
 
   const submitHandler = async (e: FormEvent) => {
     e.preventDefault();
-    login({
+    await login({
       variables: {
         email,
         password,
       },
-    });
+    })
+    .then(({data}) => {
+      localStorage.setItem("token", data.login.token);
+      navigate("/");
+    })
   };
 
   return (

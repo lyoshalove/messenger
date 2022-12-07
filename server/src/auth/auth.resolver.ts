@@ -9,14 +9,12 @@ export class AuthResolver {
   constructor(private authService: AuthService) {}
 
   @Mutation(() => AuthModel)
-  registration(@Args('input') user: SignUpDto) {
-    console.log(user);
-    this.authService.registration({ ...user });
+  async registration(@Args('input') user: SignUpDto) {
+    return await this.authService.registration({ ...user });
   }
 
   @Mutation(() => AuthModel)
-  login(@Args('input') user: SignInDto) {
-    console.log(user);
-    this.authService.login({ ...user });
+  async login(@Args('input') user: SignInDto) {
+    return await this.authService.login({ ...user });
   }
 }
