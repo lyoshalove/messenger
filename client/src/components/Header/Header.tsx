@@ -11,11 +11,13 @@ export const Header: React.FC = () => {
   return (
     <header className={theme === "light" ? "header" : "header dark"}>
       <div className="header__inner">
-        <img
-          src={theme === "light" ? logo : logoLight}
-          alt=""
-          className="header__logo"
-        />
+        <Link to="/" className="header__logo-link">
+          <img
+            src={theme === "light" ? logo : logoLight}
+            alt=""
+            className="header__logo"
+          />
+        </Link>
         <div className="header__user">
           <Link to="/">
             <img
