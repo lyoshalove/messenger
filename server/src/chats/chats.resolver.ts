@@ -9,19 +9,8 @@ import { ChatsService } from './chats.service';
 export class ChatsResolver {
   constructor(private chatService: ChatsService) {}
 
-  // @Query()
-  async getChat(
-    @Args('id') id: string,
-    @Args('limit') limit: number,
-    @Args('offset') offset: number,
-    @CurrentUser() user: UsersEntity,
-  ) {
-    console.log(user);
-    return await this.chatService.getChatByIdWithMessages(
-      id,
-      limit,
-      offset,
-      user,
-    );
+  // @Query(() => ChatsEntity)
+  async getChat(@Args('id') id: string, @CurrentUser() user: UsersEntity) {
+    return await this.chatService.getChatByIdWithMessages(id, user);
   }
 }

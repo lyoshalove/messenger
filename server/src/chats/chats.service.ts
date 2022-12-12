@@ -69,12 +69,7 @@ export class ChatsService {
     return existingChat[0];
   }
 
-  async getChatByIdWithMessages(
-    id: string,
-    limit: number,
-    offset: number,
-    user: UsersEntity,
-  ) {
+  async getChatByIdWithMessages(id: string, user: UsersEntity) {
     const chat = await this.chatsRepository
       .createQueryBuilder('chat')
       .where('chat.id = :id', { id })
@@ -86,7 +81,7 @@ export class ChatsService {
       .where('chat.id = :id', { id })
       .getMany();
 
-    if (!chat.users.filter((userr) => user.id === userr.id).length)
+    if (!chat.users.filter((u) => user.id === u.id).length)
       throw new ForbiddenException('Ты хочешь попасть в чужой чат :(');
 
     chat.messages = await this.messageRepository
@@ -95,8 +90,6 @@ export class ChatsService {
       .leftJoinAndSelect('message.user_from', 'user')
       .where('chat.id = :id', { id })
       .orderBy('message.createdAt', 'DESC')
-      .skip(offset)
-      .take(limit)
       .getMany();
 
     return chat;
