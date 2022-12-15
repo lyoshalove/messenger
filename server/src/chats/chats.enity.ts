@@ -24,7 +24,7 @@ export class ChatsEntity {
   @ManyToMany(() => UsersEntity, (user) => user.chats)
   users: UsersEntity[];
 
-  @Field(() => [MessageEntity])
+  @Field(() => [MessageEntity], { nullable: true })
   @OneToMany(() => MessageEntity, (message) => message.chat)
   messages: MessageEntity[];
 

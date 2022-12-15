@@ -14,7 +14,7 @@ type MessageEntity {
 type ChatsEntity {
   id: String!
   users: [UsersEntity!]!
-  messages: [MessageEntity!]!
+  messages: [MessageEntity!]
   createdAt: String!
 }
 
@@ -37,6 +37,7 @@ type Query {
   getMe: UsersEntity!
   getAllUsers: [UsersEntity!]!
   getUserById(id: String!): UsersEntity!
+  getChat(id: String!): ChatsEntity!
 }
 
 type Mutation {
