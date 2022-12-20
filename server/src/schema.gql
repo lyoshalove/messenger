@@ -37,12 +37,8 @@ type Query {
   getMe: UsersEntity!
   getAllUsers: [UsersEntity!]!
   getUserById(id: String!): UsersEntity!
-<<<<<<< HEAD
-  getChat(id: String!, limit: Float!, offset: Float!): ChatsEntity!
-  getMyChats: [ChatsEntity!]!
-=======
   getChat(id: String!): ChatsEntity!
->>>>>>> feat/new-features
+  getMyChats: [ChatsEntity!]!
 }
 
 type Mutation {
