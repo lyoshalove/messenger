@@ -7,7 +7,7 @@ import "./styles.sass";
 export const MyChats: React.FC = () => {
   const { loading, error, data } = useQuery(GET_ME);
   // const { loading, error, data } = useQuery(GET_MY_CHATS); //NOT WORKS
-  console.log(data);
+  console.log(error);
 
   return <div></div>;
 };

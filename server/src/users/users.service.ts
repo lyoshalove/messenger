@@ -111,7 +111,7 @@ export class UsersService {
         avatar: avatar ? { id: avatar.id } : null,
         online: true,
       },
-      'secret',
+      process.env.SECRET_KEY || 'secret',
     );
   }
 }
