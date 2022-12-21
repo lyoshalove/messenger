@@ -4,16 +4,12 @@ import logo from "../../assets/images/icons/logo.svg";
 import logoLight from "../../assets/images/icons/logo-light.svg";
 import { Link } from "react-router-dom";
 import { useThemeContext } from "../../hooks/useThemeContext";
-import { useQuery } from "@apollo/client";
-import { GET_ME } from "../../graphql/users";
+import { useSelector } from 'react-redux';
+import { RootState } from "../../store";
 
 export const Header: React.FC = () => {
   const [theme] = useThemeContext();
-  const {
-    loading: userLoading,
-    error: userError,
-    data: userData,
-  } = useQuery(GET_ME);
+  const user = useSelector((state: RootState) => state.user);
 
   return (
     <header className={theme === "light" ? "header" : "header dark"}>
@@ -35,9 +31,9 @@ export const Header: React.FC = () => {
           </Link>
           <div className="header__user-info">
             <h3 className="header__user-name">
-              {userData?.getMe?.firstName} {userData?.getMe?.lastName}
+              {user.firstName} {user.lastName}
             </h3>
-            <span className="header__user-email">snus@gmail.com</span>
+            <span className="header__user-email">{user.email}</span>
           </div>
         </div>
       </div>

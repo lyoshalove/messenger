@@ -38,6 +38,7 @@ type Query {
   getAllUsers: [UsersEntity!]!
   getUserById(id: String!): UsersEntity!
   getChat(id: String!): ChatsEntity!
+  getMyChats: [ChatsEntity!]!
 }
 
 type Mutation {
@@ -45,10 +46,7 @@ type Mutation {
   updatePassword(input: updatePasswordInput!): Boolean!
   registration(input: SignUpDto!): AuthModel!
   login(input: SignInDto!): AuthModel!
-<<<<<<< Updated upstream
-=======
   createChat(userToId: String!): ChatsEntity!
->>>>>>> Stashed changes
 }
 
 input UpdateInput {

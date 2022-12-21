@@ -105,8 +105,6 @@ export class ChatsService {
     return this.addUsersAndMessagesToChat(chat);
   }
 
-<<<<<<< Updated upstream
-=======
   async getMyChats(id: string) {
     const chats = await this.chatsRepository
       .createQueryBuilder('chat')
@@ -120,7 +118,6 @@ export class ChatsService {
     return chats.map((chat) => this.addUsersAndMessagesToChat(chat));
   }
 
->>>>>>> Stashed changes
   async addUsersAndMessagesToChat(chat: ChatsEntity) {
     const users = await this.usersRepository
       .createQueryBuilder('user')

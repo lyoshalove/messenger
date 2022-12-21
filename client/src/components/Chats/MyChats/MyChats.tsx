@@ -1,40 +1,27 @@
-import { useMutation, useQuery } from "@apollo/client";
+import { useLazyQuery } from "@apollo/client";
 import React, { useEffect } from "react";
-import { create } from "yup/lib/Reference";
-import { CREATE_CHAT, GET_MY_CHATS } from "../../../graphql/chats";
+import { useDispatch } from "react-redux";
 import { GET_ME } from "../../../graphql/users";
+import { initUser } from "../../../store/userSlice";
 import { IGetMe } from "../../../types/users";
 import "./styles.sass";
 
 export const MyChats: React.FC = () => {
-  const {
-    loading: userLoading,
-    error: userError,
-    data: userData,
-  } = useQuery<IGetMe>(GET_ME);
-  const {
-    loading: chatLoading,
-    error: chatError,
-    data: chatData,
-  } = useQuery(GET_MY_CHATS, {
-    variables: {
-      id: userData?.getMe?.id,
-    },
-  });
-  const [createChat, {loading, error}] = useMutation(CREATE_CHAT);
-  console.log(userData);
-  console.log(chatData);
+  const dispatch = useDispatch();
+  const [lazyGetMe] = useLazyQuery<Partial<IGetMe>>(GET_ME);
 
-  async function create() {
-    await createChat({
-      variables: {
-        userToId: userData?.getMe.id,
-      },
-    }).then(({ data }) => console.log("Chat: ", data));
+  async function getMe() {
+    await lazyGetMe().then(({ data }) => {
+      const user = data?.getMe;
+      
+      if(user) {
+        dispatch(initUser(user));
+      }
+    });
   }
 
   useEffect(() => {
-    create();
+    getMe();
   }, []);
 
   return <div></div>;
