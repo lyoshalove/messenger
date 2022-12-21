@@ -1,7 +1,7 @@
 import { useMutation } from "@apollo/client";
 import React, { FormEvent, useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { LOGIN } from "../../query/authAndLogin";
+import { LOGIN } from "../../graphql/authAndLogin";
 import "./styles.sass";
 
 export const Login: React.FC = () => {

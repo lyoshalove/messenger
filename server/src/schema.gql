@@ -45,6 +45,10 @@ type Mutation {
   updatePassword(input: updatePasswordInput!): Boolean!
   registration(input: SignUpDto!): AuthModel!
   login(input: SignInDto!): AuthModel!
+<<<<<<< Updated upstream
+=======
+  createChat(userToId: String!): ChatsEntity!
+>>>>>>> Stashed changes
 }
 
 input UpdateInput {

@@ -30,7 +30,7 @@ export class ChatsService {
       throw new HttpException('Пользователь не найден', HttpStatus.NOT_FOUND);
     }
 
-    const existingChat = await this.existChat(userTo.id, userFrom.id);
+    const existingChat = await this.existChat(userTo?.id, userFrom?.id);
 
     if (existingChat) {
       return existingChat;
@@ -38,7 +38,7 @@ export class ChatsService {
 
     const chat = new ChatsEntity();
 
-    if (userTo.id === userFrom.id) {
+    if (userTo?.id === userFrom?.id) {
       chat.users = [userTo];
     } else {
       chat.users = [userFrom, userTo];
@@ -105,6 +105,22 @@ export class ChatsService {
     return this.addUsersAndMessagesToChat(chat);
   }
 
+<<<<<<< Updated upstream
+=======
+  async getMyChats(id: string) {
+    const chats = await this.chatsRepository
+      .createQueryBuilder('chat')
+      .innerJoinAndSelect('chat.user', 'users', 'users.id IN (:...id)', {
+        id: [id],
+      })
+      .innerJoinAndSelect('chat.messages', 'message')
+      .orderBy('message.createdAt', 'DESC')
+      .getMany();
+
+    return chats.map((chat) => this.addUsersAndMessagesToChat(chat));
+  }
+
+>>>>>>> Stashed changes
   async addUsersAndMessagesToChat(chat: ChatsEntity) {
     const users = await this.usersRepository
       .createQueryBuilder('user')

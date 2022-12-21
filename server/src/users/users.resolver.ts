@@ -7,14 +7,13 @@ import { UsersEntity } from './users.entity';
 import { UsersService } from './users.service';
 import { GraphQLUpload } from 'apollo-upload-server';
 
+@UseGuards(GraphqlAuthGuard)
 @Resolver('User')
 export class UsersResolver {
   constructor(private usersService: UsersService) {}
 
-  @UseGuards(GraphqlAuthGuard)
   @Query(() => UsersEntity)
   getMe(@CurrentUser() user: UsersEntity) {
-    console.log(user);
     return user;
   }
 

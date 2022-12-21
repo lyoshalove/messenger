@@ -4,9 +4,16 @@ import logo from "../../assets/images/icons/logo.svg";
 import logoLight from "../../assets/images/icons/logo-light.svg";
 import { Link } from "react-router-dom";
 import { useThemeContext } from "../../hooks/useThemeContext";
+import { useQuery } from "@apollo/client";
+import { GET_ME } from "../../graphql/users";
 
 export const Header: React.FC = () => {
   const [theme] = useThemeContext();
+  const {
+    loading: userLoading,
+    error: userError,
+    data: userData,
+  } = useQuery(GET_ME);
 
   return (
     <header className={theme === "light" ? "header" : "header dark"}>
@@ -27,7 +34,9 @@ export const Header: React.FC = () => {
             />
           </Link>
           <div className="header__user-info">
-            <h3 className="header__user-name">Anya Snus</h3>
+            <h3 className="header__user-name">
+              {userData?.getMe?.firstName} {userData?.getMe?.lastName}
+            </h3>
             <span className="header__user-email">snus@gmail.com</span>
           </div>
         </div>
