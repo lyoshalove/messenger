@@ -9,7 +9,7 @@ import { RootState } from "../../store";
 
 export const Header: React.FC = () => {
   const [theme] = useThemeContext();
-  const user = useSelector((state: RootState) => state.user);
+  const user = useSelector((state: RootState) => state.user.value);
 
   return (
     <header className={theme === "light" ? "header" : "header dark"}>
