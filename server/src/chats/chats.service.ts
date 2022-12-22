@@ -105,11 +105,11 @@ export class ChatsService {
     return this.addUsersAndMessagesToChat(chat);
   }
 
-  async getMyChats(id: string) {
+  async getMyChats(user: UsersEntity) {
     const chats = await this.chatsRepository
       .createQueryBuilder('chat')
-      .innerJoinAndSelect('chat.user', 'users', 'users.id IN (:...id)', {
-        id: [id],
+      .innerJoinAndSelect('chat.users', 'users', 'users.id IN (:...id)', {
+        id: [user.id],
       })
       .innerJoinAndSelect('chat.messages', 'message')
       .orderBy('message.createdAt', 'DESC')

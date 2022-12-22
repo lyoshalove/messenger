@@ -1,10 +1,12 @@
 import { gql } from "@apollo/client";
 
 export const GET_MY_CHATS = gql`
-  query getChats($id: String) {
-    getMyChats(id: $id) {
+  query {
+    getMyChats {
+      id
       users {
-        firstName, lastName
+        firstName
+        lastName
       }
     }
   }
@@ -13,8 +15,11 @@ export const GET_MY_CHATS = gql`
 export const CREATE_CHAT = gql`
   mutation createChat($userToId: String!) {
     createChat(userToId: $userToId) {
-      id, users {
-        id, firstName, lastName
+      id
+      users {
+        id
+        firstName
+        lastName
       }
     }
   }

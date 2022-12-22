@@ -18,7 +18,7 @@ export class ChatsResolver {
 
   @Query(() => [ChatsEntity])
   getMyChats(@CurrentUser() user: UsersEntity) {
-    return this.chatService.getMyChats(user.id);
+    return this.chatService.getMyChats(user);
   }
 
   @Mutation(() => ChatsEntity)
