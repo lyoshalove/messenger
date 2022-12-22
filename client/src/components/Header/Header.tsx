@@ -1,6 +1,8 @@
 import React from "react";
 import "./styles.sass";
 import logo from "../../assets/images/icons/logo.svg";
+import userIcon from "../../assets/images/icons/user.svg";
+import userIconLight from "../../assets/images/icons/user-light.svg";
 import logoLight from "../../assets/images/icons/logo-light.svg";
 import { Link } from "react-router-dom";
 import { useThemeContext } from "../../hooks/useThemeContext";
@@ -22,9 +24,9 @@ export const Header: React.FC = () => {
           />
         </Link>
         <div className="header__user">
-          <Link to="/">
+          <Link to="/profile" className="header__user-link">
             <img
-              src="https://images.unsplash.com/photo-1561948955-570b270e7c36?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=601&q=80"
+              src={user.avatar ? user.avatar : theme === 'light' ? userIcon : userIconLight}
               alt="avatar"
               className="header__user-avatar"
             />
