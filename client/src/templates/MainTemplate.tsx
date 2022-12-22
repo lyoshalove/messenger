@@ -20,7 +20,7 @@ export const MainTemplate: React.FC<IProps> = ({ children }) => {
     <>
       <Header />
       <Sidebar />
-      {children}
+      <main className="main">{children}</main>
     </>
   );
 };

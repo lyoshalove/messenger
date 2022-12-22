@@ -1,6 +1,7 @@
 import { Chats } from "../pages/Chats/Chats";
 import { Authorization } from "../pages/Authorization/Authorization";
 import { Login } from "../pages/Login/Login";
+import { Profile } from "../pages/Profile/Profile";
 
 export const pages = [
   {
@@ -17,5 +18,10 @@ export const pages = [
     id: 2,
     path: "/login",
     element: Login,
+  },
+  {
+    id: 3,
+    path: "/profile",
+    element: Profile,
   },
 ];

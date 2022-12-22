@@ -8,6 +8,7 @@ interface ISidebarMenu {
   name: string;
   icon: string;
   iconLight: string;
+  path: string;
 }
 
 export const sidebarMenu: ISidebarMenu[] = [
@@ -16,11 +17,13 @@ export const sidebarMenu: ISidebarMenu[] = [
     name: "Home",
     icon: home,
     iconLight: homeLight,
+    path: "/",
   },
   {
     id: 1,
     name: "messages",
     icon: message,
     iconLight: messageLight,
+    path: "/profile",
   },
 ];

@@ -1,3 +1,4 @@
+import React from "react";
 import { IChat } from "./chats";
 
 export interface IUser {

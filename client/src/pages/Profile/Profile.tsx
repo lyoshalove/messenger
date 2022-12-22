@@ -1,11 +1,10 @@
 import React from "react";
 import { MainTemplate } from "../../templates/MainTemplate";
-import { Chats as AllChats } from '../../components/Chats/Chats';
 
-export const Chats: React.FC = () => {
+export const Profile: React.FC = () => {
   return (
     <MainTemplate>
-      <AllChats />
+      <h1>bebra</h1>
     </MainTemplate>
   );
 };

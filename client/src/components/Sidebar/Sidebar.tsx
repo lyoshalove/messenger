@@ -13,7 +13,7 @@ export const Sidebar: React.FC = () => {
       <ul className="sidebar__menu">
         {sidebarMenu.map((menuItem) => (
           <li key={menuItem.id} className="sidebar__menu-item">
-            <Link to="/" className="sidebar__menu-link">
+            <Link to={menuItem.path} className="sidebar__menu-link">
               <img
                 src={theme === "light" ? menuItem.icon : menuItem.iconLight}
                 alt={menuItem.name}
