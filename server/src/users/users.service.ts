@@ -79,16 +79,16 @@ export class UsersService {
 
   async updatePassword(
     userId: string,
-    { password, newPassword, repeatNewPassword }: updatePasswordInput,
+    { oldPassword, newPassword, confirmPassword }: updatePasswordInput,
   ) {
     const user = await this.usersRepository.findOne({ where: { id: userId } });
-    const isCorrectPassword = await bcrypt.compare(password, user.password);
+    const isCorrectPassword = await bcrypt.compare(oldPassword, user.password);
 
     if (!isCorrectPassword) {
       throw new UnprocessableEntityException('Неправильно введены данные');
     }
 
-    if (password !== repeatNewPassword) {
+    if (oldPassword === confirmPassword) {
       throw new UnprocessableEntityException('Неправильно введены данные');
     }
 
@@ -101,17 +101,19 @@ export class UsersService {
     return true;
   }
 
-  createToken({ id, email, firstName, lastName, avatar }: UsersEntity) {
-    return jwt.sign(
-      {
-        id,
-        email,
-        firstName,
-        lastName,
-        avatar: avatar ? { id: avatar.id } : null,
-        online: true,
-      },
-      process.env.SECRET_KEY || 'secret',
-    );
+  async createToken({ id, email, firstName, lastName, avatar }: UsersEntity) {
+    return await {
+      token: jwt.sign(
+        {
+          id,
+          email,
+          firstName,
+          lastName,
+          avatar: avatar ? { id: avatar.id } : null,
+          online: true,
+        },
+        process.env.SECRET_KEY || 'secret',
+      ),
+    };
   }
 }

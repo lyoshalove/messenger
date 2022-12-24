@@ -15,11 +15,11 @@ export class UpdateInput {
 @InputType()
 export class updatePasswordInput {
   @Field()
-  password: string;
+  oldPassword: string;
 
   @Field()
   newPassword: string;
 
   @Field()
-  repeatNewPassword: string;
+  confirmPassword: string;
 }

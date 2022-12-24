@@ -6,6 +6,7 @@ import { UpdateInput, updatePasswordInput } from './dto/update-user.inputs';
 import { UsersEntity } from './users.entity';
 import { UsersService } from './users.service';
 import { GraphQLUpload } from 'apollo-upload-server';
+import { AuthModel } from 'src/auth/auth.model';
 
 @UseGuards(GraphqlAuthGuard)
 @Resolver('User')
@@ -28,7 +29,7 @@ export class UsersResolver {
   }
 
   @UseGuards(GraphqlAuthGuard)
-  @Mutation(() => String)
+  @Mutation(() => AuthModel)
   async updateUser(
     @Args('input') input: UpdateInput,
     // @Args('file') file: { file: GraphQLUpload },

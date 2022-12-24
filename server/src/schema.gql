@@ -42,7 +42,7 @@ type Query {
 }
 
 type Mutation {
-  updateUser(input: UpdateInput!): String!
+  updateUser(input: UpdateInput!): AuthModel!
   updatePassword(input: updatePasswordInput!): Boolean!
   registration(input: SignUpDto!): AuthModel!
   login(input: SignInDto!): AuthModel!
@@ -56,9 +56,9 @@ input UpdateInput {
 }
 
 input updatePasswordInput {
-  password: String!
+  oldPassword: String!
   newPassword: String!
-  repeatNewPassword: String!
+  confirmPassword: String!
 }
 
 input SignUpDto {
