@@ -33,7 +33,7 @@ export const Login: React.FC = () => {
 
   return (
     <section className="login">
-      <div className="container">
+      <div className="container-mini">
         <div className="login__inner">
           <div className="login__header">
             <span className="login__header-emoji">👋</span>

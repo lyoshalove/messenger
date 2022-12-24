@@ -30,7 +30,7 @@ export const Auth: React.FC = () => {
 
   return (
     <section className="auth">
-      <div className="container">
+      <div className="container-mini">
         <div className="auth__inner">
           <div className="auth__header">
             <span className="auth__header-emoji">👋</span>

@@ -17,13 +17,13 @@ export const sidebarMenu: ISidebarMenu[] = [
     name: "Home",
     icon: home,
     iconLight: homeLight,
-    path: "/",
+    path: "/profile",
   },
   {
     id: 1,
     name: "messages",
     icon: message,
     iconLight: messageLight,
-    path: "/profile",
+    path: "/",
   },
 ];
