@@ -18,7 +18,9 @@ export class UsersService {
   ) {}
 
   async getAllUsers(): Promise<UsersEntity[]> {
-    return await this.usersRepository.find();
+    return await this.usersRepository.find({
+      relations: ['avatar'],
+    });
   }
 
   async findUserById(id: string): Promise<UsersEntity> {

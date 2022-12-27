@@ -2,14 +2,11 @@ import React from "react";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import "./styles.sass";
-import { IGetMe, IUpdateUser, IUser, userDataSchema } from "../../types/users";
-import { useLazyQuery, useMutation } from "@apollo/client";
-import { GET_ME, UPDATE_USER_INFO } from "../../graphql/users";
-import { useDispatch } from "react-redux";
-import { initUser } from "../../store/userSlice";
+import { IUpdateUser, userDataSchema } from "../../types/users";
+import { useMutation } from "@apollo/client";
+import { UPDATE_USER_INFO } from "../../graphql/users";
 
 export const ChangePersonalData: React.FC = () => {
-  const dispatch = useDispatch();
   const {
     register,
     handleSubmit,
@@ -24,8 +21,6 @@ export const ChangePersonalData: React.FC = () => {
     },
     resolver: yupResolver(userDataSchema),
   });
-  const [getMeLazy, { loading: userLoading }] =
-    useLazyQuery<Partial<IGetMe>>(GET_ME);
   const [updateUserInfo, { loading }] = useMutation(UPDATE_USER_INFO);
   const onSubmit = async (data: IUpdateUser) => {
     await updateUserInfo({
@@ -35,13 +30,8 @@ export const ChangePersonalData: React.FC = () => {
         email: data.email,
         avatar: data.avatar,
       },
-      onCompleted(data) {
+      async onCompleted(data) {
         localStorage.setItem("token", data.updateUser.token);
-        getMeLazy({
-          onCompleted(data) {
-            dispatch(initUser(data.getMe as Partial<IUser>));
-          },
-        });
         reset();
       },
     });

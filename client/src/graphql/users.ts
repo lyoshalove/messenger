@@ -14,6 +14,7 @@ export const GET_ME = gql`
 export const GET_ALL_USERS = gql`
   query {
     getAllUsers {
+      id
       firstName
       lastName
     }
