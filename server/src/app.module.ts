@@ -6,7 +6,7 @@ import { UsersEntity } from './users/users.entity';
 import { UsersModule } from './users/users.module';
 import { AuthModule } from './auth/auth.module';
 import { GraphQLModule } from '@nestjs/graphql';
-import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
+import { ApolloDriver } from '@nestjs/apollo';
 import { join } from 'path';
 import { ChatsModule } from './chats/chats.module';
 import { ChatsEntity } from './chats/chats.enity';
@@ -17,11 +17,22 @@ import { FilesEntity } from './files/files.entity';
 
 @Module({
   imports: [
-    GraphQLModule.forRoot<ApolloDriverConfig>({
+    GraphQLModule.forRoot({
       driver: ApolloDriver,
       playground: true,
       autoSchemaFile: join(process.cwd(), 'src/schema.gql'),
-      context: ({ req }) => ({ req }),
+      // context: ({ req }) => ({ req }),
+      context: async ({ req, connectionParams }) => {
+        if (connectionParams) {
+          return { req: { headers: { ...connectionParams } } };
+        }
+        return { req };
+      },
+      installSubscriptionHandlers: true,
+      subscriptions: {
+        'graphql-ws': true,
+      },
+      uploads: false,
     }),
     ConfigModule.forRoot({
       envFilePath: '.env',

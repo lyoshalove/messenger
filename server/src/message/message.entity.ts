@@ -28,7 +28,7 @@ export class MessageEntity {
   @ManyToOne(() => ChatsEntity, (chat) => chat.messages)
   chat: ChatsEntity;
 
-  @Field(() => [UsersEntity])
+  @Field(() => UsersEntity)
   @ManyToOne(() => UsersEntity, (user) => user.id)
   userFrom: UsersEntity;
 

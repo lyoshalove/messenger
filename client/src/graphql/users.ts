@@ -36,9 +36,11 @@ export const UPDATE_USER_INFO = gql`
     $firstName: String!
     $lastName: String!
     $email: String!
+    $file: Upload!
   ) {
     updateUser(
       input: { firstName: $firstName, lastName: $lastName, email: $email }
+      file: $file
     ) {
       token
     }

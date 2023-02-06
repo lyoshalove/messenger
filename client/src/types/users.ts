@@ -40,5 +40,5 @@ export const userDataSchema = yup.object({
     .string()
     .email("Поле должно содержать email")
     .required("Обязательное поле"),
-  avatar: yup.string(),
+  // avatar: yup.string(),
 });

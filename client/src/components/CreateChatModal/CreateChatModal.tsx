@@ -1,15 +1,21 @@
 import { useMutation, useQuery } from "@apollo/client";
-import React from "react";
+import React, { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
 import { CREATE_CHAT } from "../../graphql/chats";
 import { GET_ALL_USERS } from "../../graphql/users";
+import { RootState } from "../../store";
+import { IChat } from "../../types/chats";
 import { IUser } from "../../types/users";
 import "./styles.sass";
+import incognitoAvatar from '../../assets/images/incognito.png';
 
 interface IProps {
   closeModal: () => void;
 }
 
 export const CreateChatModal: React.FC<IProps> = ({ closeModal }) => {
+  const currentUser = useSelector((state: RootState) => state.user.value);
+  const [usersChats, setUsersChats] = useState<IChat[]>([]);
   const { loading: usersLoading, error, data: users } = useQuery(GET_ALL_USERS);
   const [create, { loading: createChatLoading, data: createChatData }] =
     useMutation(CREATE_CHAT);
@@ -27,13 +33,21 @@ export const CreateChatModal: React.FC<IProps> = ({ closeModal }) => {
     });
   }
 
+  useEffect(() => {
+    if (users && currentUser.id) {
+      setUsersChats(
+        users.getAllUsers.filter((user: IUser) => user.id !== currentUser.id)
+      );
+    }
+  }, [users, currentUser]);
+
   return (
     <>
       <div className="modal">
         <h3 className="modal__title">Выберите собеседника</h3>
         <ul className="modal__users">
-          {users?.getAllUsers &&
-            users.getAllUsers.map((user: Partial<IUser>) => {
+          {usersChats &&
+            usersChats.map((user: Partial<IUser>) => {
               return (
                 <li
                   key={user.id}
@@ -44,7 +58,7 @@ export const CreateChatModal: React.FC<IProps> = ({ closeModal }) => {
                     src={
                       user.avatar
                         ? user.avatar
-                        : "https://images.unsplash.com/photo-1671685100852-444eef22f697?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=687&q=80"
+                        : incognitoAvatar
                     }
                     alt={user.firstName}
                     className="modal__users-image"

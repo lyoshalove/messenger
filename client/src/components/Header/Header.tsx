@@ -1,13 +1,12 @@
 import React from "react";
 import "./styles.sass";
 import logo from "../../assets/images/icons/logo.svg";
-import userIcon from "../../assets/images/icons/user.svg";
-import userIconLight from "../../assets/images/icons/user-light.svg";
 import logoLight from "../../assets/images/icons/logo-light.svg";
 import { Link } from "react-router-dom";
 import { useThemeContext } from "../../hooks/useThemeContext";
 import { useSelector } from 'react-redux';
 import { RootState } from "../../store";
+import { checkUserAvatar } from "../../features/helpers/checkUserAvatar";
 
 export const Header: React.FC = () => {
   const [theme] = useThemeContext();
@@ -26,7 +25,7 @@ export const Header: React.FC = () => {
         <div className="header__user">
           <Link to="/profile" className="header__user-link">
             <img
-              src={user.avatar ? user.avatar : theme === 'light' ? userIcon : userIconLight}
+              src={checkUserAvatar(user.avatar)}
               alt="avatar"
               className="header__user-avatar"
             />

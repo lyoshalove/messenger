@@ -4,9 +4,5 @@ import { Profile as ProfileComponent } from '../../components/Profile/Profile';
 import './styles.sass';
 
 export const Profile: React.FC = () => {
-  return (
-    <MainTemplate>
-      <ProfileComponent />
-    </MainTemplate>
-  );
+  return <ProfileComponent />;
 };

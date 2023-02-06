@@ -7,4 +7,5 @@ export interface IMessage {
   read: boolean;
   chat: IChat;
   userFrom: IUser;
+  createdAt: string;
 }

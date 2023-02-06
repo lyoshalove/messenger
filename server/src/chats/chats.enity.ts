@@ -1,4 +1,4 @@
-import { Field, ObjectType } from '@nestjs/graphql';
+import { Field, Int, ObjectType } from '@nestjs/graphql';
 import { MessageEntity } from 'src/message/message.entity';
 import {
   Column,
@@ -12,7 +12,7 @@ import {
 import { UsersEntity } from '../users/users.entity';
 
 @ObjectType()
-@Entity('chats')
+@Entity('chat')
 export class ChatsEntity {
   @Field()
   @PrimaryGeneratedColumn('uuid')
@@ -28,7 +28,10 @@ export class ChatsEntity {
   @OneToMany(() => MessageEntity, (message) => message.chat)
   messages: MessageEntity[];
 
+  @Field(() => Int, { defaultValue: 0 })
+  unreadMessagesCount: number;
+
   @Field()
   @CreateDateColumn()
-  createdAt: string;
+  createdAt: Date;
 }

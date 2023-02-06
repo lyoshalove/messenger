@@ -1,0 +1,39 @@
+.chats
+  &__list
+    &-item
+      padding: 10px 15px
+      display: flex
+      align-items: center
+      gap: 0 15px
+      cursor: pointer
+      position: relative
+      &::before
+        content: ''
+        position: absolute
+        left: 0
+        bottom: 0
+        width: calc(100% - 30px)
+        transform: translate(15px, 0)
+        height: 1px
+        background-color: #b8b7b9
+    &-image
+      position: relative
+    &-avatar
+      width: 60px
+      height: 60px
+      border-radius: 50%
+      object-fit: cover
+    &-online
+      position: absolute
+      inset: auto 5px 5px auto
+      width: 8px
+      height: 8px
+      background-color: #2b84e9
+      border-radius: 50%
+    &-info
+      flex-grow: 1
+    &-name
+      font-size: 16px
+      font-weight: bold
+    &-message
+      margin: 4px 0 0

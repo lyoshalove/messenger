@@ -7,7 +7,7 @@ type MessageEntity {
   message: String!
   read: Boolean!
   chat: [ChatsEntity!]!
-  userFrom: [UsersEntity!]!
+  userFrom: UsersEntity!
   createdAt: String!
 }
 
@@ -15,8 +15,14 @@ type ChatsEntity {
   id: String!
   users: [UsersEntity!]!
   messages: [MessageEntity!]
-  createdAt: String!
+  unreadMessagesCount: Int!
+  createdAt: DateTime!
 }
+
+"""
+A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
+"""
+scalar DateTime
 
 type UsersEntity {
   id: String!
@@ -32,21 +38,29 @@ type AuthModel {
   token: String!
 }
 
+type MessagesUpdated {
+  chatId: String!
+  messageIds: [String!]!
+}
+
 type Query {
   getHello: String!
   getMe: UsersEntity!
   getAllUsers: [UsersEntity!]!
   getUserById(id: String!): UsersEntity!
-  getChat(id: String!): ChatsEntity!
+  getChatByIdWithMessages(id: String!): ChatsEntity!
   getMyChats: [ChatsEntity!]!
+  getMyChatById(id: String!): ChatsEntity!
 }
 
 type Mutation {
-  updateUser(input: UpdateInput!): AuthModel!
+  updateUser(input: UpdateInput!, file: Upload): AuthModel!
   updatePassword(input: updatePasswordInput!): Boolean!
   registration(input: SignUpDto!): AuthModel!
   login(input: SignInDto!): AuthModel!
   createChat(userToId: String!): ChatsEntity!
+  sendMessage(input: MessageCreateDto!): MessageEntity!
+  setMessagesRead(messageIds: [String!]!, chatId: String!): Boolean!
 }
 
 input UpdateInput {
@@ -54,6 +68,9 @@ input UpdateInput {
   firstName: String!
   lastName: String!
 }
+
+"""The `Upload` scalar type represents a file upload."""
+scalar Upload
 
 input updatePasswordInput {
   oldPassword: String!
@@ -71,4 +88,16 @@ input SignUpDto {
 input SignInDto {
   email: String!
   password: String!
+}
+
+input MessageCreateDto {
+  chatId: String!
+  message: String!
+}
+
+type Subscription {
+  userOnline: String!
+  chatUpdated(userId: String!): ChatsEntity!
+  messagesUpdated(chatId: String!): MessagesUpdated!
+  messageSent(chatId: String!): MessageEntity!
 }
