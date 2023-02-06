@@ -11,13 +11,13 @@ export const ChangePersonalData: React.FC = () => {
     register,
     handleSubmit,
     formState: { errors },
-    reset
+    reset,
   } = useForm({
     defaultValues: {
       firstName: "",
       lastName: "",
       email: "",
-      avatar: undefined,
+      avatar: null,
     },
     resolver: yupResolver(userDataSchema),
   });
@@ -28,7 +28,7 @@ export const ChangePersonalData: React.FC = () => {
         firstName: data.firstName,
         lastName: data.lastName,
         email: data.email,
-        avatar: data.avatar,
+        file: data.avatar,
       },
       async onCompleted(data) {
         localStorage.setItem("token", data.updateUser.token);
@@ -73,6 +73,17 @@ export const ChangePersonalData: React.FC = () => {
         />
         {errors.email?.message && (
           <span className="personal__error">{errors.email.message}</span>
+        )}
+      </div>
+      <div className="personal__label">
+        <span className="personal__label-text">Аватар</span>
+        <input
+          type="file"
+          className="personal__input"
+          {...register("avatar")}
+        />
+        {errors.avatar?.message && (
+          <span className="personal__error">{errors.avatar.message}</span>
         )}
       </div>
       <button className="personal__btn btn">Изменить</button>

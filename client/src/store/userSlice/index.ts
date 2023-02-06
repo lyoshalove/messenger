@@ -16,9 +16,12 @@ export const userSlice = createSlice({
   reducers: {
     initUser: (state, action: PayloadAction<Partial<IUser>>) => {
       state.value = { ...state.value, ...action.payload };
+    },
+    removeUser(state) {
+      state.value = {};
     }
   }
 });
 
-export const { initUser } = userSlice.actions;
+export const { initUser, removeUser } = userSlice.actions;
 export default userSlice.reducer; 

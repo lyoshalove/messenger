@@ -5,8 +5,45 @@ export const GET_MY_CHATS = gql`
     getMyChats {
       id
       users {
+        id
         firstName
         lastName
+        online
+      }
+      messages {
+        id
+        message
+      }
+      unreadMessagesCount
+    }
+  }
+`;
+
+export const GET_MY_CHAT_BY_ID = gql`
+  query getMyChatById($id: String!) {
+    getMyChatById(id: $id) {
+      id
+      users {
+        id
+        firstName
+        lastName
+      }
+    }
+  }
+`;
+
+export const GET_CHAT_WITH_MESSAGES = gql`
+  query getChatWithMessages($id: String!) {
+    getChatByIdWithMessages(id: $id) {
+      id
+      messages {
+        id
+        message
+        read
+        userFrom {
+          id
+          online
+        }
       }
     }
   }

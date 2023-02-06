@@ -77,25 +77,26 @@ export class ChatsService {
 
     chat.users = await this.usersRepository
       .createQueryBuilder('user')
-      .leftJoinAndSelect('users.chat', 'chat')
+      .leftJoinAndSelect('user.chats', 'chat')
       .where('chat.id = :id', { id })
       .getMany();
 
     if (!chat.users.filter((u) => user.id === u.id).length)
-      throw new ForbiddenException('Ты хочешь попасть в чужой чат :(');
+      throw new ForbiddenException('Ты хочешь попасть в чужой чат');
 
     chat.messages = await this.messageRepository
       .createQueryBuilder('message')
       .leftJoinAndSelect('message.chat', 'chat')
-      .leftJoinAndSelect('message.user_from', 'user')
+      .leftJoinAndSelect('message.userFrom', 'user')
+      .leftJoinAndSelect('user.avatar', 'file')
       .where('chat.id = :id', { id })
-      .orderBy('message.createdAt', 'DESC')
+      .orderBy('message.createdAt', 'ASC')
       .getMany();
 
     return chat;
   }
 
-  async getMyChat(chat_id: string) {
+  async getMyChatById(chat_id: string) {
     const chat = await this.chatsRepository
       .createQueryBuilder('chat')
       .where('chat.id = :id', { id: chat_id })
@@ -111,8 +112,6 @@ export class ChatsService {
       .innerJoinAndSelect('chat.users', 'users', 'users.id IN (:...id)', {
         id: [user.id],
       })
-      .innerJoinAndSelect('chat.messages', 'message')
-      .orderBy('message.createdAt', 'DESC')
       .getMany();
 
     return chats.map((chat) => this.addUsersAndMessagesToChat(chat));
@@ -122,13 +121,14 @@ export class ChatsService {
     const users = await this.usersRepository
       .createQueryBuilder('user')
       .leftJoinAndSelect('user.chats', 'chat')
+      .leftJoinAndSelect('user.avatar', 'file')
       .where('chat.id = :id', { id: chat.id })
       .getMany();
 
     const messages = await this.messageRepository
       .createQueryBuilder('message')
       .leftJoinAndSelect('message.chat', 'chat')
-      .leftJoinAndSelect('message.user_from', 'user')
+      .leftJoinAndSelect('message.userFrom', 'user')
       .where('chat.id = :id', { id: chat.id })
       .orderBy('message.createdAt', 'DESC')
       .take(1)

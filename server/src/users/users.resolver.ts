@@ -1,5 +1,5 @@
 import { UseGuards } from '@nestjs/common';
-import { Args, Mutation, Query, Resolver } from '@nestjs/graphql';
+import { Args, Mutation, Query, Resolver, Subscription } from '@nestjs/graphql';
 import { CurrentUser } from 'src/decorators/users.decorator';
 import { GraphqlAuthGuard } from 'src/guards/auth.guard';
 import { UpdateInput, updatePasswordInput } from './dto/update-user.inputs';
@@ -7,6 +7,7 @@ import { UsersEntity } from './users.entity';
 import { UsersService } from './users.service';
 import { GraphQLUpload } from 'apollo-upload-server';
 import { AuthModel } from 'src/auth/auth.model';
+import { pubsub } from 'src/pubsub/pubsub';
 
 @UseGuards(GraphqlAuthGuard)
 @Resolver('User')
@@ -28,19 +29,20 @@ export class UsersResolver {
     return this.usersService.findUserById(id);
   }
 
-  @UseGuards(GraphqlAuthGuard)
   @Mutation(() => AuthModel)
   async updateUser(
     @Args('input') input: UpdateInput,
-    // @Args('file') file: { file: GraphQLUpload },
+    @Args({ name: 'file', nullable: true, type: () => GraphQLUpload })
+    file: any,
     @CurrentUser() user: UsersEntity,
   ) {
-    // const _file = await file;
+    const _file = await file;
+    console.log(file);
 
     return await this.usersService.updateUser(
       user.id,
       { ...input },
-      // _file.file,
+      _file.file,
     );
   }
 
@@ -50,5 +52,10 @@ export class UsersResolver {
     @CurrentUser() user: UsersEntity,
   ) {
     return await this.usersService.updatePassword(user.id, { ...input });
+  }
+
+  @Subscription(() => String)
+  userOnline() {
+    return pubsub.asyncIterator('userOnline');
   }
 }

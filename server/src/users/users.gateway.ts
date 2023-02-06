@@ -8,8 +8,9 @@ import {
 } from '@nestjs/websockets';
 import { UsersService } from './users.service';
 import { Socket, Server } from 'socket.io';
+import { pubsub } from 'src/pubsub/pubsub';
 
-@WebSocketGateway(5000, { cors: '*' })
+@WebSocketGateway(5000, { cors: true })
 export class UsersGateway
   implements OnGatewayInit, OnGatewayConnection, OnGatewayDisconnect
 {
@@ -23,10 +24,18 @@ export class UsersGateway
   }
 
   handleConnection(client: Socket) {
-    console.log('Connect: ', client);
+    const userId = client.request.url.split('userId=')[1].split('&')[0];
+    this.userService.setOnlineStatus(true, userId);
+    pubsub.publish('userOnline', { userOnline: { id: userId, online: true } });
+    this.logger.log(`Client connected: ${userId}`);
+    console.log(`Client connected: ${userId}`);
   }
 
   handleDisconnect(client: Socket) {
-    console.log('Disconnect: ', client);
+    const userId = client.request.url.split('userId=')[1].split('&')[0];
+    this.userService.setOnlineStatus(false, userId);
+    pubsub.publish('userOnline', { userOnline: { id: userId, online: false } });
+    this.logger.log(`Client disconnected: ${userId}`);
+    console.log(`Client disconnected: ${userId}`);
   }
 }
