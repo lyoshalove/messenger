@@ -16,6 +16,7 @@ export const SendMessageForm: React.FC<IProps> = ({ selectedChat }) => {
 
   async function sendMessage(e?: FormEvent) {
     e?.preventDefault();
+    console.log("send message BEBRA");
 
     if (message.trim().length) {
       await sendMessageMutation({
@@ -41,7 +42,7 @@ export const SendMessageForm: React.FC<IProps> = ({ selectedChat }) => {
         placeholder="Напиши сообщение"
         ref={messageInputRef}
       />
-      <button className="chats__view-btn" onClick={() => sendMessage()}>
+      <button className="chats__view-btn" onClick={() => sendMessage()} type="button">
         <img
           src={sendIcon}
           alt="Отправить сообщение"
