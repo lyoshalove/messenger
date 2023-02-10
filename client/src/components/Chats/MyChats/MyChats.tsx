@@ -4,7 +4,7 @@ import {
   useQuery,
   useSubscription,
 } from "@apollo/client";
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useLayoutEffect, useRef, useState } from "react";
 import { useSelector } from "react-redux";
 import { addUserFromToChat } from "../../../features/helpers/addUserFromToChat";
 import { GET_CHAT_WITH_MESSAGES, GET_MY_CHATS } from "../../../graphql/chats";
@@ -33,7 +33,7 @@ export const MyChats: React.FC = () => {
   const [showModal, setShowModal] = useState<boolean>(false);
   const [messages, setMessages] = useState<IMessage[]>([]);
   const [toggleScrollbar] = useScrollbar();
-  const { data: chatsData } = useQuery(GET_MY_CHATS, {
+  const { data: chatsData, refetch: refetchChats } = useQuery(GET_MY_CHATS, {
     fetchPolicy: "network-only",
   });
   const [selectedChat, setSelectedChat] = useState<IChat | null>(null);
@@ -48,18 +48,6 @@ export const MyChats: React.FC = () => {
     toggleScrollbar();
   }
 
-  function scrollChatToBottom() {
-    const chatWrapper = document.querySelector(".chats__view-content_wrapper");
-    const chatContent = document.querySelector(".chats__view-content");
-
-    if (chatWrapper && chatContent) {
-      setTimeout(() => {
-        chatWrapper.scrollTop =
-          chatContent.scrollHeight - chatWrapper.clientHeight;
-      }, 1);
-    }
-  }
-
   async function getChat(chat: IChat) {
     if (selectedChat?.id === chat.id) return;
 
@@ -72,7 +60,10 @@ export const MyChats: React.FC = () => {
       console.log(getChatByIdWithMessages);
       setMessages(getChatByIdWithMessages.messages);
     });
-    scrollChatToBottom();
+  }
+
+  function handleCreateChat() {
+    refetchChats();
   }
 
   useEffect(() => {
@@ -132,15 +123,27 @@ export const MyChats: React.FC = () => {
     };
   }, [selectedChat, chatContentRef.current]);
 
+  useLayoutEffect(() => {
+    const chatWrapper = document.querySelector(".chats__view-content_wrapper");
+    const chatContent = document.querySelector(".chats__view-content");
+
+    if (chatWrapper && chatContent) {
+      chatWrapper.scrollTop =
+        chatContent.scrollHeight - chatWrapper.clientHeight;
+    }
+  }, [messages]);
+
   useSubscription(SUBSCRIBE_CHAT, {
     variables: {
       chatId: selectedChat?.id,
     },
+    shouldResubscribe: true,
     onData: ({
       data: {
         data: { messageSent },
       },
     }) => {
+      console.log("data ", messageSent);
       if (messageSent.userFrom.id !== currentUser.id) {
         updateMessagesRead({
           variables: {
@@ -150,7 +153,6 @@ export const MyChats: React.FC = () => {
         });
       }
       setMessages((prev) => [...prev, messageSent]);
-      scrollChatToBottom();
     },
   });
 
@@ -158,6 +160,7 @@ export const MyChats: React.FC = () => {
     variables: {
       chatId: selectedChat?.id,
     },
+    shouldResubscribe: true,
     onData: ({
       data: {
         data: { messagesUpdated },
@@ -171,7 +174,6 @@ export const MyChats: React.FC = () => {
           return message;
         })
       );
-      scrollChatToBottom();
     },
   });
 
@@ -179,6 +181,7 @@ export const MyChats: React.FC = () => {
     variables: {
       userId: currentUser.id,
     },
+    shouldResubscribe: true,
     onData: ({
       data: {
         data: { chatUpdated },
@@ -293,7 +296,12 @@ export const MyChats: React.FC = () => {
           </button>
         </div>
       )}
-      {showModal && <CreateChatModal closeModal={toggleModal} />}
+      {showModal && (
+        <CreateChatModal
+          closeModal={toggleModal}
+          handleCreateChat={handleCreateChat}
+        />
+      )}
     </>
   );
 };
