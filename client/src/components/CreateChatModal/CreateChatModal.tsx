@@ -10,10 +10,11 @@ import "./styles.sass";
 import incognitoAvatar from '../../assets/images/incognito.png';
 
 interface IProps {
+  handleCreateChat: () => void;
   closeModal: () => void;
 }
 
-export const CreateChatModal: React.FC<IProps> = ({ closeModal }) => {
+export const CreateChatModal: React.FC<IProps> = ({ closeModal, handleCreateChat }) => {
   const currentUser = useSelector((state: RootState) => state.user.value);
   const [usersChats, setUsersChats] = useState<IChat[]>([]);
   const { loading: usersLoading, error, data: users } = useQuery(GET_ALL_USERS);
@@ -30,6 +31,7 @@ export const CreateChatModal: React.FC<IProps> = ({ closeModal }) => {
     }).then((data) => {
       console.log(data);
       closeModal();
+      handleCreateChat();
     });
   }
 

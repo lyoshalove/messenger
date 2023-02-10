@@ -39,9 +39,17 @@ const wsLink = new GraphQLWsLink(
     shouldRetry(errOrCloseEvent) {
       return true;
     },
-    connectionParams: {
-      isWebSocket: true,
-      authorization: `Bearer ${localStorage.getItem("token")}`,
+    connectionParams: () => {
+      const userToken = localStorage.getItem("token");
+
+      if (!userToken) {
+        return {};
+      }
+
+      return {
+        isWebSocket: true,
+        authorization: `Bearer ${localStorage.getItem("token")}`,
+      };
     },
   })
 );
