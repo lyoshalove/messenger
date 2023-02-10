@@ -1,16 +1,28 @@
-import { useMutation } from "@apollo/client";
+import { useQuery, useMutation } from "@apollo/client";
 import React, { FormEvent, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
 import { REGISTER } from "../../graphql/authAndLogin";
+import { GET_ME } from "../../graphql/users";
+import { IGetMe, IUser } from "../../types/users";
+import { initUser } from "../../store/userSlice";
 import "./styles.sass";
 
 export const Auth: React.FC = () => {
+  const dispatch = useDispatch();
   const [name, setName] = useState<string>("");
   const [surname, setSurname] = useState<string>("");
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const navigate = useNavigate();
   const [registration, { loading, error }] = useMutation(REGISTER);
+  const { loading: userLoading } = useQuery<Partial<IGetMe>>(GET_ME, {
+    onCompleted(data) {
+      dispatch(initUser(data.getMe as Partial<IUser>));
+      navigate("/");
+    },
+    fetchPolicy: "network-only",
+  });
 
   const submitHandler = async (e: FormEvent) => {
     e.preventDefault();

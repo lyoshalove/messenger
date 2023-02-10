@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 import { Header } from "../components/Header/Header";
 import { Sidebar } from "../components/Sidebar/Sidebar";
 import { GET_ME } from "../graphql/users";
-import { initUser } from "../store/userSlice";
+import { initUser, removeUser } from "../store/userSlice";
 import { IGetMe, IUser } from "../types/users";
 import { io } from "socket.io-client";
 import { SOCKET_API } from "../constants/api";
@@ -25,7 +25,9 @@ export const MainTemplate: React.FC<IProps> = ({ children }) => {
     },
     onError() {
       setMe(null);
+      localStorage.removeItem("token");
       navigate("/login");
+      dispatch(removeUser());
     },
     fetchPolicy: "network-only",
   });
@@ -35,11 +37,6 @@ export const MainTemplate: React.FC<IProps> = ({ children }) => {
       io(`http://${SOCKET_API}?userId=${me.id}`);
     }
   }, [me]);
-  useEffect(() => {
-    if (!localStorage.getItem("token")) {
-      navigate("/login");
-    }
-  }, []);
 
   return (
     <>
