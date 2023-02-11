@@ -1,10 +1,11 @@
 .chats
   &__list
     &-item
-      padding: 10px 15px
+      padding: 10px 45px 10px 15px
       display: flex
       align-items: center
-      gap: 0 15px
+      justify-content: space-between
+      gap: 0 40px
       cursor: pointer
       position: relative
       &::before
@@ -16,11 +17,15 @@
         transform: translate(15px, 0)
         height: 1px
         background-color: #b8b7b9
+      &_left
+        display: flex
+        align-items: center
+        gap: 0 15px
     &-image
       position: relative
-    &-avatar
       width: 60px
       height: 60px
+    &-avatar
       border-radius: 50%
       object-fit: cover
     &-online
@@ -37,3 +42,11 @@
       font-weight: bold
     &-message
       margin: 4px 0 0
+    &-count
+      display: inline-block
+      padding: 2px 8px
+      border-radius: 20px
+      background-color: #2b84e9
+      color: #fff
+      font-size: 14px
+      font-weight: 600

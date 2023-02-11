@@ -130,8 +130,7 @@ export class ChatsService {
       .leftJoinAndSelect('message.chat', 'chat')
       .leftJoinAndSelect('message.userFrom', 'user')
       .where('chat.id = :id', { id: chat.id })
-      .orderBy('message.createdAt', 'DESC')
-      .take(1)
+      .orderBy('message.createdAt', 'ASC')
       .getMany();
 
     chat.messages = messages;
