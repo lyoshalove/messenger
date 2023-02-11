@@ -13,8 +13,8 @@ export const GET_MY_CHATS = gql`
       messages {
         id
         message
+        read
       }
-      unreadMessagesCount
     }
   }
 `;

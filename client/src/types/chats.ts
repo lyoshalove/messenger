@@ -5,6 +5,5 @@ export interface IChat {
   id: string;
   users: IUser[];
   messages: [IMessage];
-  userFrom?: IUser;
-  unreadMessagesCount?: number;
+  userFrom: IUser;
 }
