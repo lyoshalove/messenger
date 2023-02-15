@@ -7,6 +7,9 @@ export const GET_ME = gql`
       firstName
       lastName
       email
+      avatar {
+        id
+      }
     }
   }
 `;
@@ -17,6 +20,9 @@ export const GET_ALL_USERS = gql`
       id
       firstName
       lastName
+      avatar {
+        id
+      }
     }
   }
 `;
@@ -27,6 +33,9 @@ export const GET_USER_BY_ID = gql`
       id
       firstName
       lastName
+      avatar {
+        id
+      }
     }
   }
 `;
@@ -36,7 +45,7 @@ export const UPDATE_USER_INFO = gql`
     $firstName: String!
     $lastName: String!
     $email: String!
-    $file: Upload!
+    $file: Upload
   ) {
     updateUser(
       input: { firstName: $firstName, lastName: $lastName, email: $email }

@@ -9,6 +9,9 @@ export const GET_MY_CHATS = gql`
         firstName
         lastName
         online
+        avatar {
+          id
+        }
       }
       messages {
         id
@@ -27,6 +30,9 @@ export const GET_MY_CHAT_BY_ID = gql`
         id
         firstName
         lastName
+        avatar {
+          id
+        }
       }
     }
   }
@@ -43,6 +49,9 @@ export const GET_CHAT_WITH_MESSAGES = gql`
         userFrom {
           id
           online
+          avatar {
+            id
+          }
         }
       }
     }

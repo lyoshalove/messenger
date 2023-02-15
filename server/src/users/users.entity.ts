@@ -34,8 +34,11 @@ export class UsersEntity {
   @Column()
   password: string;
 
-  @OneToOne(() => FilesEntity, { nullable: true })
+  @OneToOne(() => FilesEntity, {
+    eager: true,
+  })
   @JoinColumn()
+  @Field({ nullable: true })
   avatar: FilesEntity;
 
   @Field()

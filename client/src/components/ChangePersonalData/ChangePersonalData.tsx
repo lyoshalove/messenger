@@ -2,9 +2,10 @@ import React from "react";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import "./styles.sass";
-import { IUpdateUser, userDataSchema } from "../../types/users";
+import { IUpdateUser } from "../../types/users";
 import { useMutation } from "@apollo/client";
 import { UPDATE_USER_INFO } from "../../graphql/users";
+import { userDataSchema } from "../../schemas/user";
 
 export const ChangePersonalData: React.FC = () => {
   const {
@@ -17,7 +18,7 @@ export const ChangePersonalData: React.FC = () => {
       firstName: "",
       lastName: "",
       email: "",
-      avatar: null,
+      avatar: "",
     },
     resolver: yupResolver(userDataSchema),
   });
@@ -28,7 +29,7 @@ export const ChangePersonalData: React.FC = () => {
         firstName: data.firstName,
         lastName: data.lastName,
         email: data.email,
-        file: data.avatar,
+        file: data.avatar["0"],
       },
       async onCompleted(data) {
         localStorage.setItem("token", data.updateUser.token);

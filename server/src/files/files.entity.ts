@@ -12,7 +12,6 @@ export class FilesEntity {
   @Column()
   fileName: string;
 
-  @Field()
-  @Column('bytea')
+  @Column({ type: 'bytea' })
   data: Uint8Array;
 }
