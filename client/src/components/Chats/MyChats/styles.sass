@@ -3,6 +3,11 @@
   grid-template-columns: repeat(2, 1fr)
   gap: 0 15px
   padding: 10px 15px
+  transition: background-color .3s
+  min-height: calc(100vh - 75px)
+  &.dark
+    background-color: #17181F
+    color: #fff
   &__wrapper
     margin: 15vh 0 0
     text-align: center
@@ -11,11 +16,11 @@
   &__item
     border: 1.5px solid #b8b7b9
     border-radius: 8px
-    min-height: 90vh
+    max-height: 90vh
   &__left
     &-top
       display: flex
-      justify-content: space-between
+      justify-content: flex-end
       align-items: center
       position: relative
       padding: 15px 15px 10px
@@ -36,6 +41,7 @@
     padding: 5px 10px 10px
     justify-content: space-between
     flex-direction: column
+    max-height: 90vh
     &.center
       justify-content: center
       align-items: center
@@ -76,7 +82,6 @@
       &_wrapper
         overflow: hidden
         overflow-y: auto
-        max-height: calc(90vh - 100px)
         margin: auto 0 0
     &-message
       color: #fff

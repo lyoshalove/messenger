@@ -34,7 +34,6 @@ export const Auth: React.FC = () => {
         password,
       },
     }).then(({ data }) => {
-      console.log(data);
       localStorage.setItem("token", data.registration.token);
       navigate("/");
     });

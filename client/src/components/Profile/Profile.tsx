@@ -1,11 +1,14 @@
 import React from "react";
+import { useThemeContext } from "../../hooks/useThemeContext";
 import { ChangePassword } from "../ChangePassword/ChangePassword";
 import { ChangePersonalData } from "../ChangePersonalData/ChangePersonalData";
-import './styles.sass';
+import "./styles.sass";
 
 export const Profile: React.FC = () => {
+  const [theme] = useThemeContext();
+
   return (
-    <section className="profile">
+    <section className={theme === "dark" ? "profile dark" : "profile"}>
       <div className="container">
         <div className="profile__inner">
           <h2 className="profile__title">Аккаунт</h2>

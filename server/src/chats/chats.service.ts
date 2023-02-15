@@ -78,6 +78,7 @@ export class ChatsService {
     chat.users = await this.usersRepository
       .createQueryBuilder('user')
       .leftJoinAndSelect('user.chats', 'chat')
+      .leftJoinAndSelect('user.avatar', 'files')
       .where('chat.id = :id', { id })
       .getMany();
 
@@ -88,7 +89,7 @@ export class ChatsService {
       .createQueryBuilder('message')
       .leftJoinAndSelect('message.chat', 'chat')
       .leftJoinAndSelect('message.userFrom', 'user')
-      .leftJoinAndSelect('user.avatar', 'file')
+      .leftJoinAndSelect('user.avatar', 'files')
       .where('chat.id = :id', { id })
       .orderBy('message.createdAt', 'ASC')
       .getMany();
@@ -121,7 +122,7 @@ export class ChatsService {
     const users = await this.usersRepository
       .createQueryBuilder('user')
       .leftJoinAndSelect('user.chats', 'chat')
-      .leftJoinAndSelect('user.avatar', 'file')
+      .leftJoinAndSelect('user.avatar', 'files')
       .where('chat.id = :id', { id: chat.id })
       .getMany();
 

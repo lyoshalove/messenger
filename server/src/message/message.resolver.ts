@@ -6,7 +6,7 @@ import { GraphqlAuthGuard } from 'src/guards/auth.guard';
 import { pubsub } from 'src/pubsub/pubsub';
 import { UsersEntity } from 'src/users/users.entity';
 import { MessageCreateDto } from './dto/message-create.dto';
-import { MessageUpdateDto, MessagesUpdated } from './dto/message-update.dto';
+import { MessagesUpdated } from './dto/message-update.dto';
 import { MessageEntity } from './message.entity';
 import { MessageService } from './message.service';
 

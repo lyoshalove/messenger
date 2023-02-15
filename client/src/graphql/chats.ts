@@ -17,6 +17,14 @@ export const GET_MY_CHATS = gql`
         id
         message
         read
+        userFrom {
+          id
+          firstName
+          lastName
+          avatar {
+            id
+          }
+        }
       }
     }
   }
