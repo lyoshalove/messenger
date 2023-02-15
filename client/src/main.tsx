@@ -17,10 +17,7 @@ import { API } from "./constants/api";
 import { GraphQLWsLink } from "@apollo/client/link/subscriptions";
 import { createClient } from "graphql-ws";
 import { getMainDefinition } from "@apollo/client/utilities";
-
-const httpLink = createHttpLink({
-  uri: `http://${API}/graphql`,
-});
+import { createUploadLink } from "apollo-upload-client";
 
 const authLink = setContext(async (_, { headers }) => {
   const userToken = localStorage.getItem("token");
@@ -31,6 +28,10 @@ const authLink = setContext(async (_, { headers }) => {
       authorization: userToken ? `Bearer ${userToken}` : "",
     },
   };
+});
+
+const httpLink = createUploadLink({
+  uri: `http://${API}/graphql`,
 });
 
 const wsLink = new GraphQLWsLink(
@@ -63,7 +64,7 @@ const splitLink = split(
     );
   },
   wsLink,
-  httpLink
+  authLink.concat(httpLink)
 );
 
 const client = new ApolloClient({

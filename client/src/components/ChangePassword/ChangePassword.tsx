@@ -2,12 +2,13 @@ import React from "react";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import "./styles.sass";
-import { IPasswords, passwordSchema } from "../../types/password";
+import { IPasswords } from "../../types/password";
 import { useMutation } from "@apollo/client";
 import { UPDATE_PASSWORD } from "../../graphql/users";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { removeUser } from "../../store/userSlice";
+import { passwordSchema } from "../../schemas/user";
 
 export const ChangePassword: React.FC = () => {
   const {

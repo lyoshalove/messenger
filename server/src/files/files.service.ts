@@ -2,9 +2,7 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { FilesEntity } from './files.entity';
-// import { FileUpload } from 'graphql-upload';
-import { GraphQLUpload } from 'apollo-upload-server';
-import { Readable } from 'stream';
+import { Upload } from 'src/types/Upload';
 
 @Injectable()
 export class FilesService {
@@ -13,15 +11,17 @@ export class FilesService {
     private filesRepository: Repository<FilesEntity>,
   ) {}
 
-  async uploadAvatar({ fileName, createReadStream }: GraphQLUpload) {
+  async uploadAvatar({ filename, createReadStream }: Upload) {
     const fileStream = createReadStream();
     const buffer = await this.streamToBuffer(fileStream);
 
     const newFile = await this.filesRepository.create({
-      fileName,
+      fileName: filename,
       data: buffer,
     });
+
     await this.filesRepository.save(newFile);
+
     return newFile;
   }
 
@@ -41,7 +41,7 @@ export class FilesService {
     return file;
   }
 
-  private async streamToBuffer(stream: Readable): Promise<Buffer> {
+  private async streamToBuffer(stream): Promise<Buffer> {
     const buffer = [];
 
     return new Promise((resolve, reject) =>

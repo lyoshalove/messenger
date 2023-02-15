@@ -4,7 +4,7 @@ import { ILike, Repository } from 'typeorm';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateInput, updatePasswordInput } from './dto/update-user.inputs';
 import { UsersEntity } from './users.entity';
-import { GraphQLUpload } from 'apollo-upload-server';
+import { GraphQLUpload } from 'graphql-upload';
 import { FilesService } from 'src/files/files.service';
 import * as jwt from 'jsonwebtoken';
 import * as bcrypt from 'bcrypt';
@@ -52,7 +52,7 @@ export class UsersService {
 
   async updateUser(userId: string, input: UpdateInput, file?: GraphQLUpload) {
     const avatar = file && (await this.filesService.uploadAvatar(file));
-    let oldUser;
+    let oldUser: UsersEntity;
 
     if (avatar) {
       oldUser = await this.usersRepository.findOne({
@@ -67,7 +67,7 @@ export class UsersService {
       .where('id = :id', { id: userId })
       .execute();
 
-    if (avatar && oldUser.avatar.id) {
+    if (avatar && oldUser.avatar) {
       await this.filesService.deleteFile(oldUser.avatar.id);
     }
 

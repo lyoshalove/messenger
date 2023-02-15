@@ -5,7 +5,7 @@ import { GraphqlAuthGuard } from 'src/guards/auth.guard';
 import { UpdateInput, updatePasswordInput } from './dto/update-user.inputs';
 import { UsersEntity } from './users.entity';
 import { UsersService } from './users.service';
-import { GraphQLUpload } from 'apollo-upload-server';
+import { GraphQLUpload } from 'graphql-upload';
 import { AuthModel } from 'src/auth/auth.model';
 import { pubsub } from 'src/pubsub/pubsub';
 
@@ -33,17 +33,12 @@ export class UsersResolver {
   async updateUser(
     @Args('input') input: UpdateInput,
     @Args({ name: 'file', nullable: true, type: () => GraphQLUpload })
-    file: any,
+    file: GraphQLUpload,
     @CurrentUser() user: UsersEntity,
   ) {
     const _file = await file;
-    console.log(file);
 
-    return await this.usersService.updateUser(
-      user.id,
-      { ...input },
-      _file.file,
-    );
+    return await this.usersService.updateUser(user.id, { ...input }, _file);
   }
 
   @Mutation(() => Boolean)
