@@ -7,14 +7,17 @@ import { RootState } from "../../store";
 import { IChat } from "../../types/chats";
 import { IUser } from "../../types/users";
 import "./styles.sass";
-import incognitoAvatar from '../../assets/images/incognito.png';
+import { checkUserAvatar } from "../../features/helpers/checkUserAvatar";
 
 interface IProps {
   handleCreateChat: () => void;
   closeModal: () => void;
 }
 
-export const CreateChatModal: React.FC<IProps> = ({ closeModal, handleCreateChat }) => {
+export const CreateChatModal: React.FC<IProps> = ({
+  closeModal,
+  handleCreateChat,
+}) => {
   const currentUser = useSelector((state: RootState) => state.user.value);
   const [usersChats, setUsersChats] = useState<IChat[]>([]);
   const { loading: usersLoading, error, data: users } = useQuery(GET_ALL_USERS);
@@ -29,7 +32,6 @@ export const CreateChatModal: React.FC<IProps> = ({ closeModal, handleCreateChat
         userToId: id,
       },
     }).then((data) => {
-      console.log(data);
       closeModal();
       handleCreateChat();
     });
@@ -57,11 +59,7 @@ export const CreateChatModal: React.FC<IProps> = ({ closeModal, handleCreateChat
                   onClick={() => createChat(user.id)}
                 >
                   <img
-                    src={
-                      user.avatar
-                        ? user.avatar
-                        : incognitoAvatar
-                    }
+                    src={checkUserAvatar(user.avatar)}
                     alt={user.firstName}
                     className="modal__users-image"
                   />

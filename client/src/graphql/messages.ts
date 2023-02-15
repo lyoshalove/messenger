@@ -7,6 +7,9 @@ export const SEND_MESSAGE = gql`
       message
       userFrom {
         id
+        avatar {
+          id
+        }
       }
     }
   }
@@ -37,6 +40,9 @@ export const SUBSCRIBE_CHAT = gql`
         id
         firstName
         lastName
+        avatar {
+          id
+        }
       }
     }
   }
@@ -51,6 +57,9 @@ export const SUBSCRIBE_MY_CHAT = gql`
         firstName
         lastName
         online
+        avatar {
+          id
+        }
       }
       messages {
         createdAt
@@ -58,6 +67,9 @@ export const SUBSCRIBE_MY_CHAT = gql`
           id
           firstName
           lastName
+          avatar {
+            id
+          }
         }
         message
         read

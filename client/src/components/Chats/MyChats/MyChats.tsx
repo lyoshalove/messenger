@@ -14,6 +14,7 @@ import { IChat } from "../../../types/chats";
 import { CreateChatModal } from "../../CreateChatModal/CreateChatModal";
 import "./styles.sass";
 import createChatIcon from "../../../assets/images/icons/create-chat-icon.svg";
+import createChatIconLight from "../../../assets/images/icons/create-chat-icon-light.svg";
 import {
   SUBSCRIBE_MESSAGES_UPDATED,
   SUBSCRIBE_CHAT,
@@ -26,6 +27,7 @@ import { UserItem } from "../UserItem/UserItem";
 import { ChatMessagesHeader } from "../ChatMessagesHeader/ChatMessagesHeader";
 import { SendMessageForm } from "../SendMessageForm/SendMessageForm";
 import { identifyWhoseMessage } from "../../../features/helpers/identifyWhoseMessage";
+import { useThemeContext } from "../../../hooks/useThemeContext";
 
 export const MyChats: React.FC = () => {
   const currentUser = useSelector((state: RootState) => state.user.value);
@@ -42,6 +44,7 @@ export const MyChats: React.FC = () => {
   });
   const [updateMessagesRead] = useMutation(UPDATE_MESSAGES_READ);
   const chatContentRef = useRef<NodeListOf<HTMLDivElement> | null>(null);
+  const [theme] = useThemeContext();
 
   function toggleModal() {
     setShowModal((prev) => !prev);
@@ -57,7 +60,6 @@ export const MyChats: React.FC = () => {
         id: chat.id,
       },
     }).then(({ data: { getChatByIdWithMessages } }) => {
-      console.log(getChatByIdWithMessages);
       setMessages(getChatByIdWithMessages.messages);
     });
   }
@@ -166,6 +168,7 @@ export const MyChats: React.FC = () => {
         data: { messagesUpdated },
       },
     }) => {
+      console.log("123", messagesUpdated);
       setMessages(
         messages.map((message) => {
           if (messagesUpdated.messageIds.includes(message.id)) {
@@ -187,13 +190,13 @@ export const MyChats: React.FC = () => {
         data: { chatUpdated },
       },
     }) => {
-      console.log(chatUpdated);
       const newChats = chats.map((chat) => {
         if (chat.id === chatUpdated.id) {
           return chatUpdated;
         }
         return chat;
       });
+      console.log("chats: ", addUserFromToChat(newChats, currentUser.id!));
 
       setChats(addUserFromToChat(newChats, currentUser.id!));
     },
@@ -202,17 +205,12 @@ export const MyChats: React.FC = () => {
   return (
     <>
       {chats.length ? (
-        <div className="chats">
+        <div className={theme === "dark" ? "chats dark" : "chats"}>
           <div className="chats__item chats__left">
             <div className="chats__left-top">
-              <input
-                className="chats__filter"
-                type="text"
-                placeholder="Поиск"
-              />
               <button className="chats__left-btn">
                 <img
-                  src={createChatIcon}
+                  src={theme === "dark" ? createChatIconLight : createChatIcon}
                   alt="создать чат"
                   className="chats__left-icon"
                   onClick={toggleModal}

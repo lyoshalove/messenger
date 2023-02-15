@@ -14,7 +14,7 @@ interface IProps {
 export const UserItem: React.FC<IProps> = ({ chat, getChat }) => {
   const currentUser = useSelector((state: RootState) => state.user.value);
   const getUnreadMessagesCount = () => {
-    if (currentUser.id) {
+    if (currentUser.id && chat.messages) {
       return chat.messages.filter(
         (message) =>
           message.read === false && message.userFrom?.id !== currentUser.id

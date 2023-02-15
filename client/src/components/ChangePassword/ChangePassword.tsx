@@ -9,8 +9,10 @@ import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { removeUser } from "../../store/userSlice";
 import { passwordSchema } from "../../schemas/user";
+import { useThemeContext } from "../../hooks/useThemeContext";
 
 export const ChangePassword: React.FC = () => {
+  const [theme] = useThemeContext();
   const {
     register,
     handleSubmit,
@@ -51,11 +53,13 @@ export const ChangePassword: React.FC = () => {
         className="profile__password password"
         onSubmit={handleSubmit(onSubmit)}
       >
-        <div className="password__label">
+        <label className="password__label">
           <span className="password__label-text">Предыдущий пароль</span>
           <input
             type="password"
-            className="password__input"
+            className={
+              theme === "dark" ? "password__input dark" : "password__input"
+            }
             {...register("oldPassword")}
           />
           {errors.oldPassword?.message && (
@@ -63,12 +67,14 @@ export const ChangePassword: React.FC = () => {
               {errors.oldPassword.message}
             </span>
           )}
-        </div>
-        <div className="password__label">
+        </label>
+        <label className="password__label">
           <span className="password__label-text">Новый пароль</span>
           <input
             type="password"
-            className="password__input"
+            className={
+              theme === "dark" ? "password__input dark" : "password__input"
+            }
             {...register("newPassword")}
           />
           {errors.newPassword?.message && (
@@ -76,12 +82,14 @@ export const ChangePassword: React.FC = () => {
               {errors.newPassword.message}
             </span>
           )}
-        </div>
-        <div className="password__label">
+        </label>
+        <label className="password__label">
           <span className="password__label-text">Повторите новый пароль</span>
           <input
             type="password"
-            className="password__input"
+            className={
+              theme === "dark" ? "password__input dark" : "password__input"
+            }
             {...register("confirmPassword")}
           />
           {errors.confirmPassword?.message && (
@@ -89,7 +97,7 @@ export const ChangePassword: React.FC = () => {
               {errors.confirmPassword.message}
             </span>
           )}
-        </div>
+        </label>
         <button className="password__btn btn">Изменить</button>
       </form>
       <button className="btn logout__btn" onClick={logout}>
