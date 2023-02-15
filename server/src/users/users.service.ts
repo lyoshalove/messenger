@@ -52,18 +52,34 @@ export class UsersService {
 
   async updateUser(userId: string, input: UpdateInput, file?: GraphQLUpload) {
     const avatar = file && (await this.filesService.uploadAvatar(file));
-    let oldUser: UsersEntity;
+    const oldUser = await this.usersRepository.findOne({
+      where: { id: userId },
+      relations: ['avatar'],
+    });
 
-    if (avatar) {
-      oldUser = await this.usersRepository.findOne({
-        where: { id: userId },
-        relations: ['avatar'],
-      });
+    function getNewUserInfo(info: UpdateInput) {
+      const result = {};
+      const infoKeys = Object.keys(info);
+
+      for (let i = 0; i < infoKeys.length; i++) {
+        if (!!info[infoKeys[i]]) {
+          result[infoKeys[i]] = info[infoKeys[i]];
+        } else {
+          result[infoKeys[i]] = oldUser[infoKeys[i]];
+        }
+      }
+
+      return result;
     }
 
     await this.usersRepository
       .createQueryBuilder('user')
-      .update(UsersEntity, avatar ? { ...input, avatar } : { ...input })
+      .update(
+        UsersEntity,
+        avatar
+          ? { ...getNewUserInfo(input), avatar }
+          : { ...getNewUserInfo(input) },
+      )
       .where('id = :id', { id: userId })
       .execute();
 
