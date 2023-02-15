@@ -5,7 +5,7 @@ import {
   useSubscription,
 } from "@apollo/client";
 import React, { useEffect, useLayoutEffect, useRef, useState } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { addUserFromToChat } from "../../../features/helpers/addUserFromToChat";
 import { GET_CHAT_WITH_MESSAGES, GET_MY_CHATS } from "../../../graphql/chats";
 import { useScrollbar } from "../../../hooks/useScrollbar";
@@ -28,8 +28,12 @@ import { ChatMessagesHeader } from "../ChatMessagesHeader/ChatMessagesHeader";
 import { SendMessageForm } from "../SendMessageForm/SendMessageForm";
 import { identifyWhoseMessage } from "../../../features/helpers/identifyWhoseMessage";
 import { useThemeContext } from "../../../hooks/useThemeContext";
+import { removeUser } from "../../../store/userSlice";
+import { useNavigate } from "react-router-dom";
 
 export const MyChats: React.FC = () => {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
   const currentUser = useSelector((state: RootState) => state.user.value);
   const [chats, setChats] = useState<IChat[]>([]);
   const [showModal, setShowModal] = useState<boolean>(false);
@@ -37,6 +41,13 @@ export const MyChats: React.FC = () => {
   const [toggleScrollbar] = useScrollbar();
   const { data: chatsData, refetch: refetchChats } = useQuery(GET_MY_CHATS, {
     fetchPolicy: "network-only",
+    onError: (error) => {
+      if (error.message === "Unauthorized") {
+        localStorage.removeItem("token");
+        dispatch(removeUser());
+        navigate("/login");
+      }
+    },
   });
   const [selectedChat, setSelectedChat] = useState<IChat | null>(null);
   const [getChatById] = useLazyQuery(GET_CHAT_WITH_MESSAGES, {

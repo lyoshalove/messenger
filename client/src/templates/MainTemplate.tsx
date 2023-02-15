@@ -24,7 +24,6 @@ export const MainTemplate: React.FC<IProps> = ({ children }) => {
       dispatch(initUser(data.getMe as Partial<IUser>));
     },
     onError() {
-      //TODO: вынести логику получения личных данных в header
       setMe(null);
       localStorage.removeItem("token");
       navigate("/login");
