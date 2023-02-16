@@ -1,6 +1,6 @@
 import React from "react";
 import { sidebarMenu } from "../../constants/sidebarMenu";
-import { ThemeChanger } from "../ThemeChanger/ThemeChanger";
+import { ThemeChanger } from "../ui/ThemeChanger/ThemeChanger";
 import { Link } from "react-router-dom";
 import "./styles.sass";
 import { useThemeContext } from "../../hooks/useThemeContext";

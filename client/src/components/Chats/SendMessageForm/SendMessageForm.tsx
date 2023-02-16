@@ -5,6 +5,7 @@ import { useMutation } from "@apollo/client";
 import { SEND_MESSAGE } from "../../../graphql/messages";
 import { IChat } from "../../../types/chats";
 import { useThemeContext } from "../../../hooks/useThemeContext";
+import { CustomInput } from "../../ui/CustomInput/CustomInput";
 
 interface IProps {
   selectedChat: IChat;
@@ -35,14 +36,13 @@ export const SendMessageForm: React.FC<IProps> = ({ selectedChat }) => {
 
   return (
     <form className="chats__view-bottom" onSubmit={(e) => sendMessage(e)}>
-      <input
-        type="text"
+      <CustomInput
         className={
           theme === "dark" ? "chats__view-input dark" : "chats__view-input"
         }
         value={message}
         onChange={(e) => setMessage(e.target.value)}
-        placeholder="Напиши сообщение"
+        placeholder={"Напиши сообщение"}
         ref={messageInputRef}
       />
       <button

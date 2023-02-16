@@ -1,8 +1,8 @@
 import React, { useContext, useState } from "react";
 import "./styles.sass";
-import sun from "../../assets/images/icons/sun.svg";
-import moon from "../../assets/images/icons/moon.svg";
-import { ThemeContext } from "../../contexts/ThemeContext";
+import sun from "../../../assets/images/icons/sun.svg";
+import moon from "../../../assets/images/icons/moon.svg";
+import { ThemeContext } from "../../../contexts/ThemeContext";
 
 export const ThemeChanger: React.FC = () => {
   const { theme, toggleTheme } = useContext(ThemeContext);

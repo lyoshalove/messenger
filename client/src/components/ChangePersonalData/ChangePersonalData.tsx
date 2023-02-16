@@ -7,6 +7,7 @@ import { useMutation } from "@apollo/client";
 import { UPDATE_USER_INFO } from "../../graphql/users";
 import { userDataSchema } from "../../schemas/user";
 import { useThemeContext } from "../../hooks/useThemeContext";
+import { CustomInputWrapper } from "../ui/CustomInputWrapper/CustomInputWrapper";
 
 export const ChangePersonalData: React.FC = () => {
   const [theme] = useThemeContext();
@@ -60,61 +61,36 @@ export const ChangePersonalData: React.FC = () => {
       className="profile__personal personal"
       onSubmit={handleSubmit(onSubmit)}
     >
-      <label className="personal__label">
-        <span className="personal__label-text">Имя</span>
-        <input
-          type="text"
-          className={
-            theme === "dark" ? "personal__input dark" : "personal__input"
-          }
-          {...register("firstName")}
-        />
-        {errors.firstName?.message && (
-          <span className="personal__error">{errors.firstName.message}</span>
-        )}
-      </label>
-      <label className="personal__label">
-        <span className="personal__label-text">Фамилия</span>
-        <input
-          type="text"
-          className={
-            theme === "dark" ? "personal__input dark" : "personal__input"
-          }
-          {...register("lastName")}
-        />
-        {errors.lastName?.message && (
-          <span className="personal__error">{errors.lastName.message}</span>
-        )}
-      </label>
-      <label className="personal__label">
-        <span className="personal__label-text">Email</span>
-        <input
-          type="email"
-          className={
-            theme === "dark" ? "personal__input dark" : "personal__input"
-          }
-          {...register("email")}
-        />
-        {errors.email?.message && (
-          <span className="personal__error">{errors.email.message}</span>
-        )}
-      </label>
-      <label className="personal__label">
-        <span className="personal__label-text">Аватар</span>
-        <div className="personal__label-upload">{getFileInputText()}</div>
-        <input
-          type="file"
-          className={
-            theme === "dark"
-              ? "personal__input personal__input-file dark"
-              : "personal__input personal__input-file"
-          }
-          {...register("avatar")}
-        />
-        {errors.avatar?.message && (
-          <span className="personal__error">{errors.avatar.message}</span>
-        )}
-      </label>
+      <CustomInputWrapper
+        labelText="Имя"
+        className={theme === "dark" ? "input dark" : "input"}
+        {...register("firstName")}
+        errorMessage={errors.lastName?.message ? errors.lastName?.message : ""}
+      />
+      <CustomInputWrapper
+        labelText="Фамилия"
+        className={theme === "dark" ? "input dark" : "input"}
+        {...register("lastName")}
+        errorMessage={errors.lastName?.message ? errors.lastName?.message : ""}
+      />
+      <CustomInputWrapper
+        labelText="Email"
+        type="email"
+        className={theme === "dark" ? "input dark" : "input"}
+        {...register("email")}
+        errorMessage={errors.email?.message ? errors.email?.message : ""}
+      />
+      <CustomInputWrapper
+        labelText="Аватар"
+        type="file"
+        className={
+          theme === "dark" ? "input input__file dark" : "input input__file"
+        }
+        {...register("avatar")}
+        errorMessage={errors.avatar?.message ? errors.avatar?.message : ""}
+      >
+        <div className="label__upload">{getFileInputText()}</div>
+      </CustomInputWrapper>
       <button className="personal__btn btn">Изменить</button>
     </form>
   );

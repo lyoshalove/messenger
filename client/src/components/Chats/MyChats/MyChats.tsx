@@ -22,7 +22,7 @@ import {
   SUBSCRIBE_MY_CHAT,
 } from "../../../graphql/messages";
 import { IMessage } from "../../../types/messages";
-import { CheckRead } from "../../ui/CheckRead";
+import { CheckRead } from "../../ui/CheckRead/CheckRead";
 import { UserItem } from "../UserItem/UserItem";
 import { ChatMessagesHeader } from "../ChatMessagesHeader/ChatMessagesHeader";
 import { SendMessageForm } from "../SendMessageForm/SendMessageForm";
