@@ -35,13 +35,19 @@ export const ChangePersonalData: React.FC = () => {
         firstName: data.firstName,
         lastName: data.lastName,
         email: data.email,
-        file: data.avatar["0"],
+        file: checkAvatarIsExist(),
       },
       async onCompleted(data) {
         localStorage.setItem("token", data.updateUser.token);
         reset();
       },
     });
+  }
+
+  function checkAvatarIsExist() {
+    return fileInputValue && fileInputValue["0"]["name"]
+      ? fileInputValue["0"]
+      : null;
   }
 
   function getFileInputText() {
@@ -65,7 +71,9 @@ export const ChangePersonalData: React.FC = () => {
         labelText="Имя"
         className={theme === "dark" ? "input dark" : "input"}
         {...register("firstName")}
-        errorMessage={errors.lastName?.message ? errors.lastName?.message : ""}
+        errorMessage={
+          errors.firstName?.message ? errors.firstName?.message : ""
+        }
       />
       <CustomInputWrapper
         labelText="Фамилия"

@@ -4,6 +4,12 @@ export const userDataSchema = yup.object({
   firstName: yup.string().trim().nullable(),
   lastName: yup.string().trim().nullable(),
   email: yup.string().email("Поле должно содержать email").trim(),
+  avatar: yup
+    .object()
+    .shape({
+      file: yup.mixed().required("A file is required"),
+    })
+    .nullable(),
 });
 
 export const passwordSchema = yup.object({
