@@ -71,3 +71,12 @@ export const UPDATE_PASSWORD = gql`
     )
   }
 `;
+
+export const SUBSCRIBE_ONLINE_USER = gql`
+  subscription userOnline {
+    userOnline {
+      id
+      online
+    }
+  }
+`;

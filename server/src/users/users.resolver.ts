@@ -8,6 +8,7 @@ import { UsersService } from './users.service';
 import { GraphQLUpload } from 'graphql-upload';
 import { AuthModel } from 'src/auth/auth.model';
 import { pubsub } from 'src/pubsub/pubsub';
+import { UserOnlineDto } from './dto/user-online.dto';
 
 @UseGuards(GraphqlAuthGuard)
 @Resolver('User')
@@ -49,7 +50,7 @@ export class UsersResolver {
     return await this.usersService.updatePassword(user.id, { ...input });
   }
 
-  @Subscription(() => String)
+  @Subscription(() => UserOnlineDto)
   userOnline() {
     return pubsub.asyncIterator('userOnline');
   }

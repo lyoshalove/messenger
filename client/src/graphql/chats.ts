@@ -78,3 +78,51 @@ export const CREATE_CHAT = gql`
     }
   }
 `;
+
+export const SUBSCRIBE_CHAT = gql`
+  subscription messageSent($chatId: String!) {
+    messageSent(chatId: $chatId) {
+      id
+      message
+      createdAt
+      userFrom {
+        id
+        firstName
+        lastName
+        avatar {
+          id
+        }
+      }
+    }
+  }
+`;
+
+export const SUBSCRIBE_MY_CHAT = gql`
+  subscription chatUpdated($userId: String!) {
+    chatUpdated(userId: $userId) {
+      id
+      users {
+        id
+        firstName
+        lastName
+        online
+        avatar {
+          id
+        }
+      }
+      messages {
+        createdAt
+        userFrom {
+          id
+          firstName
+          lastName
+          avatar {
+            id
+          }
+        }
+        message
+        read
+      }
+    }
+  }
+`;

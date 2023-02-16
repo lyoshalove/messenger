@@ -7,7 +7,12 @@ import {
 import React, { useEffect, useLayoutEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { addUserFromToChat } from "../../../features/helpers/addUserFromToChat";
-import { GET_CHAT_WITH_MESSAGES, GET_MY_CHATS } from "../../../graphql/chats";
+import {
+  GET_CHAT_WITH_MESSAGES,
+  GET_MY_CHATS,
+  SUBSCRIBE_CHAT,
+  SUBSCRIBE_MY_CHAT,
+} from "../../../graphql/chats";
 import { useScrollbar } from "../../../hooks/useScrollbar";
 import { RootState } from "../../../store";
 import { IChat } from "../../../types/chats";
@@ -17,9 +22,7 @@ import createChatIcon from "../../../assets/images/icons/create-chat-icon.svg";
 import createChatIconLight from "../../../assets/images/icons/create-chat-icon-light.svg";
 import {
   SUBSCRIBE_MESSAGES_UPDATED,
-  SUBSCRIBE_CHAT,
   UPDATE_MESSAGES_READ,
-  SUBSCRIBE_MY_CHAT,
 } from "../../../graphql/messages";
 import { IMessage } from "../../../types/messages";
 import { CheckRead } from "../../ui/CheckRead/CheckRead";
@@ -30,6 +33,8 @@ import { identifyWhoseMessage } from "../../../features/helpers/identifyWhoseMes
 import { useThemeContext } from "../../../hooks/useThemeContext";
 import { removeUser } from "../../../store/userSlice";
 import { useNavigate } from "react-router-dom";
+import { Loader } from "../../ui/Loader/Loader";
+import { SUBSCRIBE_ONLINE_USER } from "../../../graphql/users";
 
 export const MyChats: React.FC = () => {
   const dispatch = useDispatch();
@@ -39,7 +44,11 @@ export const MyChats: React.FC = () => {
   const [showModal, setShowModal] = useState<boolean>(false);
   const [messages, setMessages] = useState<IMessage[]>([]);
   const [toggleScrollbar] = useScrollbar();
-  const { data: chatsData, refetch: refetchChats } = useQuery(GET_MY_CHATS, {
+  const {
+    data: chatsData,
+    loading: chatsDataLoading,
+    refetch: refetchChats,
+  } = useQuery(GET_MY_CHATS, {
     fetchPolicy: "network-only",
     onError: (error) => {
       if (error.message === "Unauthorized") {
@@ -50,9 +59,12 @@ export const MyChats: React.FC = () => {
     },
   });
   const [selectedChat, setSelectedChat] = useState<IChat | null>(null);
-  const [getChatById] = useLazyQuery(GET_CHAT_WITH_MESSAGES, {
-    fetchPolicy: "network-only",
-  });
+  const [getChatById, { loading: getChatByIdLoading }] = useLazyQuery(
+    GET_CHAT_WITH_MESSAGES,
+    {
+      fetchPolicy: "network-only",
+    }
+  );
   const [updateMessagesRead] = useMutation(UPDATE_MESSAGES_READ);
   const chatContentRef = useRef<NodeListOf<HTMLDivElement> | null>(null);
   const [theme] = useThemeContext();
@@ -213,6 +225,14 @@ export const MyChats: React.FC = () => {
     },
   });
 
+  useSubscription(SUBSCRIBE_ONLINE_USER, {
+    onData: (data) => {
+      console.log(data);
+    },
+  });
+
+  if (chatsDataLoading) return <Loader />;
+
   return (
     <>
       {chats.length ? (
@@ -252,6 +272,7 @@ export const MyChats: React.FC = () => {
                   selectedChat={selectedChat}
                   setSelectedChat={() => setSelectedChat(null)}
                 />
+                {getChatByIdLoading && <Loader />}
                 <div className="chats__view-content_wrapper">
                   <div className="chats__view-content">
                     {messages.length ? (
