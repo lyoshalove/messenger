@@ -9,6 +9,7 @@ import { IUser } from "../../types/users";
 import "./styles.sass";
 import { checkUserAvatar } from "../../features/helpers/checkUserAvatar";
 import { useThemeContext } from "../../hooks/useThemeContext";
+import ReactDOM from "react-dom";
 
 interface IProps {
   handleCreateChat: () => void;
@@ -22,9 +23,8 @@ export const CreateChatModal: React.FC<IProps> = ({
   const [theme] = useThemeContext();
   const currentUser = useSelector((state: RootState) => state.user.value);
   const [usersChats, setUsersChats] = useState<IChat[]>([]);
-  const { loading: usersLoading, error, data: users } = useQuery(GET_ALL_USERS);
-  const [create, { loading: createChatLoading, data: createChatData }] =
-    useMutation(CREATE_CHAT);
+  const { data: users } = useQuery(GET_ALL_USERS);
+  const [create] = useMutation(CREATE_CHAT);
 
   async function createChat(id: string | undefined) {
     if (!id) return;
@@ -33,7 +33,7 @@ export const CreateChatModal: React.FC<IProps> = ({
       variables: {
         userToId: id,
       },
-    }).then((data) => {
+    }).then(() => {
       closeModal();
       handleCreateChat();
     });
@@ -47,7 +47,7 @@ export const CreateChatModal: React.FC<IProps> = ({
     }
   }, [users, currentUser]);
 
-  return (
+  return ReactDOM.createPortal(
     <>
       <div className={theme === "dark" ? "modal dark" : "modal"}>
         <h3 className="modal__title">Выберите собеседника</h3>
@@ -76,6 +76,7 @@ export const CreateChatModal: React.FC<IProps> = ({
         </ul>
       </div>
       <div className="modal__wrapper" onClick={closeModal} />
-    </>
+    </>,
+    document.body
   );
 };

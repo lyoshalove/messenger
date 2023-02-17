@@ -4,10 +4,13 @@
   gap: 0 15px
   padding: 10px 15px
   transition: background-color .3s
-  min-height: calc(100vh - 75px)
+  min-height: calc(100vh - 65px)
+  position: relative
   &.dark
     background-color: #17181F
     color: #fff
+    .chats__item
+      background-color: #17181F
   &__wrapper
     margin: 15vh 0 0
     text-align: center
@@ -17,6 +20,7 @@
     border: 1.5px solid #b8b7b9
     border-radius: 8px
     max-height: 90vh
+    background-color: #fff
   &__left
     &-top
       display: flex
@@ -36,6 +40,11 @@
       border: none
     &-icon
       cursor: pointer
+  &__list
+    max-height: calc(100vh - 150px)
+    height: 100%
+    overflow: hidden
+    overflow-y: auto
   &__view
     display: flex
     padding: 5px 10px 10px
@@ -83,6 +92,7 @@
       &_wrapper
         overflow: hidden
         overflow-y: auto
+        margin: auto 0 0
     &-message
       color: #fff
       border-radius: 4px
@@ -102,7 +112,9 @@
         height: 14px
     &-description
       font-size: 16px
-      margin: auto
+      position: absolute
+      inset: 50% auto auto 50%
+      transform: translate(-50%, -50%)
   &__filter
     padding: 0 0 0 24px
     background-image: url("../../../assets/images/icons/search.svg")
@@ -114,3 +126,47 @@
     flex-grow: 1
     margin: 0 50px 0 0
     outline: none
+
+@media (max-width: 1100px)
+  .chats
+    grid-template-columns: 1fr
+    grid-template-rows: 1fr
+    &__item
+      height: 100%
+      min-height: calc(100vh - 100px)
+    &__right
+      position: absolute
+      inset: 10px 15px 0
+      width: calc(100% - 30px)
+      height: calc(100% + 10px)
+      transform: translate(0, 110%)
+      transition: .4s
+      z-index: 1
+      &.active
+        transform: translate(0)
+
+@media (max-width: 768px)
+  .chats
+    &__left
+      &-top
+        padding: 10px
+
+@media (max-width: 480px)
+  .chats
+    padding: 0px 15px 10px
+    &__left
+      &-top
+        padding: 5px
+    &__right
+      inset: 0 15px 0
+    &__view
+      &-back
+        font-size: 13px
+        &_icon
+          width: 18px
+          height: 18px
+      &-name
+        font-size: 14px
+      &-chat_icon
+        width: 35px
+        height: 35px

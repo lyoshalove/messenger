@@ -10,6 +10,7 @@ import { useDispatch } from "react-redux";
 import { removeUser } from "../../store/userSlice";
 import { passwordSchema } from "../../schemas/user";
 import { useThemeContext } from "../../hooks/useThemeContext";
+import { CustomInputWrapper } from "../ui/CustomInputWrapper/CustomInputWrapper";
 
 export const ChangePassword: React.FC = () => {
   const [theme] = useThemeContext();
@@ -53,51 +54,32 @@ export const ChangePassword: React.FC = () => {
         className="profile__password password"
         onSubmit={handleSubmit(onSubmit)}
       >
-        <label className="password__label">
-          <span className="password__label-text">Предыдущий пароль</span>
-          <input
-            type="password"
-            className={
-              theme === "dark" ? "password__input dark" : "password__input"
-            }
-            {...register("oldPassword")}
-          />
-          {errors.oldPassword?.message && (
-            <span className="password__error">
-              {errors.oldPassword.message}
-            </span>
-          )}
-        </label>
-        <label className="password__label">
-          <span className="password__label-text">Новый пароль</span>
-          <input
-            type="password"
-            className={
-              theme === "dark" ? "password__input dark" : "password__input"
-            }
-            {...register("newPassword")}
-          />
-          {errors.newPassword?.message && (
-            <span className="password__error">
-              {errors.newPassword.message}
-            </span>
-          )}
-        </label>
-        <label className="password__label">
-          <span className="password__label-text">Повторите новый пароль</span>
-          <input
-            type="password"
-            className={
-              theme === "dark" ? "password__input dark" : "password__input"
-            }
-            {...register("confirmPassword")}
-          />
-          {errors.confirmPassword?.message && (
-            <span className="password__error">
-              {errors.confirmPassword.message}
-            </span>
-          )}
-        </label>
+        <CustomInputWrapper
+          labelText="Предыдущий пароль"
+          className={theme === "dark" ? "input dark" : "input"}
+          {...register("oldPassword")}
+          errorMessage={
+            errors.oldPassword?.message ? errors.oldPassword?.message : ""
+          }
+        />
+        <CustomInputWrapper
+          labelText="Новый пароль"
+          className={theme === "dark" ? "input dark" : "input"}
+          {...register("newPassword")}
+          errorMessage={
+            errors.newPassword?.message ? errors.newPassword?.message : ""
+          }
+        />
+        <CustomInputWrapper
+          labelText="Повторите новый пароль"
+          className={theme === "dark" ? "input dark" : "input"}
+          {...register("confirmPassword")}
+          errorMessage={
+            errors.confirmPassword?.message
+              ? errors.confirmPassword?.message
+              : ""
+          }
+        />
         <button className="password__btn btn">Изменить</button>
       </form>
       <button className="btn logout__btn" onClick={logout}>

@@ -263,7 +263,7 @@ export const MyChats: React.FC = () => {
           </div>
           <div
             className={`chats__view chats__item chats__right ${
-              !selectedChat?.id && "center"
+              !selectedChat?.id ? "center" : "active"
             }`}
           >
             {selectedChat?.id ? (

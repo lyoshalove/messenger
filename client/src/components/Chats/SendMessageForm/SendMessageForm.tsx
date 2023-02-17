@@ -1,4 +1,4 @@
-import React, { FormEvent, useRef, useState } from "react";
+import React, { FormEvent, useEffect, useRef, useState } from "react";
 import "./styles.sass";
 import sendIcon from "../../../assets/images/icons/air.svg";
 import { useMutation } from "@apollo/client";
@@ -30,9 +30,13 @@ export const SendMessageForm: React.FC<IProps> = ({ selectedChat }) => {
     }
   }
 
-  if (messageInputRef.current) {
-    messageInputRef.current.focus();
-  }
+  useEffect(() => {
+    setTimeout(() => {
+      if (messageInputRef.current) {
+        messageInputRef.current.focus();
+      }
+    }, 400);
+  }, []);
 
   return (
     <form className="chats__view-bottom" onSubmit={(e) => sendMessage(e)}>

@@ -3,6 +3,7 @@
   transition: .3s
   position: fixed
   inset: 0 0 auto
+  z-index: 2
   &.dark
     background: #17181F
     color: #fff
@@ -15,12 +16,8 @@
   &__user
     display: flex
     align-items: center
-    &-link
+    &-image
       margin: 0 20px 0 0
-      width: 55px
-      height: 55px
-      object-fit: cover
-      border-radius: 50%
       display: flex
       justify-content: center
       align-items: center
@@ -30,3 +27,22 @@
       border-radius: 50%
     &-name
       font-size: 20px
+
+@media (max-width: 768px)
+  .header
+    padding: 10px 15px
+
+@media (max-width: 580px)
+  .header
+    &__user
+      &-info
+        display: none
+      &-avatar
+
+@media (max-width: 480px)
+  .header
+    &__logo
+      margin: 0 20px 0 0
+    &__user
+      &-image
+        margin: 0 10px 0 0
