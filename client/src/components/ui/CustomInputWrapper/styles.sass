@@ -1,0 +1,36 @@
+.label
+  display: block
+  position: relative
+  &:not(:last-of-type)
+    margin: 0 0 15px
+  &__text
+    font-size: 16px
+    color: #777C88
+    display: block
+    margin: 0 0 10px
+  &__upload
+    min-height: 150px
+    display: flex
+    justify-content: center
+    align-items: center
+    color: #2b84e9
+    border: 2px dashed #2b84e9
+    border-radius: 25px
+    font-size: 16px
+    text-align: center
+  &__error
+    color: #ef233c
+
+@media (max-width: 480px)
+  .label
+    &:not(:last-child)
+      margin: 0 0 10px
+    &__text
+      font-size: 14px
+      margin: 0 0 5px
+    &__upload
+      min-height: 100px
+      font-size: 14px
+      padding: 15px
+    &__error
+      font-size: 12px

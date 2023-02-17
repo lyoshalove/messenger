@@ -1,0 +1,73 @@
+.burger
+  width: 25px
+  height: 15px
+  display: none
+  justify-content: space-between
+  flex-direction: column
+  margin: 0 0 0 20px
+  &.active
+    .burger__line
+      &:nth-child(1)
+        transform: rotate(45deg) translate(7px, 2px)
+      &:nth-child(2)
+        opacity: 0
+      &:nth-child(3)
+        transform: rotate(-45deg) translate(7px, -2px)
+  &.dark
+    .burger__line
+      background-color: #fff
+  &__line
+    height: 2px
+    background-color: #17181F
+    transition: .3s
+  &__menu
+    position: fixed
+    inset: 65px 0 0 0
+    background-color: #fff
+    padding: 55px 15px 25px
+    min-height: calc(100vh - 65px)
+    overflow: hidden
+    overflow-y: auto
+    transition: .3s
+    transform: scale(0)
+    transition-delay: .5s
+    z-index: 2
+    &.active
+      transition-delay: 0s
+      transform: scale(1)
+      & .burger__menu-item
+        opacity: 1
+        transform: translate(0)
+        &:nth-child(1)
+          transition-delay: .3s
+        &:nth-child(2)
+          transition-delay: .4s
+        &:nth-child(3)
+          transition-delay: .5s
+    &.dark
+      background-color: #17181F
+    &-item
+      transition: .3s
+      opacity: 0
+      text-align: right
+      transform: translate(0, 10px)
+      &:not(:last-child)
+        margin: 0 0 15px
+      &:nth-child(1)
+        transition-delay: 0s
+      &:nth-child(2)
+        transition-delay: .1s
+      &:nth-child(3)
+        transition-delay: .2s
+    &-link
+      font-size: 24px
+      font-weight: bold
+      width: 100%
+
+@media (max-width: 768px)
+  .burger
+    display: flex
+
+@media (max-width: 580px)
+  .burger
+    margin: 0

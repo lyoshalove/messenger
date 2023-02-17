@@ -31,6 +31,13 @@
       outline-color: #2b84e9
       &::placeholder
         color: #777a7e
+  &__input
+    &-error
+      margin: 5px 0 0
+      color: #ef233c
+  &__error
+    margin: 10px 0 0
+    color: #ef233c
   &__bottom
     margin: 20px 0 0
     text-align: center
@@ -39,3 +46,13 @@
     &-name
       color: #FCA842
       font-weight: 600
+
+@media (max-width:  580px)
+  .auth
+    &__inner
+      padding: 50px 0 70px
+    &__header
+      &-title
+        margin: 6px 0 10px
+    &__form
+      margin: 25px 0 0

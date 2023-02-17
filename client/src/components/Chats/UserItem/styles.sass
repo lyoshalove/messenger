@@ -50,3 +50,27 @@
       color: #fff
       font-size: 14px
       font-weight: 600
+
+@media (max-width: 768px)
+  .chats
+    &__list
+      &-item
+        padding: 10px 35px 10px 15px
+
+@media (max-width: 480px)
+  .chats
+    &__list
+      &-item
+        padding: 10px 8px
+        &::before
+          width: calc(100% - 16px)
+          transform: translate(8px, 0)
+      &-avatar
+        width: 45px
+        height: 45px
+      &-online
+        inset: auto 3px 3px auto
+      &-name
+        font-size: 14px
+      &-message
+        margin: 2px 0 0

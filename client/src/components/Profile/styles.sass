@@ -1,6 +1,6 @@
 .profile
   padding: 30px 0
-  min-height: calc(100vh - 75px)
+  min-height: calc(100vh - 65px)
   transition: background-color .3s
   &.dark
     background-color: #17181F
@@ -16,3 +16,27 @@
     &-title
       margin: 0 0 20px
       font-size: 24px
+
+@media (max-width: 1100px)
+  .profile
+    &__columns
+      grid-template-columns:  minmax(100%, 1fr)
+      gap: 30px 0
+      padding: 0 35px
+
+@media (max-width: 580px)
+  .profile
+    &__title
+      margin: 0 0 20px
+
+@media (max-width: 480px)
+  .profile
+    &__title
+      margin: 0 0 15px
+    &__columns
+      padding: 0
+      gap: 20px 0
+    &__column
+      &-title
+        margin: 0 0 10px
+        font-size: 22px

@@ -1,10 +1,11 @@
-import React, { FormEvent, useRef, useState } from "react";
+import React, { FormEvent, useEffect, useRef, useState } from "react";
 import "./styles.sass";
 import sendIcon from "../../../assets/images/icons/air.svg";
 import { useMutation } from "@apollo/client";
 import { SEND_MESSAGE } from "../../../graphql/messages";
 import { IChat } from "../../../types/chats";
 import { useThemeContext } from "../../../hooks/useThemeContext";
+import { CustomInput } from "../../ui/CustomInput/CustomInput";
 
 interface IProps {
   selectedChat: IChat;
@@ -29,20 +30,23 @@ export const SendMessageForm: React.FC<IProps> = ({ selectedChat }) => {
     }
   }
 
-  if (messageInputRef.current) {
-    messageInputRef.current.focus();
-  }
+  useEffect(() => {
+    setTimeout(() => {
+      if (messageInputRef.current) {
+        messageInputRef.current.focus();
+      }
+    }, 400);
+  }, []);
 
   return (
     <form className="chats__view-bottom" onSubmit={(e) => sendMessage(e)}>
-      <input
-        type="text"
+      <CustomInput
         className={
           theme === "dark" ? "chats__view-input dark" : "chats__view-input"
         }
         value={message}
         onChange={(e) => setMessage(e.target.value)}
-        placeholder="Напиши сообщение"
+        placeholder={"Напиши сообщение"}
         ref={messageInputRef}
       />
       <button

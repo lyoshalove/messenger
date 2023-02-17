@@ -6,7 +6,7 @@ import { Header } from "../components/Header/Header";
 import { Sidebar } from "../components/Sidebar/Sidebar";
 import { GET_ME } from "../graphql/users";
 import { initUser, removeUser } from "../store/userSlice";
-import { IGetMe, IUser } from "../types/users";
+import { IUser } from "../types/users";
 import { io } from "socket.io-client";
 import { SOCKET_API } from "../constants/api";
 
@@ -18,7 +18,7 @@ export const MainTemplate: React.FC<IProps> = ({ children }) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [me, setMe] = useState<null | IUser>(null);
-  const { loading: userLoading } = useQuery<Partial<IGetMe>>(GET_ME, {
+  const { loading: userLoading } = useQuery(GET_ME, {
     onCompleted(data) {
       setMe(data.getMe as IUser);
       dispatch(initUser(data.getMe as Partial<IUser>));

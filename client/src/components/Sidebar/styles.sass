@@ -6,13 +6,17 @@
   flex-direction: column
   justify-content: space-between
   align-items: center
-  margin: 75px 0 0
+  margin: 65px 0 0
   padding: 25px 15px
   transition: .3s
   &.dark
-    background: #17181F
+    background-color: #17181F
   &__menu
     display: flex
     flex-direction: column
     gap: 25px 0
     margin: 200px 0 0
+
+@media (max-width: 768px)
+  .sidebar
+    display: none
