@@ -4,12 +4,7 @@ import {
   useQuery,
   useSubscription,
 } from "@apollo/client";
-import React, {
-  useEffect,
-  useLayoutEffect,
-  useRef,
-  useState,
-} from "react";
+import React, { useEffect, useLayoutEffect, useRef, useState } from "react";
 import { addUserFromToChat } from "../../../features/helpers/addUserFromToChat";
 import {
   GET_CHAT_WITH_MESSAGES,
@@ -219,14 +214,32 @@ export const MyChats: React.FC = () => {
         }
         return chat;
       });
+      console.log(newChats);
 
       setChats(addUserFromToChat(newChats, currentUser.id!));
     },
   });
 
   useSubscription(SUBSCRIBE_ONLINE_USER, {
-    onData: (data) => {
-      console.log(data);
+    onData: ({
+      data: {
+        data: { userOnline },
+      },
+    }) => {
+      if (userOnline.id) {
+        setChats(
+          chats.map((chat) => {
+            if (chat.userFrom.id === userOnline.id) {
+              return {
+                ...chat,
+                userFrom: { ...chat.userFrom, online: userOnline.online },
+              };
+            }
+
+            return chat;
+          })
+        );
+      }
     },
   });
 

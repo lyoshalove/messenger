@@ -44,6 +44,11 @@ type AuthModel {
   token: String!
 }
 
+type UserOnlineDto {
+  id: String!
+  online: Boolean!
+}
+
 type MessagesUpdated {
   chatId: String!
   messageIds: [String!]!
@@ -102,7 +107,7 @@ input MessageCreateDto {
 }
 
 type Subscription {
-  userOnline: String!
+  userOnline: UserOnlineDto!
   chatUpdated(userId: String!): ChatsEntity!
   messagesUpdated(chatId: String!): MessagesUpdated!
   messageSent(chatId: String!): MessageEntity!
