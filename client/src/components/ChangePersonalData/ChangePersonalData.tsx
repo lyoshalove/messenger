@@ -3,8 +3,8 @@ import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import "./styles.sass";
 import { IUpdateUser } from "../../types/users";
-import { useMutation } from "@apollo/client";
-import { UPDATE_USER_INFO } from "../../graphql/users";
+import { useLazyQuery, useMutation } from "@apollo/client";
+import { GET_ME, UPDATE_USER_INFO } from "../../graphql/users";
 import { userDataSchema } from "../../schemas/user";
 import { useThemeContext } from "../../hooks/useThemeContext";
 import { CustomInputWrapper } from "../ui/CustomInputWrapper/CustomInputWrapper";
@@ -28,6 +28,9 @@ export const ChangePersonalData: React.FC = () => {
   });
   const [updateUserInfo] = useMutation(UPDATE_USER_INFO);
   const fileInputValue = watch("avatar");
+  const [getMe] = useLazyQuery(GET_ME, {
+    fetchPolicy: "network-only",
+  });
 
   async function onSubmit(data: IUpdateUser) {
     await updateUserInfo({
@@ -40,6 +43,7 @@ export const ChangePersonalData: React.FC = () => {
       async onCompleted(data) {
         localStorage.setItem("token", data.updateUser.token);
         reset();
+        await getMe();
       },
     });
   }
