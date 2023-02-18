@@ -7,6 +7,12 @@ async function bootstrap() {
     cors: true,
   });
 
+  app.enableCors({
+    origin: true,
+    methods: 'GET,POST',
+    credentials: true,
+  });
+
   app.use(
     graphqlUploadExpress({
       maxFileSize: 2 * 1000 * 1000,
