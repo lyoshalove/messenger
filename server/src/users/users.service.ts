@@ -135,7 +135,7 @@ export class UsersService {
     };
   }
 
-  async setOnlineStatus(online: boolean, id: string) {
+  async setOnline(online: boolean, id: string) {
     await this.usersRepository
       .createQueryBuilder('user')
       .update(UsersEntity, { online })

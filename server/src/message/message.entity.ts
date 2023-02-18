@@ -34,5 +34,5 @@ export class MessageEntity {
 
   @Field()
   @CreateDateColumn()
-  createdAt: string;
+  createdAt: Date;
 }

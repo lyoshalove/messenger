@@ -1,4 +1,3 @@
-// import { Logger } from '@nestjs/common';
 import {
   OnGatewayConnection,
   OnGatewayDisconnect,
@@ -17,14 +16,14 @@ export class UsersGateway implements OnGatewayConnection, OnGatewayDisconnect {
 
   handleConnection(client: Socket) {
     const userId = client.request.url.split('userId=')[1].split('&')[0];
-    this.userService.setOnlineStatus(true, userId);
+    this.userService.setOnline(true, userId);
     pubsub.publish('userOnline', { userOnline: { id: userId, online: true } });
     console.log(`Client connected: ${userId}`);
   }
 
   handleDisconnect(client: Socket) {
     const userId = client.request.url.split('userId=')[1].split('&')[0];
-    this.userService.setOnlineStatus(false, userId);
+    this.userService.setOnline(false, userId);
     pubsub.publish('userOnline', { userOnline: { id: userId, online: false } });
     console.log(`Client disconnected: ${userId}`);
   }

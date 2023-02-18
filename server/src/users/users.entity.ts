@@ -50,5 +50,5 @@ export class UsersEntity {
 
   @Field()
   @CreateDateColumn()
-  createdAt: string;
+  createdAt: Date;
 }
