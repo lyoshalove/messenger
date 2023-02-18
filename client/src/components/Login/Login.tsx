@@ -1,12 +1,10 @@
 import { useQuery, useMutation } from "@apollo/client";
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { useDispatch } from "react-redux";
 import { LOGIN } from "../../graphql/authAndLogin";
 import { GET_ME } from "../../graphql/users";
 import { IGetMe, IUser } from "../../types/users";
 import "./styles.sass";
-import { initUser } from "../../store/userSlice";
 import { CustomInput } from "../ui/CustomInput/CustomInput";
 import { useForm } from "react-hook-form";
 import { ILogin } from "../../types/authAndLogin";
@@ -14,7 +12,6 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { loginSchema } from "../../schemas/user";
 
 export const Login: React.FC = () => {
-  const dispatch = useDispatch();
   const {
     register,
     handleSubmit,
@@ -27,11 +24,11 @@ export const Login: React.FC = () => {
     resolver: yupResolver(loginSchema),
   });
   const navigate = useNavigate();
-  const [login, { loading, error }] = useMutation(LOGIN);
+  const [login] = useMutation(LOGIN);
   const [isError, setIsError] = useState<boolean>(false);
-  const { loading: userLoading } = useQuery<Partial<IGetMe>>(GET_ME, {
-    onCompleted(data) {
-      dispatch(initUser(data.getMe as Partial<IUser>));
+  
+  useQuery<Partial<IGetMe>>(GET_ME, {
+    onCompleted() {
       navigate("/");
     },
     fetchPolicy: "network-only",

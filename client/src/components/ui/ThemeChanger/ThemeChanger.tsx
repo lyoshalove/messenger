@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext } from "react";
 import "./styles.sass";
 import sun from "../../../assets/images/icons/sun.svg";
 import moon from "../../../assets/images/icons/moon.svg";

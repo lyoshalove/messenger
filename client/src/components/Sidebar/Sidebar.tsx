@@ -1,5 +1,5 @@
 import React from "react";
-import { sidebarMenu } from "../../constants/sidebarMenu";
+import { sidebarMenu } from "../../features/constants/sidebarMenu";
 import { ThemeChanger } from "../ui/ThemeChanger/ThemeChanger";
 import { Link } from "react-router-dom";
 import "./styles.sass";

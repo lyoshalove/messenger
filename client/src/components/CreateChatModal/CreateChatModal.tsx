@@ -1,15 +1,14 @@
 import { useMutation, useQuery } from "@apollo/client";
 import React, { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
 import { CREATE_CHAT } from "../../graphql/chats";
 import { GET_ALL_USERS } from "../../graphql/users";
-import { RootState } from "../../store";
 import { IChat } from "../../types/chats";
 import { IUser } from "../../types/users";
 import "./styles.sass";
 import { checkUserAvatar } from "../../features/helpers/checkUserAvatar";
 import { useThemeContext } from "../../hooks/useThemeContext";
 import ReactDOM from "react-dom";
+import { useUser } from "../../hooks/useUser";
 
 interface IProps {
   handleCreateChat: () => void;
@@ -21,7 +20,7 @@ export const CreateChatModal: React.FC<IProps> = ({
   handleCreateChat,
 }) => {
   const [theme] = useThemeContext();
-  const currentUser = useSelector((state: RootState) => state.user.value);
+  const { currentUser } = useUser();
   const [usersChats, setUsersChats] = useState<IChat[]>([]);
   const { data: users } = useQuery(GET_ALL_USERS);
   const [create] = useMutation(CREATE_CHAT);

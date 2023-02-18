@@ -1,11 +1,7 @@
-import { useQuery, useMutation } from "@apollo/client";
-import React, { FormEvent, useState } from "react";
+import { useMutation } from "@apollo/client";
+import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { useDispatch } from "react-redux";
 import { REGISTER } from "../../graphql/authAndLogin";
-import { GET_ME } from "../../graphql/users";
-import { IGetMe, IUser } from "../../types/users";
-import { initUser } from "../../store/userSlice";
 import "./styles.sass";
 import { CustomInput } from "../ui/CustomInput/CustomInput";
 import { useForm } from "react-hook-form";
@@ -14,7 +10,6 @@ import { authSchema } from "../../schemas/user";
 import { IAuth } from "../../types/authAndLogin";
 
 export const Auth: React.FC = () => {
-  const dispatch = useDispatch();
   const {
     register,
     handleSubmit,
@@ -24,15 +19,8 @@ export const Auth: React.FC = () => {
     resolver: yupResolver(authSchema),
   });
   const navigate = useNavigate();
-  const [registration, { loading, error }] = useMutation(REGISTER);
+  const [registration] = useMutation(REGISTER);
   const [isError, setIsError] = useState<boolean>(false);
-  const { loading: userLoading } = useQuery<Partial<IGetMe>>(GET_ME, {
-    onCompleted(data) {
-      dispatch(initUser(data.getMe as Partial<IUser>));
-      navigate("/");
-    },
-    fetchPolicy: "network-only",
-  });
 
   async function onSubmit(data: IAuth) {
     await registration({

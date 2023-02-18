@@ -6,14 +6,14 @@ import { IPasswords } from "../../types/password";
 import { useMutation } from "@apollo/client";
 import { UPDATE_PASSWORD } from "../../graphql/users";
 import { useNavigate } from "react-router-dom";
-import { useDispatch } from "react-redux";
-import { removeUser } from "../../store/userSlice";
 import { passwordSchema } from "../../schemas/user";
 import { useThemeContext } from "../../hooks/useThemeContext";
 import { CustomInputWrapper } from "../ui/CustomInputWrapper/CustomInputWrapper";
+import { useUser } from "../../hooks/useUser";
 
 export const ChangePassword: React.FC = () => {
   const [theme] = useThemeContext();
+  const { setUser } = useUser();
   const {
     register,
     handleSubmit,
@@ -27,8 +27,7 @@ export const ChangePassword: React.FC = () => {
     },
     resolver: yupResolver(passwordSchema),
   });
-  const [updatePassword, { loading }] = useMutation(UPDATE_PASSWORD);
-  const dispatch = useDispatch();
+  const [updatePassword] = useMutation(UPDATE_PASSWORD);
   const navigate = useNavigate();
 
   async function onSubmit(data: IPasswords) {
@@ -44,7 +43,7 @@ export const ChangePassword: React.FC = () => {
 
   function logout() {
     localStorage.removeItem("token");
-    dispatch(removeUser());
+    setUser && setUser({});
     navigate("/login");
   }
 

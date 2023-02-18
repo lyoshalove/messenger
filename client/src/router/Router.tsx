@@ -1,6 +1,6 @@
 import React from "react";
 import { Routes, Route } from "react-router-dom";
-import { pages } from "../constants/pages";
+import { pages } from "../features/constants/pages";
 
 export const Router: React.FC = () => {
   return (

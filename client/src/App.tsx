@@ -1,15 +1,13 @@
-import { useLocation } from "react-router-dom";
 import "./assets/styles/global.sass";
+import { checkLocation } from "./features/helpers/checkLocation";
 import { Router } from "./router/Router";
 import { MainTemplate } from "./templates/MainTemplate";
 
 function App() {
-  const location = useLocation();
 
   return (
     <div className="App">
-      {location.pathname === "/login" ||
-      location.pathname === "/authorization" ? (
+      {checkLocation(["/login", "/authorization"]) ? (
         <Router />
       ) : (
         <MainTemplate>

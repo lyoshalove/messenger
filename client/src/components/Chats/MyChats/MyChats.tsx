@@ -4,8 +4,12 @@ import {
   useQuery,
   useSubscription,
 } from "@apollo/client";
-import React, { useEffect, useLayoutEffect, useRef, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import React, {
+  useEffect,
+  useLayoutEffect,
+  useRef,
+  useState,
+} from "react";
 import { addUserFromToChat } from "../../../features/helpers/addUserFromToChat";
 import {
   GET_CHAT_WITH_MESSAGES,
@@ -14,7 +18,6 @@ import {
   SUBSCRIBE_MY_CHAT,
 } from "../../../graphql/chats";
 import { useScrollbar } from "../../../hooks/useScrollbar";
-import { RootState } from "../../../store";
 import { IChat } from "../../../types/chats";
 import { CreateChatModal } from "../../CreateChatModal/CreateChatModal";
 import "./styles.sass";
@@ -31,15 +34,14 @@ import { ChatMessagesHeader } from "../ChatMessagesHeader/ChatMessagesHeader";
 import { SendMessageForm } from "../SendMessageForm/SendMessageForm";
 import { identifyWhoseMessage } from "../../../features/helpers/identifyWhoseMessage";
 import { useThemeContext } from "../../../hooks/useThemeContext";
-import { removeUser } from "../../../store/userSlice";
 import { useNavigate } from "react-router-dom";
 import { Loader } from "../../ui/Loader/Loader";
 import { SUBSCRIBE_ONLINE_USER } from "../../../graphql/users";
+import { useUser } from "../../../hooks/useUser";
 
 export const MyChats: React.FC = () => {
-  const dispatch = useDispatch();
   const navigate = useNavigate();
-  const currentUser = useSelector((state: RootState) => state.user.value);
+  const { currentUser, setUser } = useUser();
   const [chats, setChats] = useState<IChat[]>([]);
   const [showModal, setShowModal] = useState<boolean>(false);
   const [messages, setMessages] = useState<IMessage[]>([]);
@@ -53,7 +55,7 @@ export const MyChats: React.FC = () => {
     onError: (error) => {
       if (error.message === "Unauthorized") {
         localStorage.removeItem("token");
-        dispatch(removeUser());
+        setUser && setUser({});
         navigate("/login");
       }
     },
@@ -168,7 +170,6 @@ export const MyChats: React.FC = () => {
         data: { messageSent },
       },
     }) => {
-      console.log("data ", messageSent);
       if (messageSent.userFrom.id !== currentUser.id) {
         updateMessagesRead({
           variables: {
@@ -191,7 +192,6 @@ export const MyChats: React.FC = () => {
         data: { messagesUpdated },
       },
     }) => {
-      console.log("123", messagesUpdated);
       setMessages(
         messages.map((message) => {
           if (messagesUpdated.messageIds.includes(message.id)) {
@@ -219,7 +219,6 @@ export const MyChats: React.FC = () => {
         }
         return chat;
       });
-      console.log("chats: ", addUserFromToChat(newChats, currentUser.id!));
 
       setChats(addUserFromToChat(newChats, currentUser.id!));
     },

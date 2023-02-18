@@ -1,7 +1,7 @@
-import { Chats } from "../pages/Chats/Chats";
-import { Authorization } from "../pages/Authorization/Authorization";
-import { Login } from "../pages/Login/Login";
-import { Profile } from "../pages/Profile/Profile";
+import { Chats } from "../../pages/Chats/Chats";
+import { Authorization } from "../../pages/Authorization/Authorization";
+import { Login } from "../../pages/Login/Login";
+import { Profile } from "../../pages/Profile/Profile";
 
 export const pages = [
   {

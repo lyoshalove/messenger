@@ -3,8 +3,7 @@ import "./styles.sass";
 import { checkUserAvatar } from "../../../features/helpers/checkUserAvatar";
 import { sliceText } from "../../../features/helpers/sliceText";
 import { IChat } from "../../../types/chats";
-import { useSelector } from "react-redux";
-import { RootState } from "../../../store";
+import { useUser } from "../../../hooks/useUser";
 
 interface IProps {
   chat: IChat;
@@ -12,7 +11,7 @@ interface IProps {
 }
 
 export const UserItem: React.FC<IProps> = ({ chat, getChat }) => {
-  const currentUser = useSelector((state: RootState) => state.user.value);
+  const { currentUser } = useUser();
   const getUnreadMessagesCount = () => {
     if (currentUser.id && chat.messages) {
       return chat.messages.filter(

@@ -33,6 +33,10 @@ import { FilesEntity } from './files/files.entity';
         'graphql-ws': true,
       },
       uploads: false,
+      cors: {
+        origin: true,
+        credentials: true,
+      },
     }),
     ConfigModule.forRoot({
       envFilePath: '.env',

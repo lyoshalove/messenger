@@ -1,7 +1,7 @@
-import home from "../assets/images/icons/home.svg";
-import homeLight from "../assets/images/icons/home-light.svg";
-import message from "../assets/images/icons/message.svg";
-import messageLight from "../assets/images/icons/message-light.svg";
+import home from "../../assets/images/icons/home.svg";
+import homeLight from "../../assets/images/icons/home-light.svg";
+import message from "../../assets/images/icons/message.svg";
+import messageLight from "../../assets/images/icons/message-light.svg";
 
 interface ISidebarMenu {
   id: number;
