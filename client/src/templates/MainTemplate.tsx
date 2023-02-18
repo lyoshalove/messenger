@@ -4,9 +4,8 @@ import { useNavigate } from "react-router-dom";
 import { Header } from "../components/Header/Header";
 import { Sidebar } from "../components/Sidebar/Sidebar";
 import { GET_ME } from "../graphql/users";
-import { IUser } from "../types/users";
 import { io } from "socket.io-client";
-import { SOCKET_API } from "../constants/api";
+import { SOCKET_API } from "../features/constants/api";
 import { useUser } from "../hooks/useUser";
 
 interface IProps {

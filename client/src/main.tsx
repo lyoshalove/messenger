@@ -10,7 +10,7 @@ import {
 } from "@apollo/client";
 import { ThemeProvider } from "./contexts/ThemeContext";
 import { setContext } from "@apollo/client/link/context";
-import { API } from "./constants/api";
+import { API } from "./features/constants/api";
 import { GraphQLWsLink } from "@apollo/client/link/subscriptions";
 import { createClient } from "graphql-ws";
 import { getMainDefinition } from "@apollo/client/utilities";

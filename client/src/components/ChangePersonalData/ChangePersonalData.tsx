@@ -26,7 +26,7 @@ export const ChangePersonalData: React.FC = () => {
     },
     resolver: yupResolver(userDataSchema),
   });
-  const [updateUserInfo, { loading }] = useMutation(UPDATE_USER_INFO);
+  const [updateUserInfo] = useMutation(UPDATE_USER_INFO);
   const fileInputValue = watch("avatar");
 
   async function onSubmit(data: IUpdateUser) {

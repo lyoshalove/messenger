@@ -19,7 +19,7 @@ export const Auth: React.FC = () => {
     resolver: yupResolver(authSchema),
   });
   const navigate = useNavigate();
-  const [registration, { loading, error }] = useMutation(REGISTER);
+  const [registration] = useMutation(REGISTER);
   const [isError, setIsError] = useState<boolean>(false);
 
   async function onSubmit(data: IAuth) {

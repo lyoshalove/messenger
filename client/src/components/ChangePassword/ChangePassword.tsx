@@ -27,7 +27,7 @@ export const ChangePassword: React.FC = () => {
     },
     resolver: yupResolver(passwordSchema),
   });
-  const [updatePassword, { loading }] = useMutation(UPDATE_PASSWORD);
+  const [updatePassword] = useMutation(UPDATE_PASSWORD);
   const navigate = useNavigate();
 
   async function onSubmit(data: IPasswords) {

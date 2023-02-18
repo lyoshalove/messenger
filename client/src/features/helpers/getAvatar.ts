@@ -1,4 +1,4 @@
-import { API } from "../../constants/api";
+import { API } from "../constants/api";
 
 export const getAvatar = (avatarId: string) => {
   if (avatarId) {

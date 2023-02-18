@@ -170,7 +170,6 @@ export const MyChats: React.FC = () => {
         data: { messageSent },
       },
     }) => {
-      console.log("data ", messageSent);
       if (messageSent.userFrom.id !== currentUser.id) {
         updateMessagesRead({
           variables: {
@@ -193,7 +192,6 @@ export const MyChats: React.FC = () => {
         data: { messagesUpdated },
       },
     }) => {
-      console.log("123", messagesUpdated);
       setMessages(
         messages.map((message) => {
           if (messagesUpdated.messageIds.includes(message.id)) {
@@ -221,7 +219,6 @@ export const MyChats: React.FC = () => {
         }
         return chat;
       });
-      console.log("chats: ", addUserFromToChat(newChats, currentUser.id!));
 
       setChats(addUserFromToChat(newChats, currentUser.id!));
     },
