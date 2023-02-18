@@ -214,9 +214,9 @@ export const MyChats: React.FC = () => {
         }
         return chat;
       });
-      console.log(newChats);
 
       setChats(addUserFromToChat(newChats, currentUser.id!));
+      refetchChats();
     },
   });
 
@@ -226,7 +226,7 @@ export const MyChats: React.FC = () => {
         data: { userOnline },
       },
     }) => {
-      if (userOnline.id) {
+      if (chats.length && userOnline.id) {
         setChats(
           chats.map((chat) => {
             if (chat.userFrom.id === userOnline.id) {

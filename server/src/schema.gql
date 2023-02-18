@@ -8,14 +8,6 @@ type MessageEntity {
   read: Boolean!
   chat: [ChatsEntity!]!
   userFrom: UsersEntity!
-  createdAt: String!
-}
-
-type ChatsEntity {
-  id: String!
-  users: [UsersEntity!]!
-  messages: [MessageEntity!]
-  unreadMessagesCount: Int!
   createdAt: DateTime!
 }
 
@@ -23,6 +15,15 @@ type ChatsEntity {
 A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
 """
 scalar DateTime
+
+type ChatsEntity {
+  id: String!
+  users: [UsersEntity!]!
+  messages: [MessageEntity!]
+  unreadMessagesCount: Int!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+}
 
 type FilesEntity {
   id: String!
@@ -37,7 +38,7 @@ type UsersEntity {
   password: String!
   avatar: FilesEntity
   online: Boolean!
-  createdAt: String!
+  createdAt: DateTime!
 }
 
 type AuthModel {

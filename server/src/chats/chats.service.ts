@@ -113,6 +113,7 @@ export class ChatsService {
       .innerJoinAndSelect('chat.users', 'users', 'users.id IN (:...id)', {
         id: [user.id],
       })
+      .orderBy('chat.updatedAt', 'DESC')
       .getMany();
 
     return chats.map((chat) => this.addUsersAndMessagesToChat(chat));
@@ -138,5 +139,12 @@ export class ChatsService {
     chat.users = users;
 
     return chat;
+  }
+
+  async setChatUpdated(chatId: string) {
+    const chat = await this.getMyChatById(chatId);
+
+    chat.updatedAt = new Date();
+    await this.chatsRepository.save(chat);
   }
 }

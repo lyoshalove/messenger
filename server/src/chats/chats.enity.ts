@@ -7,7 +7,9 @@ import {
   JoinTable,
   ManyToMany,
   OneToMany,
+  OneToOne,
   PrimaryGeneratedColumn,
+  UpdateDateColumn,
 } from 'typeorm';
 import { UsersEntity } from '../users/users.entity';
 
@@ -34,4 +36,8 @@ export class ChatsEntity {
   @Field()
   @CreateDateColumn()
   createdAt: Date;
+
+  @Field(() => Date)
+  @UpdateDateColumn()
+  updatedAt: Date;
 }
