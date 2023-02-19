@@ -23,16 +23,16 @@ import {
   UPDATE_MESSAGES_READ,
 } from "../../../graphql/messages";
 import { IMessage } from "../../../types/messages";
-import { CheckRead } from "../../ui/CheckRead/CheckRead";
 import { UserItem } from "../UserItem/UserItem";
 import { ChatMessagesHeader } from "../ChatMessagesHeader/ChatMessagesHeader";
 import { SendMessageForm } from "../SendMessageForm/SendMessageForm";
-import { identifyWhoseMessage } from "../../../features/helpers/identifyWhoseMessage";
 import { useThemeContext } from "../../../hooks/useThemeContext";
 import { useNavigate } from "react-router-dom";
 import { Loader } from "../../ui/Loader/Loader";
 import { SUBSCRIBE_ONLINE_USER } from "../../../graphql/users";
 import { useUser } from "../../../hooks/useUser";
+import { useObserveMessages } from "../../../hooks/useObserveMessages";
+import { MessagesList } from "../MessagesList/MessagesList";
 
 export const MyChats: React.FC = () => {
   const navigate = useNavigate();
@@ -84,10 +84,6 @@ export const MyChats: React.FC = () => {
     });
   }
 
-  function handleCreateChat() {
-    refetchChats();
-  }
-
   useEffect(() => {
     if (chatsData && currentUser.id) {
       let dataChats: IChat[] = addUserFromToChat(
@@ -111,37 +107,16 @@ export const MyChats: React.FC = () => {
   }, []);
 
   useEffect(() => {
-    chatContentRef.current = document.querySelectorAll(
-      ".chats__view-message_other"
+    const { initObserverMessages, removeObserverMessages } = useObserveMessages(
+      chatContentRef,
+      selectedChat?.id!,
+      updateMessagesRead
     );
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach(async (entry) => {
-        if (
-          entry.isIntersecting &&
-          entry.target.attributes[1].value === "false"
-        ) {
-          await updateMessagesRead({
-            variables: {
-              messageIds: [entry.target.attributes[2].value],
-              chatId: selectedChat?.id,
-            },
-          });
-        }
-      });
-    });
 
-    if (chatContentRef.current) {
-      chatContentRef.current.forEach((message) => {
-        observer.observe(message);
-      });
-    }
+    initObserverMessages();
 
     return () => {
-      if (chatContentRef.current) {
-        chatContentRef.current.forEach((message) => {
-          observer.unobserve(message);
-        });
-      }
+      removeObserverMessages();
     };
   }, [selectedChat, chatContentRef.current]);
 
@@ -286,37 +261,10 @@ export const MyChats: React.FC = () => {
                 />
                 {getChatByIdLoading && <Loader />}
                 <div className="chats__view-content_wrapper">
-                  <div className="chats__view-content">
-                    {messages.length ? (
-                      messages.map((message: IMessage) => {
-                        return (
-                          <p
-                            key={message.id}
-                            className={`chats__view-message ${
-                              identifyWhoseMessage(
-                                currentUser.id!,
-                                message.userFrom.id
-                              )
-                                ? "chats__view-message_my"
-                                : "chats__view-message_other"
-                            }`}
-                            data-read={message.read}
-                            data-id={message.id}
-                          >
-                            {message.message}
-                            <CheckRead
-                              className="chats__view-message_read"
-                              color={message.read ? "#2b84e9" : "#b2b2b2"}
-                            />
-                          </p>
-                        );
-                      })
-                    ) : (
-                      <p className="chats__view-description">
-                        Сообщений пока нет
-                      </p>
-                    )}
-                  </div>
+                  <MessagesList
+                    messages={messages}
+                    currentUserId={currentUser.id!}
+                  />
                 </div>
                 <SendMessageForm selectedChat={selectedChat} />
               </>
@@ -341,7 +289,7 @@ export const MyChats: React.FC = () => {
       {showModal && (
         <CreateChatModal
           closeModal={toggleModal}
-          handleCreateChat={handleCreateChat}
+          handleCreateChat={refetchChats}
         />
       )}
     </>
