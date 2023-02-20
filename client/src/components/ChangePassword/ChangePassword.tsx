@@ -10,6 +10,7 @@ import { passwordSchema } from "../../schemas/user";
 import { useThemeContext } from "../../hooks/useThemeContext";
 import { CustomInputWrapper } from "../ui/CustomInputWrapper/CustomInputWrapper";
 import { useUser } from "../../hooks/useUser";
+import { getSocket } from "../../features/socket/socket";
 
 export const ChangePassword: React.FC = () => {
   const [theme] = useThemeContext();
@@ -45,6 +46,8 @@ export const ChangePassword: React.FC = () => {
     localStorage.removeItem("token");
     setUser && setUser({});
     navigate("/login");
+    const socket = getSocket();
+    socket?.disconnect();
   }
 
   return (

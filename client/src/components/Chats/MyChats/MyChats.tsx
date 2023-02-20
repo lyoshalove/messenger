@@ -33,6 +33,7 @@ import { SUBSCRIBE_ONLINE_USER } from "../../../graphql/users";
 import { useUser } from "../../../hooks/useUser";
 import { useObserveMessages } from "../../../hooks/useObserveMessages";
 import { MessagesList } from "../MessagesList/MessagesList";
+import { getSocket } from "../../../features/socket/socket";
 
 export const MyChats: React.FC = () => {
   const navigate = useNavigate();
@@ -52,6 +53,8 @@ export const MyChats: React.FC = () => {
         localStorage.removeItem("token");
         setUser && setUser({});
         navigate("/login");
+        const socket = getSocket();
+        socket?.disconnect();
       }
     },
   });
