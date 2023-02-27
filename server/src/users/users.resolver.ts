@@ -39,7 +39,7 @@ export class UsersResolver {
   ) {
     const _file = await file;
 
-    return await this.usersService.updateUser(user.id, { ...input }, _file);
+    return this.usersService.updateUser(user.id, { ...input }, _file);
   }
 
   @Mutation(() => Boolean)
@@ -47,7 +47,7 @@ export class UsersResolver {
     @Args('input') input: updatePasswordInput,
     @CurrentUser() user: UsersEntity,
   ) {
-    return await this.usersService.updatePassword(user.id, { ...input });
+    return this.usersService.updatePassword(user.id, { ...input });
   }
 
   @Subscription(() => UserOnlineDto)

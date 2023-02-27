@@ -2,15 +2,15 @@ import React from "react";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import "./styles.sass";
-import { IPasswords } from "../../types/password";
+import { IPasswords } from "@/types";
 import { useMutation } from "@apollo/client";
-import { UPDATE_PASSWORD } from "../../graphql/users";
+import { UPDATE_PASSWORD } from "@/graphql";
 import { useNavigate } from "react-router-dom";
-import { passwordSchema } from "../../schemas/user";
-import { useThemeContext } from "../../hooks/useThemeContext";
-import { CustomInputWrapper } from "../ui/CustomInputWrapper/CustomInputWrapper";
-import { useUser } from "../../hooks/useUser";
-import { getSocket } from "../../features/socket/socket";
+import { passwordSchema } from "@/schemas";
+import { useThemeContext } from "@/hooks";
+import { CustomInputWrapper } from "@/components/ui/CustomInputWrapper";
+import { useUser } from "@/hooks";
+import { getSocket } from "@/features/socket";
 
 export const ChangePassword: React.FC = () => {
   const [theme] = useThemeContext();

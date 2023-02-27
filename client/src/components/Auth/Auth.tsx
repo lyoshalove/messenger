@@ -1,13 +1,13 @@
 import { useMutation } from "@apollo/client";
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { REGISTER } from "../../graphql/authAndLogin";
+import { REGISTER } from "@/graphql";
 import "./styles.sass";
-import { CustomInput } from "../ui/CustomInput/CustomInput";
+import { CustomInput } from "@/components/ui/CustomInput";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { authSchema } from "../../schemas/user";
-import { IAuth } from "../../types/authAndLogin";
+import { authSchema } from "@/schemas";
+import { IAuth } from "@/types";
 
 export const Auth: React.FC = () => {
   const {

@@ -1,4 +1,4 @@
-import { IChat } from "../../types/chats";
+import { IChat } from "@/types";
 
 export const addUserFromToChat = (
   chats: IChat[],

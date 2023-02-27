@@ -1,7 +1,6 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { AppService } from './app.service';
 import { UsersEntity } from './users/users.entity';
 import { UsersModule } from './users/users.module';
 import { AuthModule } from './auth/auth.module';
@@ -14,6 +13,7 @@ import { MessageModule } from './message/message.module';
 import { MessageEntity } from './message/message.entity';
 import { FilesModule } from './files/files.module';
 import { FilesEntity } from './files/files.entity';
+import { getEnvFileName } from './helpers/getEnvFileName';
 
 @Module({
   imports: [
@@ -39,7 +39,7 @@ import { FilesEntity } from './files/files.entity';
       },
     }),
     ConfigModule.forRoot({
-      envFilePath: '.env',
+      envFilePath: getEnvFileName(),
     }),
     TypeOrmModule.forRoot({
       type: 'postgres',
@@ -59,6 +59,6 @@ import { FilesEntity } from './files/files.entity';
     FilesModule,
   ],
   controllers: [],
-  providers: [AppService],
+  providers: [],
 })
 export class AppModule {}

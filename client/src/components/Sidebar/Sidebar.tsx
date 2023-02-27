@@ -1,9 +1,9 @@
 import React from "react";
-import { sidebarMenu } from "../../features/constants/sidebarMenu";
-import { ThemeChanger } from "../ui/ThemeChanger/ThemeChanger";
+import { sidebarMenu } from "@/features/constants";
+import { ThemeChanger } from "@/components/ui/ThemeChanger";
 import { Link } from "react-router-dom";
 import "./styles.sass";
-import { useThemeContext } from "../../hooks/useThemeContext";
+import { useThemeContext } from "@/hooks";
 
 export const Sidebar: React.FC = () => {
   const [theme] = useThemeContext();

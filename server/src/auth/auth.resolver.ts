@@ -10,11 +10,11 @@ export class AuthResolver {
 
   @Mutation(() => AuthModel)
   async registration(@Args('input') user: SignUpDto) {
-    return await this.authService.registration({ ...user });
+    return this.authService.registration({ ...user });
   }
 
   @Mutation(() => AuthModel)
   async login(@Args('input') user: SignInDto) {
-    return await this.authService.login({ ...user });
+    return this.authService.login({ ...user });
   }
 }

@@ -1,0 +1,1 @@
+export const avatarExtensions = ['jpeg', 'jpg', 'png', 'svg'];

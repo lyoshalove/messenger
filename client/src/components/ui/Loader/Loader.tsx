@@ -1,5 +1,5 @@
 import React from "react";
-import { useThemeContext } from "../../../hooks/useThemeContext";
+import { useThemeContext } from "@/hooks";
 import './styles.sass';
 
 export const Loader: React.FC = () => {

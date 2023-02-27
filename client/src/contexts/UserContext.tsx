@@ -1,7 +1,7 @@
 import { useQuery } from "@apollo/client";
 import React, { createContext, useState } from "react";
-import { GET_ME } from "../graphql/users";
-import { IUser } from "../types/users";
+import { GET_ME } from "@/graphql";
+import { IUser } from "@/types";
 
 interface IContext {
   user: Partial<IUser>;
@@ -9,7 +9,7 @@ interface IContext {
 }
 
 interface IProps {
-  children: React.ReactElement;
+  children?: React.ReactNode;
 }
 
 const defaultState: IContext = {

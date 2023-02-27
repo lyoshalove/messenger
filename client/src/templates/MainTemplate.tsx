@@ -1,12 +1,12 @@
 import { useQuery } from "@apollo/client";
 import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { Header } from "../components/Header/Header";
-import { Sidebar } from "../components/Sidebar/Sidebar";
-import { GET_ME } from "../graphql/users";
-import { SOCKET_API } from "../features/constants/api";
-import { useUser } from "../hooks/useUser";
-import { initSocket, getSocket } from "../features/socket/socket";
+import { Header } from "@/components/Header";
+import { Sidebar } from "@/components/Sidebar";
+import { GET_ME } from "@/graphql";
+import { SOCKET_API } from "@/features/constants";
+import { useUser } from "@/hooks";
+import { initSocket, getSocket } from "@/features/socket";
 
 interface IProps {
   children: React.ReactNode;

@@ -1,4 +1,4 @@
-import { Injectable, UnprocessableEntityException } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { ILike, Repository } from 'typeorm';
 import { CreateUserDto } from './dto/create-user.dto';
@@ -8,6 +8,7 @@ import { GraphQLUpload } from 'graphql-upload';
 import { FilesService } from 'src/files/files.service';
 import * as jwt from 'jsonwebtoken';
 import * as bcrypt from 'bcrypt';
+import { UsersExceptions } from './users.exceptions';
 
 @Injectable()
 export class UsersService {
@@ -18,17 +19,17 @@ export class UsersService {
   ) {}
 
   async getAllUsers(): Promise<UsersEntity[]> {
-    return await this.usersRepository.find({
+    return this.usersRepository.find({
       relations: ['avatar'],
     });
   }
 
   async findUserById(id: string): Promise<UsersEntity> {
-    return await this.usersRepository.findOneBy({ id });
+    return this.usersRepository.findOneBy({ id });
   }
 
   async getUserByEmail(email: string): Promise<UsersEntity> {
-    return await this.usersRepository.findOne({
+    return this.usersRepository.findOne({
       where: { email },
       relations: ['avatar'],
     });
@@ -36,13 +37,13 @@ export class UsersService {
 
   async createUser(userDto: CreateUserDto) {
     const user = this.usersRepository.create(userDto);
-    return await this.usersRepository.save(user);
+    return this.usersRepository.save(user);
   }
 
   async findUsersByName(name: string) {
     if (!name) return [];
 
-    return await this.usersRepository.find({
+    return this.usersRepository.find({
       where: [
         { firstName: ILike(`%${name}%`) },
         { lastName: ILike(`%${name}%`) },
@@ -51,25 +52,14 @@ export class UsersService {
   }
 
   async updateUser(userId: string, input: UpdateInput, file?: GraphQLUpload) {
-    const avatar = file && (await this.filesService.uploadAvatar(file));
+    let avatar;
     const oldUser = await this.usersRepository.findOne({
       where: { id: userId },
       relations: ['avatar'],
     });
 
-    function getNewUserInfo(info: UpdateInput) {
-      const result = {};
-      const infoKeys = Object.keys(info);
-
-      for (let i = 0; i < infoKeys.length; i++) {
-        if (!!info[infoKeys[i]]) {
-          result[infoKeys[i]] = info[infoKeys[i]];
-        } else {
-          result[infoKeys[i]] = oldUser[infoKeys[i]];
-        }
-      }
-
-      return result;
+    if (file) {
+      avatar = await this.filesService.uploadAvatar(file);
     }
 
     await this.usersRepository
@@ -77,8 +67,8 @@ export class UsersService {
       .update(
         UsersEntity,
         avatar
-          ? { ...getNewUserInfo(input), avatar }
-          : { ...getNewUserInfo(input) },
+          ? { ...this.getNewUserInfo(input, oldUser), avatar }
+          : { ...this.getNewUserInfo(input, oldUser) },
       )
       .where('id = :id', { id: userId })
       .execute();
@@ -92,7 +82,21 @@ export class UsersService {
       relations: ['avatar'],
     });
 
-    return await this.createToken(user);
+    return this.createToken(user);
+  }
+
+  private getNewUserInfo(info: UpdateInput, oldUser: UsersEntity) {
+    const result = {};
+
+    for (const key in info) {
+      if (info[key]) {
+        result[key] = info[key];
+      } else {
+        result[key] = oldUser[key];
+      }
+    }
+
+    return result;
   }
 
   async updatePassword(
@@ -103,11 +107,11 @@ export class UsersService {
     const isCorrectPassword = await bcrypt.compare(oldPassword, user.password);
 
     if (!isCorrectPassword) {
-      throw new UnprocessableEntityException('Неправильно введены данные');
+      throw UsersExceptions.WrongUserData();
     }
 
     if (oldPassword === confirmPassword) {
-      throw new UnprocessableEntityException('Неправильно введены данные');
+      throw UsersExceptions.WrongUserData();
     }
 
     await this.usersRepository
@@ -119,16 +123,11 @@ export class UsersService {
     return true;
   }
 
-  async createToken({ id, email, firstName, lastName, avatar }: UsersEntity) {
-    return await {
+  async createToken({ id }: UsersEntity) {
+    return {
       token: jwt.sign(
         {
           id,
-          email,
-          firstName,
-          lastName,
-          avatar: avatar ? { id: avatar.id } : null,
-          online: true,
         },
         process.env.SECRET_KEY || 'secret',
       ),

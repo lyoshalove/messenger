@@ -1,5 +1,5 @@
 import React from "react";
-import { CustomInput } from "../CustomInput/CustomInput";
+import { CustomInput } from "@/components/ui/CustomInput";
 import "./styles.sass";
 
 interface IProps {
