@@ -1,12 +1,11 @@
 import React from "react";
 import "./styles.sass";
-import logo from "../../assets/images/icons/logo.svg";
-import logoLight from "../../assets/images/icons/logo-light.svg";
+import logo from "@assets/images/icons/logo.svg";
+import logoLight from "@assets/images/icons/logo-light.svg";
 import { Link } from "react-router-dom";
-import { useThemeContext } from "../../hooks/useThemeContext";
-import { checkUserAvatar } from "../../features/helpers/checkUserAvatar";
-import { Burger } from "../ui/Burger/Burger";
-import { useUser } from "../../hooks/useUser";
+import { useThemeContext, useUser } from "@/hooks";
+import { checkUserAvatar } from "@/features/helpers";
+import { Burger } from "@/components/ui/Burger";
 
 export const Header: React.FC = () => {
   const [theme] = useThemeContext();

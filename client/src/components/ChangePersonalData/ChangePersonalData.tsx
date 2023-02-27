@@ -2,12 +2,13 @@ import React from "react";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import "./styles.sass";
-import { IUpdateUser } from "../../types/users";
+import { IUpdateUser } from "@/types";
 import { useLazyQuery, useMutation } from "@apollo/client";
-import { GET_ME, UPDATE_USER_INFO } from "../../graphql/users";
-import { userDataSchema } from "../../schemas/user";
-import { useThemeContext } from "../../hooks/useThemeContext";
-import { CustomInputWrapper } from "../ui/CustomInputWrapper/CustomInputWrapper";
+import { GET_ME, UPDATE_USER_INFO } from "@/graphql";
+import { userSchema } from "@/schemas";
+import { useThemeContext } from "@/hooks";
+import { CustomInputWrapper } from "@/components/ui/CustomInputWrapper";
+import { avatarExtensions } from "@/features/constants";
 
 export const ChangePersonalData: React.FC = () => {
   const [theme] = useThemeContext();
@@ -24,7 +25,7 @@ export const ChangePersonalData: React.FC = () => {
       email: "",
       avatar: null,
     },
-    resolver: yupResolver(userDataSchema),
+    resolver: yupResolver(userSchema),
   });
   const [updateUserInfo] = useMutation(UPDATE_USER_INFO);
   const fileInputValue = watch("avatar");
@@ -57,7 +58,14 @@ export const ChangePersonalData: React.FC = () => {
   function getFileInputText() {
     try {
       if (fileInputValue && fileInputValue["0"]["name"]) {
-        return fileInputValue["0"]["name"];
+        const fileName: string = fileInputValue["0"]["name"];
+        const fileNameExtension = fileName.split(".")[1].toLowerCase();
+
+        if (avatarExtensions.includes(fileNameExtension)) {
+          return fileInputValue["0"]["name"];
+        } else {
+          return "Неправильный файл для аватара";
+        }
       }
 
       return "Нажми или перетащи сюда файл";

@@ -1,7 +1,7 @@
 import React from "react";
-import { useThemeContext } from "../../hooks/useThemeContext";
-import { ChangePassword } from "../ChangePassword/ChangePassword";
-import { ChangePersonalData } from "../ChangePersonalData/ChangePersonalData";
+import { useThemeContext } from "@/hooks";
+import { ChangePassword } from "@/components/ChangePassword";
+import { ChangePersonalData } from "@/components/ChangePersonalData";
 import "./styles.sass";
 
 export const Profile: React.FC = () => {

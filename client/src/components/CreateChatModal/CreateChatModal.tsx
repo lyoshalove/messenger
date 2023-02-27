@@ -1,14 +1,11 @@
 import { useMutation, useQuery } from "@apollo/client";
 import React, { useEffect, useState } from "react";
-import { CREATE_CHAT } from "../../graphql/chats";
-import { GET_ALL_USERS } from "../../graphql/users";
-import { IChat } from "../../types/chats";
-import { IUser } from "../../types/users";
+import { CREATE_CHAT, GET_ALL_USERS } from "@/graphql";
+import { IChat, IUser } from "@/types";
 import "./styles.sass";
-import { checkUserAvatar } from "../../features/helpers/checkUserAvatar";
-import { useThemeContext } from "../../hooks/useThemeContext";
+import { checkUserAvatar } from "@/features/helpers";
+import { useThemeContext, useUser } from "@/hooks";
 import ReactDOM from "react-dom";
-import { useUser } from "../../hooks/useUser";
 
 interface IProps {
   handleCreateChat: () => void;

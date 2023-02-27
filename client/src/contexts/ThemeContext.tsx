@@ -1,5 +1,5 @@
 import React, { createContext, useState } from "react";
-import { TTheme } from "../types/theme";
+import { TTheme } from "@/types";
 
 interface IContext {
   theme: TTheme | string;
@@ -7,7 +7,7 @@ interface IContext {
 }
 
 interface IProps {
-  children: React.ReactNode;
+  children?: React.ReactNode;
 }
 
 const defaultState: IContext = {

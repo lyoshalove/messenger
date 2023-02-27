@@ -1,7 +1,8 @@
 import { ExtractJwt, Strategy } from 'passport-jwt';
 import { PassportStrategy } from '@nestjs/passport';
-import { Injectable, UnauthorizedException } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { UsersService } from 'src/users/users.service';
+import { AuthExceptions } from './auth.exceptions';
 
 @Injectable()
 export class JwtStrategy extends PassportStrategy(Strategy) {
@@ -12,12 +13,10 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
     });
   }
 
-  async validate(payload: any) {
+  async validate(payload: { id: string }) {
     const user = await this.usersService.findUserById(payload.id);
     if (!user) {
-      throw new UnauthorizedException(
-        `User with id "${payload.id} does not exist"`,
-      );
+      throw AuthExceptions.UserNotExist();
     }
     return user;
   }

@@ -1,6 +1,6 @@
 import React from "react";
-import { Chats as AllChats } from '../../components/Chats/Chats';
+import { MyChats } from '@/components/MyChats';
 
 export const Chats: React.FC = () => {
-  return <AllChats />;
+  return <MyChats />;
 };

@@ -1,8 +1,7 @@
 import React, { useContext, useState } from "react";
 import { Link } from "react-router-dom";
-import { ThemeContext } from "../../../contexts/ThemeContext";
-import { useScrollbar } from "../../../hooks/useScrollbar";
-import { useThemeContext } from "../../../hooks/useThemeContext";
+import { ThemeContext } from "@/contexts";
+import { useScrollbar, useThemeContext } from "@/hooks";
 import "./styles.sass";
 
 export const Burger: React.FC = () => {

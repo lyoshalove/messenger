@@ -1,13 +1,14 @@
-import "./assets/styles/global.sass";
-import { checkLocation } from "./features/helpers/checkLocation";
-import { Router } from "./router/Router";
-import { MainTemplate } from "./templates/MainTemplate";
+import "@assets/styles/global.sass";
+import { checkLocation } from "@/features/helpers";
+import { Router } from "@/components/Router";
+import { MainTemplate } from "@/templates";
 
 function App() {
+  const isAuthLocation = checkLocation(["/login", "/authorization"]);
 
   return (
     <div className="App">
-      {checkLocation(["/login", "/authorization"]) ? (
+      {isAuthLocation ? (
         <Router />
       ) : (
         <MainTemplate>

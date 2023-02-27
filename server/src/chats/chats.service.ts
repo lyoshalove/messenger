@@ -1,15 +1,12 @@
-import {
-  ForbiddenException,
-  HttpException,
-  HttpStatus,
-  Injectable,
-} from '@nestjs/common';
+import { ForbiddenException, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
+import { AuthExceptions } from 'src/auth/auth.exceptions';
 import { MessageEntity } from 'src/message/message.entity';
 import { UsersEntity } from 'src/users/users.entity';
 import { UsersService } from 'src/users/users.service';
 import { Repository } from 'typeorm';
 import { ChatsEntity } from './chats.enity';
+import { ChatsExceptions } from './chats.exceptions';
 
 @Injectable()
 export class ChatsService {
@@ -26,8 +23,8 @@ export class ChatsService {
   async createChat(userToId: string, userFrom: UsersEntity) {
     const userTo = await this.usersService.findUserById(userToId);
 
-    if (!Boolean(userTo)) {
-      throw new HttpException('Пользователь не найден', HttpStatus.NOT_FOUND);
+    if (!userTo) {
+      throw AuthExceptions.UserNotExist();
     }
 
     const existingChat = await this.existChat(userTo?.id, userFrom?.id);
@@ -44,7 +41,7 @@ export class ChatsService {
       chat.users = [userFrom, userTo];
     }
 
-    return await this.chatsRepository.save(chat);
+    return this.chatsRepository.save(chat);
   }
 
   async existChat(userTo: string, userFrom: string) {
@@ -59,10 +56,12 @@ export class ChatsService {
       .map((chat) => chat.users.length === isSelf && chat)
       .filter((chat) => chat)
       .map((chat) => {
-        const correctCount = chat.users.reduce((acc, user) => {
-          return (acc += Number([userFrom, userTo].includes(user.id)));
-        }, 0);
-        return correctCount === chat.users.length && chat;
+        if (chat.users) {
+          const correctCount = chat.users.reduce((acc, user) => {
+            return (acc += Number([userFrom, userTo].includes(user.id)));
+          }, 0);
+          return correctCount === chat.users.length && chat;
+        }
       })
       .filter((chat) => chat);
 
@@ -74,6 +73,10 @@ export class ChatsService {
       .createQueryBuilder('chat')
       .where('chat.id = :id', { id })
       .getOne();
+
+    if (!chat.id) {
+      throw ChatsExceptions.ChatNotExist();
+    }
 
     chat.users = await this.usersRepository
       .createQueryBuilder('user')
@@ -103,6 +106,10 @@ export class ChatsService {
       .where('chat.id = :id', { id: chat_id })
       .innerJoinAndSelect('chat.users', 'users')
       .getOne();
+
+    if (!chat.id) {
+      throw ChatsExceptions.ChatNotExist();
+    }
 
     return this.addUsersAndMessagesToChat(chat);
   }

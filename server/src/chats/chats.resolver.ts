@@ -17,7 +17,7 @@ export class ChatsResolver {
     @Args('id') id: string,
     @CurrentUser() user: UsersEntity,
   ) {
-    return await this.chatService.getChatByIdWithMessages(id, user);
+    return this.chatService.getChatByIdWithMessages(id, user);
   }
 
   @Query(() => [ChatsEntity])
@@ -35,7 +35,7 @@ export class ChatsResolver {
     @Args('userToId') userToId: string,
     @CurrentUser() user: UsersEntity,
   ) {
-    return await this.chatService.createChat(userToId, user);
+    return this.chatService.createChat(userToId, user);
   }
 
   @Subscription(() => ChatsEntity, {
