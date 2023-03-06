@@ -7,7 +7,7 @@ function App() {
   const isAuthLocation = checkLocation(["/login", "/authorization"]);
 
   if (isAuthLocation) {
-    return Router;
+    return <Router />;
   }
 
   return (

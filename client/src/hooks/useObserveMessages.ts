@@ -1,13 +1,14 @@
-import React from "react";
+import { MutableRefObject } from "react";
 
 export const useObserveMessages = (
-  ref: React.MutableRefObject<NodeListOf<HTMLDivElement> | null>,
+  ref: MutableRefObject<NodeListOf<HTMLDivElement> | null>,
   selectedChatId: string,
   updateMessagesRead: (params: {
     variables: { messageIds: string[]; chatId: string };
   }) => void
 ) => {
   ref.current = document.querySelectorAll(".chats__view-message_other");
+  
   const observer = new IntersectionObserver((entries) => {
     entries.forEach(async (entry) => {
       if (
