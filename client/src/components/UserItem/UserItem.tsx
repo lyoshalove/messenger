@@ -39,7 +39,7 @@ export const UserItem: React.FC<IProps> = ({ chat, getChat }) => {
           </p>
           {chat.messages?.length > 0 && (
             <p className="chats__list-message">
-              {sliceText(chat.messages[chat.messages?.length - 1].message, 50)}
+              {sliceText(chat.messages[chat.messages?.length - 1].message, 20)}
             </p>
           )}
         </div>

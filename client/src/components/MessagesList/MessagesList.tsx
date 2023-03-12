@@ -29,10 +29,12 @@ export const MessagesList: React.FC<IProps> = ({ messages, currentUserId }) => {
               data-id={message.id}
             >
               {message.message}
-              <CheckRead
-                className="chats__view-message_read"
-                color={message.read ? "#2b84e9" : "#b2b2b2"}
-              />
+              {identifyWhoseMessage(currentUserId, message.userFrom.id) && (
+                <CheckRead
+                  className="chats__view-message_read"
+                  color={message.read ? "#2b84e9" : "#b2b2b2"}
+                />
+              )}
             </p>
           );
         })
