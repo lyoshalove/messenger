@@ -106,6 +106,7 @@ export const ChangePersonalData: React.FC = () => {
         className={
           theme === "dark" ? "input input__file dark" : "input input__file"
         }
+        accept={".jpg, .jpeg, .png, .svg, .gif"}
         {...register("avatar")}
         errorMessage={errors.avatar?.message ? errors.avatar?.message : ""}
       >

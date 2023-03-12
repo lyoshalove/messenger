@@ -48,7 +48,7 @@ export const CreateChatModal: React.FC<IProps> = ({
       <div className={theme === "dark" ? "modal dark" : "modal"}>
         <h3 className="modal__title">Выберите собеседника</h3>
         <ul className="modal__users">
-          {usersChats &&
+          {usersChats.length ?
             usersChats.map((user: Partial<IUser>) => {
               return (
                 <li
@@ -68,7 +68,7 @@ export const CreateChatModal: React.FC<IProps> = ({
                   </div>
                 </li>
               );
-            })}
+            }) : <p className="modal__description">Других юзеров не нашлось..</p>}
         </ul>
       </div>
       <div className="modal__wrapper" onClick={closeModal} />

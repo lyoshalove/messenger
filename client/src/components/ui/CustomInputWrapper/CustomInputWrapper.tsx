@@ -9,6 +9,7 @@ interface IProps {
   type?: string;
   className?: string;
   placeholder?: string;
+  accept?: string;
 }
 
 export const CustomInputWrapper = React.forwardRef(

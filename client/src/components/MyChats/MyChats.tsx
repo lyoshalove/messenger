@@ -47,6 +47,13 @@ export const MyChats: React.FC = () => {
     refetch: refetchChats,
   } = useQuery(GET_MY_CHATS, {
     fetchPolicy: "network-only",
+    onCompleted: ({ getMyChats }) => {
+      if (currentUser.id) {
+        let dataChats: IChat[] = addUserFromToChat(getMyChats, currentUser.id);
+
+        setChats(dataChats);
+      }
+    },
     onError: (error) => {
       if (error.message === "Unauthorized") {
         localStorage.removeItem("token");
@@ -85,17 +92,6 @@ export const MyChats: React.FC = () => {
       setMessages(getChatByIdWithMessages.messages);
     });
   }
-
-  useEffect(() => {
-    if (chatsData && currentUser.id) {
-      let dataChats: IChat[] = addUserFromToChat(
-        chatsData.getMyChats,
-        currentUser.id
-      );
-
-      setChats(dataChats);
-    }
-  }, [chatsData, currentUser]);
 
   useEffect(() => {
     const escapeHandler = (e: KeyboardEvent) => {
@@ -281,7 +277,11 @@ export const MyChats: React.FC = () => {
           </div>
         </div>
       ) : (
-        <div className="chats__wrapper">
+        <div
+          className={
+            theme === "dark" ? "chats__wrapper dark" : "chats__wrapper"
+          }
+        >
           <h2 className="chats__title">Чатов пока нет</h2>
           <button className="chats__btn btn" onClick={toggleModal}>
             Создать

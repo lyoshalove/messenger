@@ -6,15 +6,15 @@ import { MainTemplate } from "@/templates";
 function App() {
   const isAuthLocation = checkLocation(["/login", "/authorization"]);
 
+  if (isAuthLocation) {
+    return <Router />;
+  }
+
   return (
     <div className="App">
-      {isAuthLocation ? (
+      <MainTemplate>
         <Router />
-      ) : (
-        <MainTemplate>
-          <Router />
-        </MainTemplate>
-      )}
+      </MainTemplate>
     </div>
   );
 }
