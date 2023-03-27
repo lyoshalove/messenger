@@ -18,12 +18,12 @@ const authLink = setContext(async (_, { headers }) => {
 });
 
 const httpLink = createUploadLink({
-  uri: `http://${API}/graphql`,
+  uri: `https://${API}/graphql`,
 });
 
 const wsLink = new GraphQLWsLink(
   createClient({
-    url: `ws://${API}/graphql`,
+    url: `wss://${API}`,
     shouldRetry(errOrCloseEvent) {
       return true;
     },

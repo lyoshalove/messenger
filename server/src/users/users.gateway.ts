@@ -8,7 +8,7 @@ import { UsersService } from './users.service';
 import { Socket, Server } from 'socket.io';
 import { pubsub } from 'src/pubsub/pubsub';
 
-@WebSocketGateway(5000, { cors: true })
+@WebSocketGateway({ cors: true })
 export class UsersGateway implements OnGatewayConnection, OnGatewayDisconnect {
   @WebSocketServer()
   server: Server;

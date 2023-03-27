@@ -32,7 +32,7 @@ export const MainTemplate: React.FC<IProps> = ({ children }) => {
 
   useEffect(() => {
     if (currentUser?.id) {
-      initSocket(`http://${SOCKET_API}?userId=${currentUser.id}`);
+      initSocket(`https://${SOCKET_API}?userId=${currentUser.id}`);
     }
   }, [currentUser]);
 
