@@ -45,6 +45,19 @@ export const MainTemplate: React.FC<IProps> = ({ children }) => {
     }
   }, [currentUser]);
 
+  useEffect(() => {
+    const getAppHeight = () => {
+      const doc = document.documentElement;
+      doc.style.setProperty("--app-height", `${window.innerHeight}px`);
+    };
+
+    getAppHeight();
+
+    window.addEventListener("resize", getAppHeight);
+
+    return () => window.removeEventListener("resize", getAppHeight);
+  }, []);
+
   return (
     <>
       <Header />

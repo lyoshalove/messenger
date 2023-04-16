@@ -4,7 +4,7 @@
   gap: 0 15px
   padding: 10px 15px
   transition: background-color .3s
-  height: calc(100vh - 65px)
+  height: calc(var(--app-height) - 65px)
   position: relative
   &.dark
     background-color: #17181F
@@ -39,7 +39,7 @@
     &-icon
       cursor: pointer
   &__list
-    max-height: calc(100vh - 150px)
+    max-height: calc(var(--app-height) - 150px)
     height: 100%
     overflow: hidden
     overflow-y: auto
