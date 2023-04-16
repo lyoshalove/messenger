@@ -47,15 +47,6 @@ export const MyChats: React.FC = () => {
     refetch: refetchChats,
   } = useQuery(GET_MY_CHATS, {
     fetchPolicy: "network-only",
-    onCompleted: async ({ getMyChats }) => {
-      const currentUserId = await currentUser.id;
-
-      if (currentUserId) {
-        let dataChats: IChat[] = addUserFromToChat(getMyChats, currentUserId);
-
-        setChats(dataChats);
-      }
-    },
     onError: (error) => {
       if (error.message === "Unauthorized") {
         localStorage.removeItem("token");
@@ -105,6 +96,14 @@ export const MyChats: React.FC = () => {
 
     return () => document.removeEventListener("keyup", (e) => escapeHandler(e));
   }, []);
+
+  useEffect(() => {
+    if (currentUser.id) {
+      let dataChats: IChat[] = addUserFromToChat(chatsData, currentUser.id);
+
+      setChats(dataChats);
+    }
+  }, [currentUser.id]);
 
   useEffect(() => {
     const { initObserverMessages, removeObserverMessages } = useObserveMessages(
