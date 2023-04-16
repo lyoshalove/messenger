@@ -98,7 +98,7 @@ export const MyChats: React.FC = () => {
   }, []);
 
   useEffect(() => {
-    if (currentUser.id) {
+    if (currentUser.id && chatsData?.getMyChats.length) {
       let dataChats: IChat[] = addUserFromToChat(
         chatsData.getMyChats,
         currentUser.id
@@ -106,7 +106,7 @@ export const MyChats: React.FC = () => {
 
       setChats(dataChats);
     }
-  }, [currentUser.id]);
+  }, [currentUser, chatsData?.getMyChats]);
 
   useEffect(() => {
     const { initObserverMessages, removeObserverMessages } = useObserveMessages(
