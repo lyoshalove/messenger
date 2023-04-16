@@ -5,7 +5,7 @@ import { Header } from "@/components/Header";
 import { Sidebar } from "@/components/Sidebar";
 import { GET_ME } from "@/graphql";
 import { SOCKET_API } from "@/features/constants";
-import { useUser } from "@/hooks";
+import { useThemeContext, useUser } from "@/hooks";
 import { initSocket, getSocket } from "@/features/socket";
 
 interface IProps {
@@ -15,6 +15,7 @@ interface IProps {
 export const MainTemplate: React.FC<IProps> = ({ children }) => {
   const navigate = useNavigate();
   const { currentUser, setUser } = useUser();
+  const [theme] = useThemeContext();
 
   useQuery(GET_ME, {
     onCompleted(data) {
@@ -31,8 +32,16 @@ export const MainTemplate: React.FC<IProps> = ({ children }) => {
   });
 
   useEffect(() => {
+    if (theme === "dark") {
+      document.body.classList.add("dark");
+    } else {
+      document.body.classList.remove("dark");
+    }
+  }, [theme]);
+
+  useEffect(() => {
     if (currentUser?.id) {
-      initSocket(`http://${SOCKET_API}?userId=${currentUser.id}`);
+      initSocket(`https://${SOCKET_API}?userId=${currentUser.id}`);
     }
   }, [currentUser]);
 
