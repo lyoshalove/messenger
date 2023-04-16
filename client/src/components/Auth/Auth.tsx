@@ -1,5 +1,5 @@
 import { useMutation } from "@apollo/client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { REGISTER } from "@/graphql";
 import "./styles.sass";
@@ -38,6 +38,10 @@ export const Auth: React.FC = () => {
       })
       .catch((error) => setIsError(true));
   }
+
+  useEffect(() => {
+    document.body.classList.remove("dark");
+  }, []);
 
   return (
     <section className="auth">

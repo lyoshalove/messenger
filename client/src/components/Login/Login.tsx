@@ -1,5 +1,5 @@
 import { useQuery, useMutation } from "@apollo/client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { LOGIN, GET_ME } from "@/graphql";
 import { IGetMe, ILogin } from "@/types";
@@ -24,7 +24,7 @@ export const Login: React.FC = () => {
   const navigate = useNavigate();
   const [login] = useMutation(LOGIN);
   const [isError, setIsError] = useState<boolean>(false);
-  
+
   useQuery<Partial<IGetMe>>(GET_ME, {
     onCompleted() {
       navigate("/");
@@ -46,6 +46,10 @@ export const Login: React.FC = () => {
       })
       .catch((error) => setIsError(true));
   }
+
+  useEffect(() => {
+    document.body.classList.remove("dark");
+  }, []);
 
   return (
     <section className="login">
