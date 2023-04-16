@@ -47,9 +47,11 @@ export const MyChats: React.FC = () => {
     refetch: refetchChats,
   } = useQuery(GET_MY_CHATS, {
     fetchPolicy: "network-only",
-    onCompleted: ({ getMyChats }) => {
-      if (currentUser.id) {
-        let dataChats: IChat[] = addUserFromToChat(getMyChats, currentUser.id);
+    onCompleted: async ({ getMyChats }) => {
+      const currentUserId = await currentUser.id;
+
+      if (currentUserId) {
+        let dataChats: IChat[] = addUserFromToChat(getMyChats, currentUserId);
 
         setChats(dataChats);
       }
@@ -220,7 +222,7 @@ export const MyChats: React.FC = () => {
 
   return (
     <>
-      {chats.length ? (
+      {chats.length && chatsData.getMyChats.length ? (
         <div className={theme === "dark" ? "chats dark" : "chats"}>
           <div className="chats__item chats__left">
             <div className="chats__left-top">
