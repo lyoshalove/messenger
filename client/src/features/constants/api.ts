@@ -1,2 +1,2 @@
-export const API = "localhost:3000";
-export const SOCKET_API = "localhost:5000";
+export const API = "messenger-production-29b7.up.railway.app";
+export const SOCKET_API = "messenger-production-29b7.up.railway.app";
