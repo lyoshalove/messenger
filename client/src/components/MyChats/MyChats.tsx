@@ -224,7 +224,7 @@ export const MyChats: React.FC = () => {
 
   return (
     <>
-      {chats.length ? (
+      {chats.length && chatsData.getMyChats.length ? (
         <div className={theme === "dark" ? "chats dark" : "chats"}>
           <div className="chats__item chats__left">
             <div className="chats__left-top">
