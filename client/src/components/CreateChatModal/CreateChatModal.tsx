@@ -6,6 +6,7 @@ import "./styles.sass";
 import { checkUserAvatar } from "@/features/helpers";
 import { useThemeContext, useUser } from "@/hooks";
 import ReactDOM from "react-dom";
+import { Loader } from "../ui/Loader";
 
 interface IProps {
   handleCreateChat: () => void;
@@ -19,7 +20,7 @@ export const CreateChatModal: React.FC<IProps> = ({
   const [theme] = useThemeContext();
   const { currentUser } = useUser();
   const [usersChats, setUsersChats] = useState<IChat[]>([]);
-  const { data: users } = useQuery(GET_ALL_USERS);
+  const { loading: usersLoading, data: users } = useQuery(GET_ALL_USERS);
   const [create] = useMutation(CREATE_CHAT);
 
   async function createChat(id: string | undefined) {
@@ -47,29 +48,36 @@ export const CreateChatModal: React.FC<IProps> = ({
     <>
       <div className={theme === "dark" ? "modal dark" : "modal"}>
         <h3 className="modal__title">Выберите собеседника</h3>
-        <ul className="modal__users">
-          {usersChats.length ?
-            usersChats.map((user: Partial<IUser>) => {
-              return (
-                <li
-                  key={user.id}
-                  className="modal__users-item"
-                  onClick={() => createChat(user.id)}
-                >
-                  <img
-                    src={checkUserAvatar(user.avatar)}
-                    alt={user.firstName}
-                    className="modal__users-image"
-                  />
-                  <div className="modal__users-info">
-                    <span className="modal__users-name">
-                      {user.firstName} {user.lastName}
-                    </span>
-                  </div>
-                </li>
-              );
-            }) : <p className="modal__description">Других юзеров не нашлось..</p>}
-        </ul>
+        {usersLoading ? (
+          <Loader />
+        ) : (
+          <ul className="modal__users">
+            {usersChats.length ? (
+              usersChats.map((user: Partial<IUser>) => {
+                return (
+                  <li
+                    key={user.id}
+                    className="modal__users-item"
+                    onClick={() => createChat(user.id)}
+                  >
+                    <img
+                      src={checkUserAvatar(user.avatar)}
+                      alt={user.firstName}
+                      className="modal__users-image"
+                    />
+                    <div className="modal__users-info">
+                      <span className="modal__users-name">
+                        {user.firstName} {user.lastName}
+                      </span>
+                    </div>
+                  </li>
+                );
+              })
+            ) : (
+              <p className="modal__description">Других юзеров не нашлось..</p>
+            )}
+          </ul>
+        )}
       </div>
       <div className="modal__wrapper" onClick={closeModal} />
     </>,
