@@ -99,7 +99,10 @@ export const MyChats: React.FC = () => {
 
   useEffect(() => {
     if (currentUser.id) {
-      let dataChats: IChat[] = addUserFromToChat(chatsData, currentUser.id);
+      let dataChats: IChat[] = addUserFromToChat(
+        chatsData.getMyChats,
+        currentUser.id
+      );
 
       setChats(dataChats);
     }
