@@ -7,6 +7,7 @@ import { GET_ME } from "@/graphql";
 import { SOCKET_API } from "@/features/constants";
 import { useThemeContext, useUser } from "@/hooks";
 import { initSocket, getSocket } from "@/features/socket";
+import { changeBodyTheme, getAppHeight } from "@/features/helpers";
 
 interface IProps {
   children: React.ReactNode;
@@ -32,11 +33,7 @@ export const MainTemplate: React.FC<IProps> = ({ children }) => {
   });
 
   useEffect(() => {
-    if (theme === "dark") {
-      document.body.classList.add("dark");
-    } else {
-      document.body.classList.remove("dark");
-    }
+    changeBodyTheme(theme);
   }, [theme]);
 
   useEffect(() => {
@@ -46,11 +43,6 @@ export const MainTemplate: React.FC<IProps> = ({ children }) => {
   }, [currentUser]);
 
   useEffect(() => {
-    const getAppHeight = () => {
-      const doc = document.documentElement;
-      doc.style.setProperty("--app-height", `${window.innerHeight}px`);
-    };
-
     getAppHeight();
 
     window.addEventListener("resize", getAppHeight);

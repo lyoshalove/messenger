@@ -5,7 +5,7 @@ import {
   useSubscription,
 } from "@apollo/client";
 import React, { useEffect, useLayoutEffect, useRef, useState } from "react";
-import { addUserFromToChat } from "@/features/helpers";
+import { addUserFromToChat, scrollChatToBottom } from "@/features/helpers";
 import {
   GET_CHAT_WITH_MESSAGES,
   GET_MY_CHATS,
@@ -123,13 +123,7 @@ export const MyChats: React.FC = () => {
   }, [selectedChat, chatContentRef.current]);
 
   useLayoutEffect(() => {
-    const chatWrapper = document.querySelector(".chats__view-content_wrapper");
-    const chatContent = document.querySelector(".chats__view-content");
-
-    if (chatWrapper && chatContent) {
-      chatWrapper.scrollTop =
-        chatContent.scrollHeight - chatWrapper.clientHeight;
-    }
+    scrollChatToBottom();
   }, [messages]);
 
   useSubscription(SUBSCRIBE_CHAT, {

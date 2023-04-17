@@ -5,3 +5,6 @@ export * from "./connectToServer";
 export * from "./getAvatar";
 export * from "./identifyWhoseMessage";
 export * from "./sliceText";
+export * from "./getAppHeight";
+export * from "./changeBodyTheme";
+export * from "./scrollChatToBottom";
